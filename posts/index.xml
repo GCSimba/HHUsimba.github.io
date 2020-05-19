@@ -6,8 +6,19 @@
 		<generator>Hugo -- gohugo.io</generator>
 		<language>en-us</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-		<lastBuildDate>Wed, 20 Feb 2019 00:04:23 +0800</lastBuildDate>
+		<lastBuildDate>Wed, 20 May 2020 01:23:13 +0800</lastBuildDate>
 		<atom:link href="https://HHUsimba.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>2</title>
+			<link>https://HHUsimba.github.io/posts/2/</link>
+			<pubDate>Wed, 20 May 2020 01:23:13 +0800</pubDate>
+			
+			<guid>https://HHUsimba.github.io/posts/2/</guid>
+			<description>111</description>
+			<content type="html"><![CDATA[<p>111</p>
+]]></content>
+		</item>
 		
 		<item>
 			<title>Python安装tips</title>

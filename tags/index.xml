@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 24 Dec 2018 12:29:41 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2020 01:23:13 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>untagged</title>
+      <link>https://HHUsimba.github.io/tags/untagged/</link>
+      <pubDate>Wed, 20 May 2020 01:23:13 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/tags/untagged/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Demo</title>
@@ -36,15 +45,6 @@
       <pubDate>Sat, 29 Sep 2018 11:36:33 +0800</pubDate>
       
       <guid>https://HHUsimba.github.io/tags/typography/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>untagged</title>
-      <link>https://HHUsimba.github.io/tags/untagged/</link>
-      <pubDate>Mon, 03 Sep 2018 08:46:13 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/tags/untagged/</guid>
       <description></description>
     </item>
     
