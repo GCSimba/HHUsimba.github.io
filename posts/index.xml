@@ -4,7 +4,7 @@
 		<link>https://HHUsimba.github.io/posts/</link>
 		<description>Recent content in Posts on Simba</description>
 		<generator>Hugo -- gohugo.io</generator>
-		<language>en-us</language>
+		<language>zh-CN</language>
 		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
 		<lastBuildDate>Wed, 20 May 2020 01:23:13 +0800</lastBuildDate>
 		<atom:link href="https://HHUsimba.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
@@ -66,58 +66,125 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package==版本号
 		</item>
 		
 		<item>
-			<title>The &#34;figure&#34; Shortcode</title>
+			<title>Python安装tips</title>
 			<link>https://HHUsimba.github.io/posts/the-figure-shortcode/</link>
 			<pubDate>Mon, 24 Dec 2018 12:29:41 +0800</pubDate>
 			
 			<guid>https://HHUsimba.github.io/posts/the-figure-shortcode/</guid>
-			<description>Hugo has figure shortcode built in, so you can easily add figcaptions or hyperlink rel attributes to images. Documentations can be found here:
-https://gohugo.io/content-management/shortcodes/#figure
-This theme has 3 CSS classes made for figure elements:
- big: images will break the width limit of main content area. left: images will float to the left. right: images will float to the right.  If a figure has no class set, the image will behave just like a normal markdown image: !</description>
-			<content type="html"><![CDATA[<p>Hugo has <code>figure</code> shortcode built in, so you can easily add figcaptions or hyperlink rel attributes to images. Documentations can be found here:</p>
-<p><a href="https://gohugo.io/content-management/shortcodes/#figure">https://gohugo.io/content-management/shortcodes/#figure</a></p>
-<p>This theme has 3 CSS classes made for figure elements:</p>
-<ul>
-<li><code>big</code>: images will break the width limit of main content area.</li>
-<li><code>left</code>: images will float to the left.</li>
-<li><code>right</code>: images will float to the right.</li>
-</ul>
-<p>If a figure has no class set, the image will behave just like a normal markdown image: <code>![]()</code>.</p>
-<p>Here&rsquo;s some examples, please be aware that these styles only take effect when the page width is over 1300px.</p>
-<figure>
-    <img src="https://via.placeholder.com/1600x800"
-         alt="image"/> <figcaption>
-            <p>figure-normal (without any classes)</p>
-        </figcaption>
-</figure>
-
-<p>Pellentesque posuere sem nec nunc varius, id hendrerit arcu consequat. Maecenas commodo, sapien ut gravida porttitor, dolor risus facilisis enim, eget pharetra nibh nisl porttitor sapien. Proin finibus elementum ligula sit amet hendrerit. Praesent et erat sodales ante accumsan pharetra non eu nulla. Sed vehicula consequat lorem, a fermentum ante faucibus quis. Aliquam erat volutpat. In vitae tincidunt dui. Proin sit amet ligula sodales, elementum tortor et, venenatis sem. Maecenas non nisl erat. Curabitur nec velit eros. Ut cursus lacus nisi, non pretium libero euismod et. Fusce luctus in nisi quis sollicitudin. Aenean nec blandit ligula. Duis ac felis lorem. Proin tellus tellus, dictum nec tempus sit amet, venenatis ac felis. Sed in pharetra nulla, non mollis sem.</p>
-<figure class="big">
-    <img src="https://via.placeholder.com/1600x800"
-         alt="image"/> <figcaption>
-            <p>figure-big</p>
-        </figcaption>
-</figure>
-
-<p>Suspendisse fringilla malesuada massa, in malesuada orci lacinia a. Praesent dapibus faucibus nisl, id volutpat elit bibendum eu. Nulla vitae laoreet nibh, eu hendrerit lacus. Donec lacinia auctor ligula, vel interdum ipsum malesuada vitae. Donec placerat a justo eu gravida. Aenean ultricies imperdiet convallis. Pellentesque accumsan non ex sed euismod. Proin bibendum lectus nec enim faucibus feugiat. Donec hendrerit nisi viverra ornare luctus. Nullam non viverra nisl. Nam vel tellus et tortor elementum volutpat sit amet et erat. Aliquam a libero quis libero porta consectetur. Etiam aliquam felis vel nulla mattis finibus. Mauris laoreet lacus arcu, sed rhoncus odio condimentum sed. Aenean in dui rutrum elit faucibus faucibus nec fringilla augue. Fusce non ornare mauris.</p>
-<figure class="left">
-    <img src="https://via.placeholder.com/400x280"
-         alt="image"/> <figcaption>
-            <p>figure-left</p>
-        </figcaption>
-</figure>
-
-<p>In a libero varius, luctus ligula et, bibendum tortor. Sed sit amet dui malesuada, mattis justo id, ultricies enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam sollicitudin cursus feugiat. Vivamus suscipit ipsum eget lobortis sollicitudin. Fusce vehicula neque tellus. Integer eu posuere quam, id laoreet tortor. Mauris sit amet turpis urna. Donec venenatis tempor dolor, nec laoreet orci aliquet et. Sed condimentum elit eu tristique aliquam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc luctus ipsum sit amet nisl maximus pellentesque.</p>
-<figure class="right">
-    <img src="https://via.placeholder.com/400x280"
-         alt="image"/> <figcaption>
-            <p>figure-right</p>
-        </figcaption>
-</figure>
-
-<p>Pellentesque eu consequat nunc. Vivamus eu eros ut nulla dapibus molestie in id tortor. Cras viverra ligula erat, tincidunt hendrerit diam blandit nec. Cras id urna vel dolor dictum mattis. Vestibulum congue erat ac eros molestie accumsan. Maecenas lorem nibh, maximus vel justo eget, facilisis egestas lectus. Mauris eu est ut odio blandit consequat id feugiat eros. Fusce id suscipit mi, et lacinia lectus. Mauris a arcu placerat dolor iaculis feugiat nec non mi. Ut porttitor elit tortor, eget tempus velit mollis eu. Aliquam sem nulla, dictum cursus mauris ac, semper ullamcorper leo.</p>
-<p>Donec nec tincidunt est. Sed id metus in erat fringilla mattis at id turpis. Aliquam tempor vehicula faucibus. Phasellus consequat aliquam odio. Morbi a ex vitae sapien porta auctor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sit amet nulla arcu. Praesent ut tortor purus. Praesent id eros diam. Pellentesque vitae dolor at nibh ultrices accumsan eu id urna. Aliquam finibus interdum orci in varius. Pellentesque a enim condimentum, condimentum felis id, vehicula augue. Vivamus cursus commodo eros nec lacinia.</p>
+			<description>导包: 在LaTex中有专门的导包的地方：   修改表格线条粗细\hline step1：用 \usepackage{booktabs} 导包 step2: 首行: \toprule[1pt] 中间行：\midrule[1pt] 尾行：\midrule[1pt]
+  表格内容对齐： \begin{tabular}{c} c:center r:right l:left
+  Latex添加新一页 用“\clearpage” 不要用“\newpage”
+  调整表格列间距 \begin{tabular}{|p{1cm}|p{2cm}|p{3cm}|}
+  图表位置移动 \begin{table}[!htb] 首先，!表示无视美学规则，按下面的要求放置； 然后h t b p分别代表4中放置方式，优先级依次递减。 可以自己定优先级，tbhp等
+常用选项[htbp]是浮动格式： h=here 放置在代码中这个图片出现的位置，也就是你想让它出现的位置； t = top 放在该页顶端； b = bottom 放在该页底部； p = page浮动页。将图形放置在一只允许有浮动对象的页面上。
+一般使用[htb]这样的组合，只用[h]是没有用的。这样组合的意思就是latex会尽量满足排在前面的浮动格	式，就是h-t-b这个顺序，让排版的效果尽量好。 !h 只是试图放在当前位置。如果页面剩下的部分放不下，还是会跑到下一页的。一般页言，用 [!h] 选项经常会出现不能正确放置的问题，所以常用 [ht]、[htbp] 等。
+  增大表格行距 \begin{document} \renewcommand\arraystretch{2} //作用是讲每一行的高度变为原来的两倍。 \begin{table}[h] \centering</description>
+			<content type="html"><![CDATA[<ol>
+<li>
+<p><strong>导包:</strong>
+在LaTex中有专门的导包的地方：
+<img src="https://img-blog.csdnimg.cn/20190401220957426.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MTk5Nzk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li>
+<p><strong>修改表格线条粗细\hline</strong>
+step1：用 \usepackage{booktabs} 导包
+step2:  首行: \toprule[1pt]   中间行：\midrule[1pt]  尾行：\midrule[1pt]</p>
+</li>
+<li>
+<p><strong>表格内容对齐：</strong>
+\begin{tabular}{c}
+c:center
+r:right
+l:left</p>
+</li>
+<li>
+<p><strong>Latex添加新一页</strong>
+用“\clearpage” 不要用“\newpage”</p>
+</li>
+<li>
+<p><strong>调整表格列间距</strong>
+\begin{tabular}{|p{1cm}|p{2cm}|p{3cm}|}</p>
+</li>
+<li>
+<p><strong>图表位置移动</strong>
+\begin{table}[!htb]
+首先，!表示无视美学规则，按下面的要求放置；
+然后h t b p分别代表4中放置方式，优先级依次递减。
+可以自己定优先级，tbhp等</p>
+<p>常用选项[htbp]是浮动格式：
+h=here 放置在代码中这个图片出现的位置，也就是你想让它出现的位置；
+t = top 放在该页顶端；
+b = bottom 放在该页底部；
+p = page浮动页。将图形放置在一只允许有浮动对象的页面上。</p>
+<p>一般使用[htb]这样的组合，只用[h]是没有用的。这样组合的意思就是latex会尽量满足排在前面的浮动格		式，就是h-t-b这个顺序，让排版的效果尽量好。
+!h 只是试图放在当前位置。如果页面剩下的部分放不下，还是会跑到下一页的。一般页言，用 [!h] 选项经常会出现不能正确放置的问题，所以常用 [ht]、[htbp] 等。</p>
+</li>
+<li>
+<p><strong>增大表格行距</strong>
+\begin{document}
+\renewcommand\arraystretch{2}    //作用是讲每一行的高度变为原来的两倍。
+\begin{table}[h]
+\centering</p>
+</li>
+<li>
+<p><strong>表格内容调整</strong>
+\begin{supertabular}{p{0.5cm}&lt;{\raggedright}p{0.5cm}}
+如果是右对齐，只需将\centering换成\raggedleft，如果左对齐，换成\raggedright即可。</p>
+</li>
+<li>
+<p><strong>修改文中字体颜色</strong>
+1.添加package：
+\usepackage{color}
+2.正文中修改颜色：
+{\color{red}{文本内容}}</p>
+</li>
+<li>
+<p><strong>公式居中</strong>
+\begin{center}&hellip;\end{center}
+**其中&hellip;为插入的公式</p>
+</li>
+<li>
+<p><strong>小图排列</strong>
+加载宏包：
+\usepackage{subfigure}
+\usepackage{etex}</p>
+<p>文中加入：
+\begin{figure}[htbp]
+\centering</p>
+<p>\subfigure[pic1.]{
+\begin{minipage}[t]{0.25\linewidth}
+\centering
+\includegraphics[width=1in]{111.eps}
+%\caption{fig1}
+\end{minipage}%
+}%
+\subfigure[pic2.]{
+\begin{minipage}[t]{0.25\linewidth}
+\centering
+\includegraphics[width=1in]{111.eps}
+%\caption{fig2}
+\end{minipage}%
+}%
+%这个回车键很重要 \quad也可以
+\subfigure[pic3.]{
+\begin{minipage}[t]{0.25\linewidth}
+\centering
+\includegraphics[width=1in]{111.eps}
+%\caption{fig2}
+\end{minipage}
+}%
+\subfigure[pic4.]{
+\begin{minipage}[t]{0.25\linewidth}
+\centering
+\includegraphics[width=1in]{111.eps}
+%\caption{fig2}
+\end{minipage}
+}%</p>
+<p>\centering
+\caption{ pics}
+\end{figure}</p>
+</li>
+</ol>
 ]]></content>
 		</item>
 		
