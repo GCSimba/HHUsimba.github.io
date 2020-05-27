@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Simba</title>
-    <link>https://HHUsimba.github.io/</link>
-    <description>Recent content on Simba</description>
+    <title>Machine Learnings on Simba</title>
+    <link>https://HHUsimba.github.io/machine-learning/</link>
+    <description>Recent content in Machine Learnings on Simba</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 26 May 2020 19:41:04 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 03 Sep 2018 08:46:13 +0800</lastBuildDate>
     
-	<atom:link href="https://HHUsimba.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://HHUsimba.github.io/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>This引用逃逸</title>
-      <link>https://HHUsimba.github.io/java/this%E5%BC%95%E7%94%A8%E9%80%83%E9%80%B8/</link>
-      <pubDate>Tue, 26 May 2020 19:41:04 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/this%E5%BC%95%E7%94%A8%E9%80%83%E9%80%B8/</guid>
-      <description>This逃逸含义 在构造器构造还未彻底完成前（即实例初始化阶段还未完成），将自身this引用向外抛出并被其他线程复制（访问）了该引用，可能会问到该还未被初始化的变量，甚至可能会造成更大严重的问题。
-例如：
-1 /** 2 * 模拟this逃逸 3 * @author Lijian 4 * 5 */ 6 public class ThisEscape { 7 //final常量会保证在构造器内完成初始化（但是仅限于未发生this逃逸的情况下，具体可以看多线程对final保证可见性的实现）  8 final int i; 9 //尽管实例变量有初始值，但是还实例化完成 10 int j = 0; 11 static ThisEscape obj; 12 public ThisEscape() { 13 i=1; 14 j=1; 15 //将this逃逸抛出给线程B 16 obj = new ThisEscape(); 17 } 18 public static void main(String[] args) { 19 //线程A：模拟构造器中this逃逸,将未构造完全对象引用抛出 20 /*Thread threadA = new Thread(new Runnable() { 21 @Override 22 public void run() { 23 //obj = new ThisEscape(); 24 } 25 });*/ 26 //线程B：读取对象引用，访问i/j变量 27 Thread threadB = new Thread(new Runnable() { 28 @Override 29 public void run() { 30 31 //可能会发生初始化失败的情况解释：实例变量i的初始化被重排序到构造器外，此时1还未被初始化 32 ThisEscape objB = obj; 33 try { 34 System.</description>
-    </item>
     
     <item>
       <title>Latex技巧总结</title>
@@ -57,18 +46,6 @@ step2: 复制选中代码，右键cmd命令行处，回车
 ​	3、matplotlib
 ​	4、scikit-learn工具包
 ​	5、Theano深度学习</description>
-    </item>
-    
-    <item>
-      <title>不忘初心，方得始终</title>
-      <link>https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/</guid>
-      <description>对于未来的焦虑让我开始不断的充实自己，
-我希望在这里能够记录我的点点滴滴，
-有所始，有所终，
-愿最后自己能够成为一个想成为的人！</description>
     </item>
     
   </channel>
