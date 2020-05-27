@@ -108,7 +108,8 @@
 </span><span class="c1"></span><span class="n">27</span>         <span class="n">Thread</span> <span class="n">threadB</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
 <span class="n">28</span>             <span class="nd">@Override</span>
 <span class="n">29</span>             <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
-<span class="n">30</span>             <span class="n">31</span>                 <span class="c1">//可能会发生初始化失败的情况解释：实例变量i的初始化被重排序到构造器外，此时1还未被初始化
+<span class="n">30</span>             
+<span class="n">31</span>                 <span class="c1">//可能会发生初始化失败的情况解释：实例变量i的初始化被重排序到构造器外，此时1还未被初始化
 </span><span class="c1"></span><span class="n">32</span>                 <span class="n">ThisEscape</span> <span class="n">objB</span> <span class="o">=</span> <span class="n">obj</span><span class="o">;</span>
 <span class="n">33</span>                 <span class="k">try</span> <span class="o">{</span>
 <span class="n">34</span>                     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">objB</span><span class="o">.</span><span class="na">j</span><span class="o">);</span>
