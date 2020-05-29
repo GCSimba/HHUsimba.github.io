@@ -25,6 +25,35 @@ https://baike.baidu.com/item/%E4%B8%B4%E8%BF%91%E9%A2%84%E6%8A%A5/5021658
     </item>
     
     <item>
+      <title>应用场景 气象预报</title>
+      <link>https://HHUsimba.github.io/machine-learning/%E9%99%8D%E9%9B%A8%E9%A2%84%E6%B5%8B%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 21 Nov 2018 10:47:06 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/machine-learning/%E9%99%8D%E9%9B%A8%E9%A2%84%E6%B5%8B%E6%96%B9%E6%B3%95/</guid>
+      <description>降雨预测方法   DBNPF (Deep Belief Network for Precipitation Forecast) 来源：张雷师兄论文：A deep-learning based precipitation forecasting
+  模型： 比较：RBF、SVM、ARIMA、ELM（extreme learning machine）、SAE（Sparse AutoEncoder） 数据集： 遵义市1956-2010
+train data:1956-2000
+test data:2000-2010
+  动态区域组合MLP 来源：贾旸旸师兄论文：Short-term Rainfall Forecasting Using Multi-layer Perceptron
+  模型： PCA：13个物理因子进行降维，输入到MLP中
+贪婪算法决定MLP的结构，
+该模型的初始数据包括五个高空因素和八个地表因素。
+在气象学中，通常用位势高度代替实际高度，用等压面代替水平高度，因此，气象数据总是采用等压面格式。例如，500hpa通常相当于5.5km的高度。降雨系统通常由500hpa的天气系统控制。根据区域经验，该模型选择的五个海拔因子分别是500hpa高度下的实际高度（x1）、温度（x2）、温度露点差（x3）、风向（x4）和风速（x5）。风向和风速影响着降雨系统的运动方向和速度。温度露点差与湿度直接相关。温度露点差、温度和实际高度值影响着降雨系统的内能。地表因子代表该地区的局部大气条件。不同地区地表因子的差异导致降雨不同。该模型中所用的八个面因子包括总云量（X6）、地表风速（X7）、地面风向（X8）、地面气压（X9）、地表3小时压力变化（X10）、地表温度露点差（X11）、地表温度（X12）和过去三小时的降雨。周围区域（x13）。对于同一个预测区域，每个周边区域都与该预测区域建立一个MLP。表1显示了所有13个因素。这些因素是我们模型的初始输入。
+最小-最大规范化。最常用的数据规范化方法之一是最小-最大规范化。它可以在0和1之间标准化数据。由于不同因素的大小不同，有必要对数据进行预处理。对于要处理的序列，序列的最大值对应于1，最小值对应于0，其余值在0和1之间按比例转换。
+主成分分析。归一化后，PCA用于减小输入的维数。确定新因子个数的标准是99%，即所选因子的特征值之和占总特征值的99%以上。经计算，新因子的总信息可以代表原始数据的99%以上。此标准定义了保留的信息量，但没有指定所需的因子数量。对于不同的预测区域，因子的数量可能不同，但不会超过初始输入，即13。在大多数情况下，需要的因素数量在3到8之间。PCA处理后，所需的计算资源大大减少。
+MLP的输入是Z1-Z4四个参数，输出是降雨量
+step1:
+step2:中心预测点与其他地区各有一个MLP，两个地区的距离决定了周围MLP的数量。周围多个MLP模型一起决策，如果预测降雨的MLP超过1，取均值。
+比较：  数据集： 2015-2017年海拔（500hPa）测绘数据和数值预报结果。
+train data:2015-2016
+test data:2016-2017
+  基于雷达回波图像的短期降雨预测 来源：基于雷达回波图像的短期降雨预测
+  模型： 卷积自编码器的编码模块首先提取每帧输入图像特征，送入LSTM预报网络；LSTM预报网络的编码模块，对输入信息提取时序特征，在此基础上，由LSTM预测模块产生关于未来时段回波图像时序特征预测。
+比较： 在MINIST数据集上对自编码器的层数和LSTM层数预测效果进行对比
+数据集： 石家庄地区 2010 -2017 年之间降雨天气的雷达回波图像 。</description>
+    </item>
+    
+    <item>
       <title>Latex技巧总结</title>
       <link>https://HHUsimba.github.io/machine-learning/latex%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</link>
       <pubDate>Mon, 03 Sep 2018 08:46:13 +0800</pubDate>
