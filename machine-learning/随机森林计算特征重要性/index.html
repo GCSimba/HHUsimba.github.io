@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="随机森林计算特征重要性">
+<meta itemprop="description" content="一、方法（1）Mean decrease impurity 对于每颗树，按照impurity（gini /entropy /information gain）给特征排序，然后整个森林取平均。最优条件的选择依据是不纯度。不纯度在分类中通常为Gini不纯度或信息增益/信息熵，对于回归问题来说是方差。
+基于不纯度对模型进行排序有几点需要注意： （1）基于不纯度降低的特征选择将会偏向于选择那些具有较多类别的变量（bias）。 （2）当存在相关特征时，一个特征被选择后，与其相关的其他特征的重要度则会变得很低，因为他们可以减少的不纯度已经被前面的特征移除了。
+sklearn实现如下：
+from sklearn.datasets import load_boston from sklearn.ensemble import RandomForestRegressor import numpy as np #Load boston housing dataset as an example boston = load_boston() X = boston[&#34;data&#34;] print type(X),X.shape Y = boston[&#34;target&#34;] names = boston[&#34;feature_names&#34;] print names rf = RandomForestRegressor() rf.fit(X, Y) print &#34;Features sorted by their score:&#34; print sorted(zip(map(lambda x: round(x, 4), rf.feature_importances_), names), reverse=True) 结果：
+Features sorted by their score: [(0.">
+<meta itemprop="datePublished" content="2020-05-30T00:04:23&#43;08:00" />
+<meta itemprop="dateModified" content="2020-05-30T00:04:23&#43;08:00" />
+<meta itemprop="wordCount" content="234">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="随机森林计算特征重要性" />
+<meta property="og:description" content="一、方法（1）Mean decrease impurity 对于每颗树，按照impurity（gini /entropy /information gain）给特征排序，然后整个森林取平均。最优条件的选择依据是不纯度。不纯度在分类中通常为Gini不纯度或信息增益/信息熵，对于回归问题来说是方差。
+基于不纯度对模型进行排序有几点需要注意： （1）基于不纯度降低的特征选择将会偏向于选择那些具有较多类别的变量（bias）。 （2）当存在相关特征时，一个特征被选择后，与其相关的其他特征的重要度则会变得很低，因为他们可以减少的不纯度已经被前面的特征移除了。
+sklearn实现如下：
+from sklearn.datasets import load_boston from sklearn.ensemble import RandomForestRegressor import numpy as np #Load boston housing dataset as an example boston = load_boston() X = boston[&#34;data&#34;] print type(X),X.shape Y = boston[&#34;target&#34;] names = boston[&#34;feature_names&#34;] print names rf = RandomForestRegressor() rf.fit(X, Y) print &#34;Features sorted by their score:&#34; print sorted(zip(map(lambda x: round(x, 4), rf.feature_importances_), names), reverse=True) 结果：
+Features sorted by their score: [(0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%AE%A1%E7%AE%97%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/" />
+<meta property="article:published_time" content="2020-05-30T00:04:23+08:00" />
+<meta property="article:modified_time" content="2020-05-30T00:04:23+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="随机森林计算特征重要性"/>
+<meta name="twitter:description" content="一、方法（1）Mean decrease impurity 对于每颗树，按照impurity（gini /entropy /information gain）给特征排序，然后整个森林取平均。最优条件的选择依据是不纯度。不纯度在分类中通常为Gini不纯度或信息增益/信息熵，对于回归问题来说是方差。
+基于不纯度对模型进行排序有几点需要注意： （1）基于不纯度降低的特征选择将会偏向于选择那些具有较多类别的变量（bias）。 （2）当存在相关特征时，一个特征被选择后，与其相关的其他特征的重要度则会变得很低，因为他们可以减少的不纯度已经被前面的特征移除了。
+sklearn实现如下：
+from sklearn.datasets import load_boston from sklearn.ensemble import RandomForestRegressor import numpy as np #Load boston housing dataset as an example boston = load_boston() X = boston[&#34;data&#34;] print type(X),X.shape Y = boston[&#34;target&#34;] names = boston[&#34;feature_names&#34;] print names rf = RandomForestRegressor() rf.fit(X, Y) print &#34;Features sorted by their score:&#34; print sorted(zip(map(lambda x: round(x, 4), rf.feature_importances_), names), reverse=True) 结果：
+Features sorted by their score: [(0."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>随机森林计算特征重要性</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>随机森林计算特征重要性</h1>
+		<div class="content">
+			<h2 id="一方法1mean-decrease-impurity">一、方法（1）<strong>Mean decrease impurity</strong><a href="#一方法1mean-decrease-impurity" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>对于每颗树，按照impurity（gini /entropy /information gain）给特征排序，然后整个森林取平均。最优条件的选择依据是不纯度。不纯度在分类中通常为Gini不纯度或信息增益/信息熵，对于回归问题来说是方差。</p>
+<p>基于不纯度对模型进行排序有几点需要注意：
+（1）基于不纯度降低的特征选择将会偏向于选择那些具有较多类别的变量（bias）。
+（2）当存在相关特征时，一个特征被选择后，与其相关的其他特征的重要度则会变得很低，因为他们可以减少的不纯度已经被前面的特征移除了。</p>
+<p>sklearn实现如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1">#Load boston housing dataset as an example</span>
+<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s2">&#34;data&#34;</span><span class="p">]</span>
+<span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s2">&#34;target&#34;</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s2">&#34;feature_names&#34;</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">names</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&#34;Features sorted by their score:&#34;</span>
+<span class="k">print</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">rf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">),</span> <span class="n">names</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div><p>结果：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Features</span> <span class="nb">sorted</span> <span class="n">by</span> <span class="n">their</span> <span class="n">score</span><span class="p">:</span>
+<span class="p">[(</span><span class="mf">0.5104</span><span class="p">,</span> <span class="s1">&#39;RM&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.2837</span><span class="p">,</span> <span class="s1">&#39;LSTAT&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0812</span><span class="p">,</span> <span class="s1">&#39;DIS&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0303</span><span class="p">,</span> <span class="s1">&#39;CRIM&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0294</span><span class="p">,</span> <span class="s1">&#39;NOX&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0176</span><span class="p">,</span> <span class="s1">&#39;PTRATIO&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0134</span><span class="p">,</span> <span class="s1">&#39;AGE&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0115</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0089</span><span class="p">,</span> <span class="s1">&#39;TAX&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0077</span><span class="p">,</span> <span class="s1">&#39;INDUS&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0051</span><span class="p">,</span> <span class="s1">&#39;RAD&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0006</span><span class="p">,</span> <span class="s1">&#39;ZN&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0004</span><span class="p">,</span> <span class="s1">&#39;CHAS&#39;</span><span class="p">)]</span>
+</code></pre></div><h2 id="二方法2mean-decrease-accuracy">二、方法（2）<strong>Mean decrease accuracy</strong><a href="#二方法2mean-decrease-accuracy" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>直接测量每种特征对模型预测准确率的影响，基本思想是重新排列某一列特征值的顺序，观测降低了多少模型的准确率。对于不重要的特征，这种方法对模型准确率的影响很小，但是对于重要特征却会极大降低模型的准确率。 大概就是measure一下对每个特征加躁，看对结果的准确率的影响。影响小说明这个特征不重要，反之重要</p>
+<p>具体步骤如下：
+在随机森林中某个特征X的重要性的计算方法如下：
+a：对于随机森林中的每一颗决策树,使用相应的OOB(袋外数据)数据来计算它的袋外数据误差,记为errOOB1.
+b: 随机地对袋外数据OOB所有样本的特征X加入噪声干扰(就可以随机的改变样本在特征X处的值),再次计算它的袋外数据误差,记为errOOB2.</p>
+<p>c：假设随机森林中有Ntree棵树,那么对于特征X的重要性=∑(errOOB2-errOOB1)/Ntree,之所以可以用这个表达式来作为相应特征的重要性的度量值是因为：若给某个特征随机加入噪声之后,袋外的准确率大幅度降低,则说明这个特征对于样本的分类结果影响很大,也就是说它的重要程度比较高。</p>
+<p>sklearn实现如下：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">ShuffleSplit</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+ 
+<span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s2">&#34;data&#34;</span><span class="p">]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s2">&#34;target&#34;</span><span class="p">]</span>
+ 
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+ 
+<span class="c1">#crossvalidate the scores on a number of different random splits of the data</span>
+<span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">X_t</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">X_t</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">shuff_acc</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_t</span><span class="p">))</span>
+        <span class="n">scores</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">acc</span><span class="o">-</span><span class="n">shuff_acc</span><span class="p">)</span><span class="o">/</span><span class="n">acc</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&#34;Features sorted by their score:&#34;</span>
+<span class="k">print</span> <span class="nb">sorted</span><span class="p">([(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">score</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="n">feat</span><span class="p">)</span> <span class="k">for</span>
+              <span class="n">feat</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div><p>结果：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Features</span> <span class="nb">sorted</span> <span class="n">by</span> <span class="n">their</span> <span class="n">score</span><span class="p">:</span>
+<span class="p">[(</span><span class="mf">0.7276</span><span class="p">,</span> <span class="s1">&#39;LSTAT&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5675</span><span class="p">,</span> <span class="s1">&#39;RM&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0867</span><span class="p">,</span> <span class="s1">&#39;DIS&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0407</span><span class="p">,</span> <span class="s1">&#39;NOX&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0351</span><span class="p">,</span> <span class="s1">&#39;CRIM&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0233</span><span class="p">,</span> <span class="s1">&#39;PTRATIO&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0168</span><span class="p">,</span> <span class="s1">&#39;TAX&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0122</span><span class="p">,</span> <span class="s1">&#39;AGE&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0048</span><span class="p">,</span> <span class="s1">&#39;INDUS&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0043</span><span class="p">,</span> <span class="s1">&#39;RAD&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0004</span><span class="p">,</span> <span class="s1">&#39;ZN&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="s1">&#39;CHAS&#39;</span><span class="p">)]</span>
+</code></pre></div><p>参考：https://www.cnblogs.com/bafenqingnian/p/9520565.html</p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>

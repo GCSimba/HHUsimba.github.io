@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Wed, 21 Nov 2018 10:47:06 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2020 00:04:23 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>随机森林计算特征重要性</title>
+      <link>https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%AE%A1%E7%AE%97%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
+      <pubDate>Sat, 30 May 2020 00:04:23 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%AE%A1%E7%AE%97%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</guid>
+      <description>一、方法（1）Mean decrease impurity 对于每颗树，按照impurity（gini /entropy /information gain）给特征排序，然后整个森林取平均。最优条件的选择依据是不纯度。不纯度在分类中通常为Gini不纯度或信息增益/信息熵，对于回归问题来说是方差。
+基于不纯度对模型进行排序有几点需要注意： （1）基于不纯度降低的特征选择将会偏向于选择那些具有较多类别的变量（bias）。 （2）当存在相关特征时，一个特征被选择后，与其相关的其他特征的重要度则会变得很低，因为他们可以减少的不纯度已经被前面的特征移除了。
+sklearn实现如下：
+from sklearn.datasets import load_boston from sklearn.ensemble import RandomForestRegressor import numpy as np #Load boston housing dataset as an example boston = load_boston() X = boston[&amp;#34;data&amp;#34;] print type(X),X.shape Y = boston[&amp;#34;target&amp;#34;] names = boston[&amp;#34;feature_names&amp;#34;] print names rf = RandomForestRegressor() rf.fit(X, Y) print &amp;#34;Features sorted by their score:&amp;#34; print sorted(zip(map(lambda x: round(x, 4), rf.feature_importances_), names), reverse=True) 结果：
+Features sorted by their score: [(0.</description>
+    </item>
     
     <item>
       <title>应用场景 气象预报</title>
@@ -60,15 +73,16 @@ test data:2016-2017
       
       <guid>https://HHUsimba.github.io/machine-learning/latex%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</guid>
       <description>导包: 在LaTex中有专门的导包的地方：   修改表格线条粗细\hline
-  step1：用 \usepackage{booktabs} 导包 step2: 首行: \toprule[1pt] 中间行：\midrule[1pt] 尾行：\midrule[1pt] ```
- 表格内容对齐：
-\begin{tabular}{c} c:center   r:right l:left ```
- Latex添加新一页 用“\clearpage” 不要用“\newpage”
+step1: 用 \usepackage{booktabs} 导包 step2: 首行: \toprule[1pt] 中间行：\midrule[1pt] 尾行：\midrule[1pt]
+  表格内容对齐：
+\begin{tabular}{c} c:center r:right l:left
+  Latex添加新一页 用“\clearpage” 不要用“\newpage”
   调整表格列间距
 \begin{tabular}{|p{1cm}|p{2cm}|p{3cm}|}   图表位置移动
 \begin{table}[!htb] 首先，!表示无视美学规则，按下面的要求放置； 然后h t b p分别代表4中放置方式，优先级依次递减。 可以自己定优先级，tbhp等 常用选项[htbp]是浮动格式： h=here 放置在代码中这个图片出现的位置，也就是你想让它出现的位置； t = top 放在该页顶端； b = bottom 放在该页底部； p = page浮动页。将图形放置在一只允许有浮动对象的页面上。 一般使用[htb]这样的组合，只用[h]是没有用的。这样组合的意思就是latex会尽量满足排在前面的浮动格	式，就是h-t-b这个顺序，让排版的效果尽量好。
 !h 只是试图放在当前位置。如果页面剩下的部分放不下，还是会跑到下一页的。一般页言，用 [!h] 选项经常会出现不能正确放置的问题，所以常用 [ht]、[htbp] 等。
-  增大表格行距</description>
+  增大表格行距
+\begin{document} \renewcommand\arraystretch{2} //作用是讲每一行的高度变为原来的两倍。 \begin{table}[h] \centering   表格内容调整</description>
     </item>
     
     <item>
