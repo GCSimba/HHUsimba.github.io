@@ -68,6 +68,39 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
     </item>
     
     <item>
+      <title>类加载器和双亲委派模型</title>
+      <link>https://HHUsimba.github.io/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%92%8C%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 26 May 2020 13:59:53 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%92%8C%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/</guid>
+      <description>类加载器 类加载器（ClassLoader）是Java语言的一项创新，也是Java流行的一个重要原因。在类加载的第一阶段“加载”过程中，需要通过一个类的全限定名来获取定义此类的二进制字节流，完成这个动作的代码块就是类加载器。这一动作是放在Java虚拟机外部去实现的，以便让应用程序自己决定如何获取所需的类。
+从Java虚拟机的角度来说，只存在两种不同的类加载器：一种是启动类加载器（Bootstrap ClassLoader），这个类加载器使用C++语言实现（HotSpot虚拟机中），是虚拟机自身的一部分；另一种就是所有其他的类加载器，这些类加载器都有Java语言实现，独立于虚拟机外部，并且全部继承自java.lang.ClassLoader。
+从开发者的角度，类加载器可以细分为：
+  启动（Bootstrap）类加载器：负责将 Java_Home/lib下面的类库加载到内存中（比如rt.jar）。由于引导类加载器涉及到虚拟机本地实现细节，开发者无法直接获取到启动类加载器的引用，所以不允许直接通过引用进行操作。
+  标准扩展（Extension）类加载器：是由 Sun 的 ExtClassLoader（sun.misc.Launcher$ExtClassLoader）实现的。它负责将Java_Home /lib/ext或者由系统变量 java.ext.dir指定位置中的类库加载到内存中。开发者可以直接使用标准扩展类加载器。
+  应用程序（Application）类加载器：是由 Sun 的 AppClassLoader（sun.misc.Launcher$AppClassLoader）实现的。它负责将系统类路径（CLASSPATH）中指定的类库加载到内存中。开发者可以直接使用系统类加载器。由于这个类加载器是ClassLoader中的getSystemClassLoader()方法的返回值，因此一般称为系统（System）加载器。
+  除此之外，还有自定义的类加载器，它们之间的层次关系被称为类加载器的双亲委派模型。该模型要求除了顶层的启动类加载器外，其余的类加载器都应该有自己的父类加载器，而这种父子关系一般通过组合（Composition）关系来实现，而不是通过继承（Inheritance）。
+双亲委派模型过程 某个特定的类加载器在接到加载类的请求时，首先将加载任务委托给父类加载器，依次递归，如果父类加载器可以完成类加载任务，就成功返回；只有父类加载器无法完成此加载任务时，才自己去加载。
+使用双亲委派模型的好处在于Java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存在在rt.jar中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的Bootstrap ClassLoader进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果没有双亲委派模型而是由各个类加载器自行加载的话，如果用户编写了一个java.lang.Object的同名类并放在ClassPath中，那系统中将会出现多个不同的Object类，程序将混乱。因此，如果开发者尝试编写一个与rt.jar类库中重名的Java类，可以正常编译，但是永远无法被加载运行。</description>
+    </item>
+    
+    <item>
+      <title>MySQL设计</title>
+      <link>https://HHUsimba.github.io/machine-learning/mysql%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Thu, 02 Apr 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/machine-learning/mysql%E8%AE%BE%E8%AE%A1/</guid>
+      <description>外键和级联 简单系统可以使用，分布式，高并发不适合采用
+阿里巴巴开发手册：
+ 【强制】不得使用外键与级联，一切外键概念必须在应用层解决。
+说明:以学生和成绩的关系为例，学生表中的 student_id 是主键，那么成绩表中的 student_id 则为外键。如果更新学生表中的 student_id，同时触发成绩表中的 student_id 更新，即为级联更新。外键与级联更新适用于单机低并发，不适合分布式、高并发集群;级联更新是强阻塞，存在数据库更新风暴的风 险;外键影响数据库的插入速度
+ 外键缺点
+  增加了复杂性： a.每次做DELETE 或者UPDATE都必须考虑外键约束，会导致开发的时候很痛苦,测试数据极为不方便;b.外键的主从关系是定的，假如那天需求有变化，数据库中的这个字段根本不需要和其他表有关联的话就会增加很多麻烦。 增加了额外工作： 数据库需要增加维护外键的工作，比如当我们做一些涉及外键字段的增，删，更新操作之后，需要触发相关操作去检查，保证数据的的一致性和正确性，这样会不得不消耗资源；（个人觉得这个不是不用外键的原因，因为即使你不使用外键，你在应用层面也还是要保证的。所以，我觉得这个影响可以忽略不计。） 外键还会因为需要请求对其他表内部加锁而容易出现死锁情况； 对分库分表不友好 ：因为分库分表下外键是无法生效的。   简单系统使用外键的好处：
+ 保证了数据库数据的一致性和完整性； 级联操作方便，减轻了程序代码量； &amp;hellip;&amp;hellip;  如果系统不涉及分不分表，并发量不是很高的情况还是可以考虑使用外键的。
+参考：https://blog.csdn.net/lidaasky/article/details/7645524，《阿里java开发手册》</description>
+    </item>
+    
+    <item>
       <title>MySQL</title>
       <link>https://HHUsimba.github.io/java/mysql/</link>
       <pubDate>Sun, 26 May 2019 19:41:04 +0800</pubDate>
@@ -142,36 +175,6 @@ step1: 用 \usepackage{booktabs} 导包 step2: 首行: \toprule[1pt] 中间行�
 !h 只是试图放在当前位置。如果页面剩下的部分放不下，还是会跑到下一页的。一般页言，用 [!h] 选项经常会出现不能正确放置的问题，所以常用 [ht]、[htbp] 等。
   增大表格行距
 \begin{document} \renewcommand\arraystretch{2} //作用是讲每一行的高度变为原来的两倍。 \begin{table}[h] \centering   表格内容调整</description>
-    </item>
-    
-    <item>
-      <title>Python安装tips</title>
-      <link>https://HHUsimba.github.io/machine-learning/python%E5%AE%89%E8%A3%85tips/</link>
-      <pubDate>Wed, 23 May 2018 00:04:23 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/machine-learning/python%E5%AE%89%E8%A3%85tips/</guid>
-      <description>一、包的安装   Windows下使用pip安装快速方法：
-#some-package为你想要安装的包的名字 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package #安装指定的版本的包 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package==版本号   在cmd下复制粘贴方法：
-step1: 进入cmd后右键窗口→属性→编辑选项→快速编辑模式√
-step2: 复制选中代码，右键cmd命令行处，回车
-  二、机器学习常用包 ​	按照以下顺序安装：
-​	1、numpy、scipy
-​	2、pandas
-​	3、matplotlib
-​	4、scikit-learn工具包
-​	5、Theano深度学习</description>
-    </item>
-    
-    <item>
-      <title>不忘初心，方得始终</title>
-      <link>https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/</guid>
-      <description>对于未来的焦虑让我开始不断的充实自己，
-我希望在这里能够记录我的点点滴滴，
-有所始，有所终，
-愿最后自己能够成为一个想成为的人！</description>
     </item>
     
   </channel>
