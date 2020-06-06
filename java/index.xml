@@ -131,20 +131,20 @@ show table status like &amp;#34;table_name&amp;#34; ; MyISAM和InnoDB区别 MyIS
     </item>
     
     <item>
-      <title>排序算法</title>
-      <link>https://HHUsimba.github.io/java/%E6%8E%92%E5%BA%8F/</link>
-      <pubDate>Thu, 11 Jan 2018 22:59:22 +0800</pubDate>
+      <title>kmp与有限自动机</title>
+      <link>https://HHUsimba.github.io/java/kmp%E4%B8%8E%E6%9C%89%E9%99%90%E8%87%AA%E5%8A%A8%E6%9C%BA/</link>
+      <pubDate>Sat, 13 Jan 2018 22:59:22 +0800</pubDate>
       
-      <guid>https://HHUsimba.github.io/java/%E6%8E%92%E5%BA%8F/</guid>
-      <description>例：画出x1,x2,x3,x4,且x1&amp;lt;x2的决策树 </description>
+      <guid>https://HHUsimba.github.io/java/kmp%E4%B8%8E%E6%9C%89%E9%99%90%E8%87%AA%E5%8A%A8%E6%9C%BA/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>算法名词解释</title>
-      <link>https://HHUsimba.github.io/java/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/</link>
-      <pubDate>Mon, 08 Jan 2018 22:59:22 +0800</pubDate>
+      <title>构建最优二叉树</title>
+      <link>https://HHUsimba.github.io/java/%E6%9E%84%E5%BB%BA%E6%9C%80%E4%BC%98%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Sat, 13 Jan 2018 22:59:22 +0800</pubDate>
       
-      <guid>https://HHUsimba.github.io/java/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/</guid>
+      <guid>https://HHUsimba.github.io/java/%E6%9E%84%E5%BB%BA%E6%9C%80%E4%BC%98%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
       <description></description>
     </item>
     
