@@ -117,6 +117,23 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
     </item>
     
     <item>
+      <title>ArrayList扩容机制</title>
+      <link>https://HHUsimba.github.io/java/arraylist%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 13 Jan 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/arraylist%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/</guid>
+      <description>ArrayList简述 ArrayList是基于数组实现的，是一个动态数组，其容量能自动增长。 ArrayList不是线程安全的，只能用在单线程环境下。 实现了Serializable接口，因此它支持序列化，能够通过序列化传输； 实现了RandomAccess接口，支持快速随机访问，实际上就是通过下标序号进行快速访问； 实现了Cloneable接口，能被克隆。
+动态扩容 1.初始化 三种创建方式
+public ArrayList(); 默认的构造器，将会以默认的大小来初始化内部的数组
+public ArrayList(Collection&amp;lt;? extends E&amp;gt; c) 用一个Collection对象来构造，并将该集合的元素添加到ArrayList
+public ArrayList(int initialCapacity) 用指定的大小来初始化内部的数组
+2.确保内部容量 初始化时，数组长度为0
+ensureCapacityInternal方法名的英文大致是“确保内部容量”，size表示的是执行添加之前的元素个数，并非ArrayList的容量，容量应该是数组elementData的长度。ensureCapacityInternal该方法通过将现有的元素个数数组的容量比较。看如果需要扩容，则扩容。
+public boolean add(E e) { //确保内部容量(通过判断，如果够则不进行操作；容量不够就扩容来确保内部容量)  ensureCapacityInternal(size + 1); // ①Increments modCount!!  elementData[size++] = e;//②  return true; } 3.扩容 如果通过无参构造的话，初始数组容量为0，当真正对数组进行添加时，才真正分配容量。每次按照1.5倍（位运算）的比率通过copeOf的方式扩容。 在JKD1.6中实现是，如果通过无参构造的话，初始数组容量为10，每次通过copeOf的方式扩容后容量为原来的1.5倍，以上就是动态扩容的原理。
+ArrayList相当于在没指定initialCapacity时就是会使用延迟分配对象数组空间，当第一次插入元素时才分配10（默认）个对象空间。假如有20个数据需要添加，那么会分别在第一次的时候，将ArrayList的容量变为10 (如下图一)；之后扩容会按照1.5倍增长。也就是当添加第11个数据的时候，Arraylist继续扩容变为10*1.5=15(如下图二)；当添加第16个数据时，继续扩容变为15 * 1.5 =22个。</description>
+    </item>
+    
+    <item>
       <title>MySQL</title>
       <link>https://HHUsimba.github.io/java/mysql/</link>
       <pubDate>Sun, 26 May 2019 19:41:04 +0800</pubDate>
@@ -141,18 +158,6 @@ show table status like &amp;#34;table_name&amp;#34; ; MyISAM和InnoDB区别 MyIS
       <guid>https://HHUsimba.github.io/machine-learning/idea/</guid>
       <description>找一些图像定位的其他领域的文章，学习一下，即追踪图形变换
 5.7 5.9 </description>
-    </item>
-    
-    <item>
-      <title>应用场景 气象预报</title>
-      <link>https://HHUsimba.github.io/machine-learning/%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-%E6%B0%94%E8%B1%A1%E9%A2%84%E6%8A%A5/</link>
-      <pubDate>Wed, 21 Nov 2018 10:47:06 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/machine-learning/%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-%E6%B0%94%E8%B1%A1%E9%A2%84%E6%8A%A5/</guid>
-      <description>应用场景：气象预报 1. 预报类别（按照时间）    预报类别 时间     临近预报 0-2小时内   短临预报 2-12小时内   短期预报 1-3天   中期预报 3-15天   长期预报 15天以上    参考：中国气象局官网、临近预报
-http://www.cma.gov.cn/2011xwzx/2011xqxxw/2011xqxyw/201408/t20140822_258683.html
-https://baike.baidu.com/item/%E4%B8%B4%E8%BF%91%E9%A2%84%E6%8A%A5/5021658
-2. 预报类别（按照方法） </description>
     </item>
     
   </channel>
