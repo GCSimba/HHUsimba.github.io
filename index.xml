@@ -117,6 +117,19 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
     </item>
     
     <item>
+      <title>Git</title>
+      <link>https://HHUsimba.github.io/java/git/</link>
+      <pubDate>Sun, 22 Mar 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/git/</guid>
+      <description>部署： cd public git add . git commit -m &amp;ldquo;yyyy/mm/dd-hh:mm&amp;rdquo; git push -u origin master
+更新： 用git工具执行，每次在根目录 输入hugo 初始化一下 hugo
+然后进入public文档 cd public
+打开git Bash here相继输入以下代码 git init(如果报fatal: not a git repository (or any of the parent directories): .git) git add -A git commit -m &amp;ldquo;xxxx&amp;rdquo; git push -f origin master
+创建md hugo new posts/text1.md 创建文件夹 hugo new site 文件名称 (如blog)</description>
+    </item>
+    
+    <item>
       <title>ArrayList扩容机制</title>
       <link>https://HHUsimba.github.io/java/arraylist%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/</link>
       <pubDate>Mon, 13 Jan 2020 22:59:22 +0800</pubDate>
@@ -148,16 +161,6 @@ show table status like &amp;#34;table_name&amp;#34; ; MyISAM和InnoDB区别 MyIS
 两者的对比：
  是否支持行级锁 : MyISAM 只有表级锁(table-level locking)，而InnoDB 支持行级锁(row-level locking)和表级锁,默认为行级锁。 是否支持事务和崩溃后的安全恢复： MyISAM 强调的是性能，每次查询具有原子性,其执行速度比InnoDB类型更快，但是不提供事务支持。但是InnoDB 提供事务支持事务，外部键等高级数据库功能。 具有事务(commit)、回滚(rollback)和崩溃修复能力(crash recovery capabilities)的事务安全(transaction-safe (ACID compliant))型表。 是否支持外键： MyISAM不支持，而InnoDB支持。 是否支持MVCC ：仅 InnoDB 支持。应对高并发事务, MVCC比单纯的加锁更高效;MVCC只在 READ COMMITTED 和 REPEATABLE READ 两个隔离级别下工作;MVCC可以使用 乐观(optimistic)锁 和 悲观(pessimistic)锁来实现;各数据库中MVCC实现并不统一。  《MySQL高性能》:
  不要轻易相信“MyISAM比InnoDB快”之类的经验之谈，这个结论往往不是绝对的。在很多我们已知场景中，InnoDB的速度都可以让MyISAM望尘莫及，尤其是用到了聚簇索引，或者需要访问的数据都可以放入内存的应用。</description>
-    </item>
-    
-    <item>
-      <title>Idea</title>
-      <link>https://HHUsimba.github.io/machine-learning/idea/</link>
-      <pubDate>Tue, 07 May 2019 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/machine-learning/idea/</guid>
-      <description>找一些图像定位的其他领域的文章，学习一下，即追踪图形变换
-5.7 5.9 </description>
     </item>
     
   </channel>
