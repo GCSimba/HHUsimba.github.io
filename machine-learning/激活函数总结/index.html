@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="激活函数总结">
+<meta itemprop="description" content="CNN/RNN各种模型激活函数总结
+0.Sigmoid： Sigmoid函数是早期非常经典的激活函数，输出值在 [0,1] 之间，当输入值为非常大负数时，值为0，当输入值非常大正数时，值为1。Sigmoid非常经典，但是现在它以不太受欢迎，原因是它存在一个几个比较大的缺陷，后面做详细讨论。 1.Tanh Tanh函数是Sigmoid函数的一种变种，取值范围为 [-1 , 1]，它解决了Sigmoid函数的非0均值的问题，公式、图像以及导数图像如下图所示： 2.Relu 目前比较受欢迎的激活函数是Relu，公式简单，但是非常好用，公式如下所示，输入小于0时输出为0，大于0时输出为本身。 Relu解决的问题： 1、解决了梯度消失的问题 2、公式简单没有指数运算，计算快 3、x&gt;0时，梯度为1，无梯度耗散问题，收敛速度快 Relu存在的问题： 可能出现神经元死亡，权重无法更新：首先复习前向传播和反向传播。">
+<meta itemprop="datePublished" content="2019-05-02T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2019-05-02T22:59:22&#43;08:00" />
+<meta itemprop="wordCount" content="18">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="激活函数总结" />
+<meta property="og:description" content="CNN/RNN各种模型激活函数总结
+0.Sigmoid： Sigmoid函数是早期非常经典的激活函数，输出值在 [0,1] 之间，当输入值为非常大负数时，值为0，当输入值非常大正数时，值为1。Sigmoid非常经典，但是现在它以不太受欢迎，原因是它存在一个几个比较大的缺陷，后面做详细讨论。 1.Tanh Tanh函数是Sigmoid函数的一种变种，取值范围为 [-1 , 1]，它解决了Sigmoid函数的非0均值的问题，公式、图像以及导数图像如下图所示： 2.Relu 目前比较受欢迎的激活函数是Relu，公式简单，但是非常好用，公式如下所示，输入小于0时输出为0，大于0时输出为本身。 Relu解决的问题： 1、解决了梯度消失的问题 2、公式简单没有指数运算，计算快 3、x&gt;0时，梯度为1，无梯度耗散问题，收敛速度快 Relu存在的问题： 可能出现神经元死亡，权重无法更新：首先复习前向传播和反向传播。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/machine-learning/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/" />
+<meta property="article:published_time" content="2019-05-02T22:59:22+08:00" />
+<meta property="article:modified_time" content="2019-05-02T22:59:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="激活函数总结"/>
+<meta name="twitter:description" content="CNN/RNN各种模型激活函数总结
+0.Sigmoid： Sigmoid函数是早期非常经典的激活函数，输出值在 [0,1] 之间，当输入值为非常大负数时，值为0，当输入值非常大正数时，值为1。Sigmoid非常经典，但是现在它以不太受欢迎，原因是它存在一个几个比较大的缺陷，后面做详细讨论。 1.Tanh Tanh函数是Sigmoid函数的一种变种，取值范围为 [-1 , 1]，它解决了Sigmoid函数的非0均值的问题，公式、图像以及导数图像如下图所示： 2.Relu 目前比较受欢迎的激活函数是Relu，公式简单，但是非常好用，公式如下所示，输入小于0时输出为0，大于0时输出为本身。 Relu解决的问题： 1、解决了梯度消失的问题 2、公式简单没有指数运算，计算快 3、x&gt;0时，梯度为1，无梯度耗散问题，收敛速度快 Relu存在的问题： 可能出现神经元死亡，权重无法更新：首先复习前向传播和反向传播。"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>激活函数总结</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>激活函数总结</h1>
+		<div class="content">
+			<p>CNN/RNN各种模型激活函数总结</p>
+<h3 id="0sigmoid">0.Sigmoid：<a href="#0sigmoid" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Sigmoid函数是早期非常经典的激活函数，输出值在 [0,1] 之间，当输入值为非常大负数时，值为0，当输入值非常大正数时，值为1。Sigmoid非常经典，但是现在它以不太受欢迎，原因是它存在一个几个比较大的缺陷，后面做详细讨论。
+<img src="https://img-blog.csdnimg.cn/20200614144054985.png?size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="1tanh">1.Tanh<a href="#1tanh" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Tanh函数是Sigmoid函数的一种变种，取值范围为 [-1 , 1]，它解决了Sigmoid函数的非0均值的问题，公式、图像以及导数图像如下图所示：
+<img src="https://img-blog.csdnimg.cn/20200614144111958.png?size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="2relu">2.Relu<a href="#2relu" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>目前比较受欢迎的激活函数是Relu，公式简单，但是非常好用，公式如下所示，输入小于0时输出为0，大于0时输出为本身。
+<img src="https://img-blog.csdnimg.cn/20200614144135755.png?size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">
+Relu解决的问题：
+1、解决了梯度消失的问题
+2、公式简单没有指数运算，计算快
+3、x&gt;0时，梯度为1，无梯度耗散问题，收敛速度快
+Relu存在的问题：
+可能出现神经元死亡，权重无法更新：首先复习前向传播和反向传播。</p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>
