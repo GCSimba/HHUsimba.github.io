@@ -147,20 +147,32 @@ ArrayList相当于在没指定initialCapacity时就是会使用延迟分配对�
     </item>
     
     <item>
-      <title>MySQL</title>
-      <link>https://HHUsimba.github.io/java/mysql/</link>
-      <pubDate>Sun, 26 May 2019 19:41:04 +0800</pubDate>
+      <title>梯度优化方法</title>
+      <link>https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sat, 02 Nov 2019 22:59:22 +0800</pubDate>
       
-      <guid>https://HHUsimba.github.io/java/mysql/</guid>
-      <description>常见命令 查看MySQL提供的所有存储引擎
-mysql&amp;gt; show engines; MySQL 当前默认的存储引擎是InnoDB,并且在5.7版本所有的存储引擎中只有 InnoDB 是事务性存储引擎，也就是说只有 InnoDB 支持事务。
-查看MySQL当前默认的存储引擎
-mysql&amp;gt; show variables like &amp;#39;%storage_engine%&amp;#39;; 查看表的存储引擎
-show table status like &amp;#34;table_name&amp;#34; ; MyISAM和InnoDB区别 MyISAM是MySQL的默认数据库引擎（5.5版之前）。虽然性能极佳，而且提供了大量的特性，包括全文索引、压缩、空间函数等，但MyISAM不支持事务和行级锁，而且最大的缺陷就是崩溃后无法安全恢复。不过，5.5版本之后，MySQL引入了InnoDB（事务性数据库引擎），MySQL 5.5版本后默认的存储引擎为InnoDB。
-大多数时候使用的都是 InnoDB 存储引擎，但是在某些情况下使用 MyISAM 也是合适的比如读密集的情况下。
-两者的对比：
- 是否支持行级锁 : MyISAM 只有表级锁(table-level locking)，而InnoDB 支持行级锁(row-level locking)和表级锁,默认为行级锁。 是否支持事务和崩溃后的安全恢复： MyISAM 强调的是性能，每次查询具有原子性,其执行速度比InnoDB类型更快，但是不提供事务支持。但是InnoDB 提供事务支持事务，外部键等高级数据库功能。 具有事务(commit)、回滚(rollback)和崩溃修复能力(crash recovery capabilities)的事务安全(transaction-safe (ACID compliant))型表。 是否支持外键： MyISAM不支持，而InnoDB支持。 是否支持MVCC ：仅 InnoDB 支持。应对高并发事务, MVCC比单纯的加锁更高效;MVCC只在 READ COMMITTED 和 REPEATABLE READ 两个隔离级别下工作;MVCC可以使用 乐观(optimistic)锁 和 悲观(pessimistic)锁来实现;各数据库中MVCC实现并不统一。  《MySQL高性能》:
- 不要轻易相信“MyISAM比InnoDB快”之类的经验之谈，这个结论往往不是绝对的。在很多我们已知场景中，InnoDB的速度都可以让MyISAM望尘莫及，尤其是用到了聚簇索引，或者需要访问的数据都可以放入内存的应用。</description>
+      <guid>https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
+      <description>0.SGD(最常用)： 此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。
+SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：
+其中，是学习率，是梯度 SGD完全依赖于当前batch的梯度，所以可理解为允许当前batch的梯度多大程度影响参数更新
+缺点：
+  选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了
+  SGD容易收敛到局部最优
+  1.Momentum momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：
+其中，是动量因子
+特点：
+ 下降初期时，使用上一次参数更新，下降方向一致，乘上较大的能够进行很好的加速 下降中后期时，在局部最小值来回震荡的时候，，使得更新幅度增大，跳出陷阱 在梯度改变方向的时候，能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛  2.Nesterov nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：
+可以看出，并没有直接改变当前梯度，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：
+3.Adagrad Adagrad其实是对学习率进行了一个约束。即：
+此处，对从1到进行一个递推形成一个约束项regularizer，，用来保证分母非0
+特点：
+ 前期较小的时候， regularizer较大，能够放大梯度 后期较大的时候，regularizer较小，能够约束梯度 适合处理稀疏梯度  缺点：
+ 由公式可以看出，仍依赖于人工设置一个全局学习率 设置过大的话，会使regularizer过于敏感，对梯度的调节太大 中后期，分母上梯度平方的累加将会越来越大，使，使得训练提前结束  4.Adadelta Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：
+在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：
+其中，代表求期望。
+此时，可以看出Adadelta已经不用依赖于全局学习率了。
+特点：
+ 训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5.</description>
     </item>
     
   </channel>

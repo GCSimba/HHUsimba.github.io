@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="梯度优化方法">
+<meta itemprop="description" content="0.SGD(最常用)： 此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。
+SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：
+其中，是学习率，是梯度 SGD完全依赖于当前batch的梯度，所以可理解为允许当前batch的梯度多大程度影响参数更新
+缺点：
+  选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了
+  SGD容易收敛到局部最优
+  1.Momentum momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：
+其中，是动量因子
+特点：
+ 下降初期时，使用上一次参数更新，下降方向一致，乘上较大的能够进行很好的加速 下降中后期时，在局部最小值来回震荡的时候，，使得更新幅度增大，跳出陷阱 在梯度改变方向的时候，能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛  2.Nesterov nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：
+可以看出，并没有直接改变当前梯度，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：
+3.Adagrad Adagrad其实是对学习率进行了一个约束。即：
+此处，对从1到进行一个递推形成一个约束项regularizer，，用来保证分母非0
+特点：
+ 前期较小的时候， regularizer较大，能够放大梯度 后期较大的时候，regularizer较小，能够约束梯度 适合处理稀疏梯度  缺点：
+ 由公式可以看出，仍依赖于人工设置一个全局学习率 设置过大的话，会使regularizer过于敏感，对梯度的调节太大 中后期，分母上梯度平方的累加将会越来越大，使，使得训练提前结束  4.Adadelta Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：
+在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：
+其中，代表求期望。
+此时，可以看出Adadelta已经不用依赖于全局学习率了。
+特点：
+ 训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5.">
+<meta itemprop="datePublished" content="2019-11-02T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2019-11-02T22:59:22&#43;08:00" />
+<meta itemprop="wordCount" content="87">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="梯度优化方法" />
+<meta property="og:description" content="0.SGD(最常用)： 此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。
+SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：
+其中，是学习率，是梯度 SGD完全依赖于当前batch的梯度，所以可理解为允许当前batch的梯度多大程度影响参数更新
+缺点：
+  选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了
+  SGD容易收敛到局部最优
+  1.Momentum momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：
+其中，是动量因子
+特点：
+ 下降初期时，使用上一次参数更新，下降方向一致，乘上较大的能够进行很好的加速 下降中后期时，在局部最小值来回震荡的时候，，使得更新幅度增大，跳出陷阱 在梯度改变方向的时候，能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛  2.Nesterov nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：
+可以看出，并没有直接改变当前梯度，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：
+3.Adagrad Adagrad其实是对学习率进行了一个约束。即：
+此处，对从1到进行一个递推形成一个约束项regularizer，，用来保证分母非0
+特点：
+ 前期较小的时候， regularizer较大，能够放大梯度 后期较大的时候，regularizer较小，能够约束梯度 适合处理稀疏梯度  缺点：
+ 由公式可以看出，仍依赖于人工设置一个全局学习率 设置过大的话，会使regularizer过于敏感，对梯度的调节太大 中后期，分母上梯度平方的累加将会越来越大，使，使得训练提前结束  4.Adadelta Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：
+在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：
+其中，代表求期望。
+此时，可以看出Adadelta已经不用依赖于全局学习率了。
+特点：
+ 训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" />
+<meta property="article:published_time" content="2019-11-02T22:59:22+08:00" />
+<meta property="article:modified_time" content="2019-11-02T22:59:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="梯度优化方法"/>
+<meta name="twitter:description" content="0.SGD(最常用)： 此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。
+SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：
+其中，是学习率，是梯度 SGD完全依赖于当前batch的梯度，所以可理解为允许当前batch的梯度多大程度影响参数更新
+缺点：
+  选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了
+  SGD容易收敛到局部最优
+  1.Momentum momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：
+其中，是动量因子
+特点：
+ 下降初期时，使用上一次参数更新，下降方向一致，乘上较大的能够进行很好的加速 下降中后期时，在局部最小值来回震荡的时候，，使得更新幅度增大，跳出陷阱 在梯度改变方向的时候，能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛  2.Nesterov nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：
+可以看出，并没有直接改变当前梯度，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：
+3.Adagrad Adagrad其实是对学习率进行了一个约束。即：
+此处，对从1到进行一个递推形成一个约束项regularizer，，用来保证分母非0
+特点：
+ 前期较小的时候， regularizer较大，能够放大梯度 后期较大的时候，regularizer较小，能够约束梯度 适合处理稀疏梯度  缺点：
+ 由公式可以看出，仍依赖于人工设置一个全局学习率 设置过大的话，会使regularizer过于敏感，对梯度的调节太大 中后期，分母上梯度平方的累加将会越来越大，使，使得训练提前结束  4.Adadelta Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：
+在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：
+其中，代表求期望。
+此时，可以看出Adadelta已经不用依赖于全局学习率了。
+特点：
+ 训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>梯度优化方法</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>梯度优化方法</h1>
+		<div class="content">
+			<h3 id="0sgd最常用">0.SGD(最常用)：<a href="#0sgd最常用" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。</p>
+<p>SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：</p>
+<p><img src="https://www.zhihu.com/equation?tex=g_t%3D%5Cnabla_%7B%5Ctheta_%7Bt-1%7D%7D%7Bf%28%5Ctheta_%7Bt-1%7D%29%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Ceta%2Ag_t" alt="[公式]"></p>
+<p>其中，<img src="https://www.zhihu.com/equation?tex=%5Ceta" alt="[公式]">是学习率，<img src="https://www.zhihu.com/equation?tex=g_t" alt="[公式]">是梯度 SGD完全依赖于当前batch的梯度，所以<img src="https://www.zhihu.com/equation?tex=%5Ceta" alt="[公式]">可理解为允许当前batch的梯度多大程度影响参数更新</p>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>
+<p>选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了</p>
+</li>
+<li>
+<p>SGD容易收敛到局部最优</p>
+</li>
+</ul>
+<h3 id="1momentum">1.Momentum<a href="#1momentum" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：</p>
+<p><img src="https://www.zhihu.com/equation?tex=m_t%3D%5Cmu%2Am_%7Bt-1%7D%2Bg_t" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Ceta%2Am_t" alt="[公式]"></p>
+<p>其中，<img src="https://www.zhihu.com/equation?tex=%5Cmu" alt="[公式]">是动量因子</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>下降初期时，使用上一次参数更新，下降方向一致，乘上较大的<img src="https://www.zhihu.com/equation?tex=%5Cmu" alt="[公式]">能够进行很好的加速</li>
+<li>下降中后期时，在局部最小值来回震荡的时候，<img src="https://www.zhihu.com/equation?tex=gradient%5Cto0" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=%5Cmu" alt="[公式]">使得更新幅度增大，跳出陷阱</li>
+<li>在梯度改变方向的时候，<img src="https://www.zhihu.com/equation?tex=%5Cmu" alt="[公式]">能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛</li>
+</ul>
+<h3 id="2nesterov">2.Nesterov<a href="#2nesterov" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Ceta%2A%5Cmu%2Am_%7Bt-1%7D-%5Ceta%2Ag_t" alt="[公式]"></p>
+<p>可以看出，<img src="https://www.zhihu.com/equation?tex=m_%7Bt-1%7D%0A" alt="[公式]">并没有直接改变当前梯度<img src="https://www.zhihu.com/equation?tex=g_t" alt="[公式]">，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：</p>
+<p><img src="https://www.zhihu.com/equation?tex=g_t%3D%5Cnabla_%7B%5Ctheta_%7Bt-1%7D%7D%7Bf%28%5Ctheta_%7Bt-1%7D-%5Ceta%2A%5Cmu%2Am_%7Bt-1%7D%29%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=m_t%3D%5Cmu%2Am_%7Bt-1%7D%2Bg_t" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Ceta%2Am_t" alt="[公式]"></p>
+<h3 id="3adagrad">3.Adagrad<a href="#3adagrad" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Adagrad其实是对学习率进行了一个约束。即：</p>
+<p><img src="https://www.zhihu.com/equation?tex=n_t%3Dn_%7Bt-1%7D%2Bg_t%5E2" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7Bn_t%2B%5Cepsilon%7D%7D%2Ag_t" alt="[公式]"></p>
+<p>此处，对<img src="https://www.zhihu.com/equation?tex=g_t" alt="[公式]">从1到<img src="https://www.zhihu.com/equation?tex=t" alt="[公式]">进行一个递推形成一个约束项regularizer，<img src="https://www.zhihu.com/equation?tex=-%5Cfrac%7B1%7D%7B%5Csqrt%7B%5Csum_%7Br%3D1%7D%5Et%28g_r%29%5E2%2B%5Cepsilon%7D%7D" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=%5Cepsilon" alt="[公式]">用来保证分母非0</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>前期<img src="https://www.zhihu.com/equation?tex=g_t" alt="[公式]">较小的时候， regularizer较大，能够放大梯度</li>
+<li>后期<img src="https://www.zhihu.com/equation?tex=g_t" alt="[公式]">较大的时候，regularizer较小，能够约束梯度</li>
+<li>适合处理稀疏梯度</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>由公式可以看出，仍依赖于人工设置一个全局学习率</li>
+<li><img src="https://www.zhihu.com/equation?tex=%5Ceta" alt="[公式]">设置过大的话，会使regularizer过于敏感，对梯度的调节太大</li>
+<li>中后期，分母上梯度平方的累加将会越来越大，使<img src="https://www.zhihu.com/equation?tex=gradient%5Cto0" alt="[公式]">，使得训练提前结束</li>
+</ul>
+<h3 id="4adadelta">4.Adadelta<a href="#4adadelta" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：</p>
+<p><img src="https://www.zhihu.com/equation?tex=n_t%3D%5Cnu%2An_%7Bt-1%7D%2B%281-%5Cnu%29%2Ag_t%5E2" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D+%3D+-%5Cfrac%7B%5Ceta%7D%7B%5Csqrt%7Bn_t%2B%5Cepsilon%7D%7D%2Ag_t" alt="[公式]"></p>
+<p>在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：</p>
+<p><img src="https://www.zhihu.com/equation?tex=E%7Cg%5E2%7C_t%3D%5Crho%2AE%7Cg%5E2%7C_%7Bt-1%7D%2B%281-%5Crho%29%2Ag_t%5E2" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7Bx_t%7D%3D-%5Cfrac%7B%5Csqrt%7B%5Csum_%7Br%3D1%7D%5E%7Bt-1%7D%5CDelta%7Bx_r%7D%7D%7D%7B%5Csqrt%7BE%7Cg%5E2%7C_t%2B%5Cepsilon%7D%7D" alt="[公式]"></p>
+<p>其中，<img src="https://www.zhihu.com/equation?tex=E" alt="[公式]">代表求期望。</p>
+<p>此时，可以看出Adadelta已经不用依赖于全局学习率了。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>训练初中期，加速效果不错，很快</li>
+<li>训练后期，反复在局部最小值附近抖动</li>
+</ul>
+<h3 id="5rmsprop">5.RMSprop<a href="#5rmsprop" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>RMSprop可以算作Adadelta的一个特例：</p>
+<p>当<img src="https://www.zhihu.com/equation?tex=%5Crho%3D0.5" alt="[公式]">时，<img src="https://www.zhihu.com/equation?tex=E%7Cg%5E2%7C_t%3D%5Crho%2AE%7Cg%5E2%7C_%7Bt-1%7D%2B%281-%5Crho%29%2Ag_t%5E2" alt="[公式]">就变为了求梯度平方和的平均数。</p>
+<p>如果再求根的话，就变成了RMS(均方根)：</p>
+<p><img src="https://www.zhihu.com/equation?tex=RMS%7Cg%7C_t%3D%5Csqrt%7BE%7Cg%5E2%7C_t%2B%5Cepsilon%7D" alt="[公式]"></p>
+<p>此时，这个RMS就可以作为学习率<img src="https://www.zhihu.com/equation?tex=%5Ceta" alt="[公式]">的一个约束：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7Bx_t%7D%3D-%5Cfrac%7B%5Ceta%7D%7BRMS%7Cg%7C_t%7D%2Ag_t" alt="[公式]"></p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>其实RMSprop依然依赖于全局学习率</li>
+<li>RMSprop算是Adagrad的一种发展，和Adadelta的变体，效果趋于二者之间</li>
+<li>适合处理非平稳目标 - 对于RNN效果很好</li>
+</ul>
+<h3 id="6adam常用">6.Adam（常用）<a href="#6adam常用" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Adam(Adaptive Moment Estimation)本质上是带有动量项的RMSprop，它利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率。Adam的优点主要在于经过偏置校正后，每一次迭代学习率都有个确定范围，使得参数比较平稳。公式如下：</p>
+<p><img src="https://www.zhihu.com/equation?tex=m_t%3D%5Cmu%2Am_%7Bt-1%7D%2B%281-%5Cmu%29%2Ag_t" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=n_t%3D%5Cnu%2An_%7Bt-1%7D%2B%281-%5Cnu%29%2Ag_t%5E2" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bm_t%7D%3D%5Cfrac%7Bm_t%7D%7B1-%5Cmu%5Et%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bn_t%7D%3D%5Cfrac%7Bn_t%7D%7B1-%5Cnu%5Et%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Cfrac%7B%5Chat%7Bm_t%7D%7D%7B%5Csqrt%7B%5Chat%7Bn_t%7D%7D%2B%5Cepsilon%7D%2A%5Ceta" alt="[公式]"></p>
+<p>其中，<img src="https://www.zhihu.com/equation?tex=m_t" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=n_t" alt="[公式]">分别是对梯度的一阶矩估计和二阶矩估计，可以看作对期望<img src="https://www.zhihu.com/equation?tex=E%7Cg_t%7C" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=E%7Cg_t%5E2%7C" alt="[公式]">的估计；<img src="https://www.zhihu.com/equation?tex=%5Chat%7Bm_t%7D" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=%5Chat%7Bn_t%7D" alt="[公式]">是对<img src="https://www.zhihu.com/equation?tex=m_t" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=n_t" alt="[公式]">的校正，这样可以近似为对期望的无偏估计。 可以看出，直接对梯度的矩估计对内存没有额外的要求，而且可以根据梯度进行动态调整，而<img src="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Chat%7Bm_t%7D%7D%7B%5Csqrt%7B%5Chat%7Bn_t%7D%7D%2B%5Cepsilon%7D" alt="[公式]">对学习率形成一个动态约束，而且有明确的范围。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>结合了Adagrad善于处理稀疏梯度和RMSprop善于处理非平稳目标的优点</li>
+<li>对内存需求较小</li>
+<li>为不同的参数计算不同的自适应学习率</li>
+<li>也适用于大多非凸优化 - 适用于大数据集和高维空间</li>
+</ul>
+<h3 id="7adamax">7.Adamax<a href="#7adamax" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Adamax是Adam的一种变体，此方法对学习率的上限提供了一个更简单的范围。公式上的变化如下：</p>
+<p><img src="https://www.zhihu.com/equation?tex=n_t%3Dmax%28%5Cnu%2An_%7Bt-1%7D%2C%7Cg_t%7C%29" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7Bx%7D%3D-%5Cfrac%7B%5Chat%7Bm_t%7D%7D%7Bn_t%2B%5Cepsilon%7D%2A%5Ceta" alt="[公式]"></p>
+<p>可以看出，Adamax学习率的边界范围更简单</p>
+<h3 id="8nadam">8.Nadam<a href="#8nadam" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>Nadam类似于带有Nesterov动量项的Adam。公式如下：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bg_t%7D%3D%5Cfrac%7Bg_t%7D%7B1-%5CPi_%7Bi%3D1%7D%5Et%5Cmu_i%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=m_t%3D%5Cmu_t%2Am_%7Bt-1%7D%2B%281-%5Cmu_t%29%2Ag_t" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bm_t%7D%3D%5Cfrac%7Bm_t%7D%7B1-%5CPi_%7Bi%3D1%7D%5E%7Bt%2B1%7D%5Cmu_i%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=n_t%3D%5Cnu%2An_%7Bt-1%7D%2B%281-%5Cnu%29%2Ag_t%5E2" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bn_t%7D%3D%5Cfrac%7Bn_t%7D%7B1-%5Cnu%5Et%7D" alt="[公式]"><img src="https://www.zhihu.com/equation?tex=%5Cbar%7Bm_t%7D%3D%281-%5Cmu_t%29%2A%5Chat%7Bg_t%7D%2B%5Cmu_%7Bt%2B1%7D%2A%5Chat%7Bm_t%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Ceta%2A%5Cfrac%7B%5Cbar%7Bm_t%7D%7D%7B%5Csqrt%7B%5Chat%7Bn_t%7D%7D%2B%5Cepsilon%7D" alt="[公式]"></p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>

@@ -35,6 +35,35 @@ Features sorted by their score: [(0.</description>
     </item>
     
     <item>
+      <title>梯度优化方法</title>
+      <link>https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sat, 02 Nov 2019 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
+      <description>0.SGD(最常用)： 此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。
+SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：
+其中，是学习率，是梯度 SGD完全依赖于当前batch的梯度，所以可理解为允许当前batch的梯度多大程度影响参数更新
+缺点：
+  选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了
+  SGD容易收敛到局部最优
+  1.Momentum momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：
+其中，是动量因子
+特点：
+ 下降初期时，使用上一次参数更新，下降方向一致，乘上较大的能够进行很好的加速 下降中后期时，在局部最小值来回震荡的时候，，使得更新幅度增大，跳出陷阱 在梯度改变方向的时候，能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛  2.Nesterov nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：
+可以看出，并没有直接改变当前梯度，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：
+3.Adagrad Adagrad其实是对学习率进行了一个约束。即：
+此处，对从1到进行一个递推形成一个约束项regularizer，，用来保证分母非0
+特点：
+ 前期较小的时候， regularizer较大，能够放大梯度 后期较大的时候，regularizer较小，能够约束梯度 适合处理稀疏梯度  缺点：
+ 由公式可以看出，仍依赖于人工设置一个全局学习率 设置过大的话，会使regularizer过于敏感，对梯度的调节太大 中后期，分母上梯度平方的累加将会越来越大，使，使得训练提前结束  4.Adadelta Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：
+在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：
+其中，代表求期望。
+此时，可以看出Adadelta已经不用依赖于全局学习率了。
+特点：
+ 训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5.</description>
+    </item>
+    
+    <item>
       <title>数据预处理问题</title>
       <link>https://HHUsimba.github.io/machine-learning/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E9%97%AE%E9%A2%98/</link>
       <pubDate>Sat, 18 May 2019 22:59:22 +0800</pubDate>
@@ -159,25 +188,6 @@ test data:2016-2017
   模型： 卷积自编码器的编码模块首先提取每帧输入图像特征，送入LSTM预报网络；LSTM预报网络的编码模块，对输入信息提取时序特征，在此基础上，由LSTM预测模块产生关于未来时段回波图像时序特征预测。
 比较： 在MINIST数据集上对自编码器的层数和LSTM层数预测效果进行对比
 数据集： 石家庄地区 2010 -2017 年之间降雨天气的雷达回波图像 。</description>
-    </item>
-    
-    <item>
-      <title>Latex技巧总结</title>
-      <link>https://HHUsimba.github.io/machine-learning/latex%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</link>
-      <pubDate>Mon, 03 Sep 2018 08:46:13 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/machine-learning/latex%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</guid>
-      <description>导包: 在LaTex中有专门的导包的地方：   修改表格线条粗细\hline
-step1: 用 \usepackage{booktabs} 导包 step2: 首行: \toprule[1pt] 中间行：\midrule[1pt] 尾行：\midrule[1pt]
-  表格内容对齐：
-\begin{tabular}{c} c:center r:right l:left
-  Latex添加新一页 用“\clearpage” 不要用“\newpage”
-  调整表格列间距
-\begin{tabular}{|p{1cm}|p{2cm}|p{3cm}|}   图表位置移动
-\begin{table}[!htb] 首先，!表示无视美学规则，按下面的要求放置； 然后h t b p分别代表4中放置方式，优先级依次递减。 可以自己定优先级，tbhp等 常用选项[htbp]是浮动格式： h=here 放置在代码中这个图片出现的位置，也就是你想让它出现的位置； t = top 放在该页顶端； b = bottom 放在该页底部； p = page浮动页。将图形放置在一只允许有浮动对象的页面上。 一般使用[htb]这样的组合，只用[h]是没有用的。这样组合的意思就是latex会尽量满足排在前面的浮动格	式，就是h-t-b这个顺序，让排版的效果尽量好。
-!h 只是试图放在当前位置。如果页面剩下的部分放不下，还是会跑到下一页的。一般页言，用 [!h] 选项经常会出现不能正确放置的问题，所以常用 [ht]、[htbp] 等。
-  增大表格行距
-\begin{document} \renewcommand\arraystretch{2} //作用是讲每一行的高度变为原来的两倍。 \begin{table}[h] \centering   表格内容调整</description>
     </item>
     
   </channel>
