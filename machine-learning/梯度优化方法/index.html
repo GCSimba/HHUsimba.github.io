@@ -31,7 +31,7 @@ SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新�
  训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5.">
 <meta itemprop="datePublished" content="2019-11-02T22:59:22&#43;08:00" />
 <meta itemprop="dateModified" content="2019-11-02T22:59:22&#43;08:00" />
-<meta itemprop="wordCount" content="87">
+<meta itemprop="wordCount" content="85">
 
 
 
@@ -214,7 +214,6 @@ SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新�
 <p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bm_t%7D%3D%5Cfrac%7Bm_t%7D%7B1-%5Cmu%5Et%7D" alt="[公式]"></p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Chat%7Bn_t%7D%3D%5Cfrac%7Bn_t%7D%7B1-%5Cnu%5Et%7D" alt="[公式]"></p>
 <p><img src="https://www.zhihu.com/equation?tex=%5CDelta%7B%5Ctheta_t%7D%3D-%5Cfrac%7B%5Chat%7Bm_t%7D%7D%7B%5Csqrt%7B%5Chat%7Bn_t%7D%7D%2B%5Cepsilon%7D%2A%5Ceta" alt="[公式]"></p>
-<p>其中，<img src="https://www.zhihu.com/equation?tex=m_t" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=n_t" alt="[公式]">分别是对梯度的一阶矩估计和二阶矩估计，可以看作对期望<img src="https://www.zhihu.com/equation?tex=E%7Cg_t%7C" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=E%7Cg_t%5E2%7C" alt="[公式]">的估计；<img src="https://www.zhihu.com/equation?tex=%5Chat%7Bm_t%7D" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=%5Chat%7Bn_t%7D" alt="[公式]">是对<img src="https://www.zhihu.com/equation?tex=m_t" alt="[公式]">，<img src="https://www.zhihu.com/equation?tex=n_t" alt="[公式]">的校正，这样可以近似为对期望的无偏估计。 可以看出，直接对梯度的矩估计对内存没有额外的要求，而且可以根据梯度进行动态调整，而<img src="https://www.zhihu.com/equation?tex=-%5Cfrac%7B%5Chat%7Bm_t%7D%7D%7B%5Csqrt%7B%5Chat%7Bn_t%7D%7D%2B%5Cepsilon%7D" alt="[公式]">对学习率形成一个动态约束，而且有明确的范围。</p>
 <p><strong>特点：</strong></p>
 <ul>
 <li>结合了Adagrad善于处理稀疏梯度和RMSprop善于处理非平稳目标的优点</li>
