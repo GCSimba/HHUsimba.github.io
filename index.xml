@@ -147,32 +147,22 @@ ArrayList相当于在没指定initialCapacity时就是会使用延迟分配对�
     </item>
     
     <item>
-      <title>梯度优化方法</title>
-      <link>https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
-      <pubDate>Sat, 02 Nov 2019 22:59:22 +0800</pubDate>
+      <title>AQS笔记</title>
+      <link>https://HHUsimba.github.io/java/aqs%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 02 Dec 2019 22:59:22 +0800</pubDate>
       
-      <guid>https://HHUsimba.github.io/machine-learning/%E6%A2%AF%E5%BA%A6%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
-      <description>0.SGD(最常用)： 此处的SGD指mini-batch gradient descent，关于batch gradient descent, stochastic gradient descent, 以及 mini-batch gradient descent的具体区别就不细说了。现在的SGD一般都指mini-batch gradient descent。
-SGD就是每一次迭代计算mini-batch的梯度，然后对参数进行更新，是最常见的优化方法了。即：
-其中，是学习率，是梯度 SGD完全依赖于当前batch的梯度，所以可理解为允许当前batch的梯度多大程度影响参数更新
-缺点：
-  选择合适的learning rate比较困难 - 对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了
-  SGD容易收敛到局部最优
-  1.Momentum momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：
-其中，是动量因子
-特点：
- 下降初期时，使用上一次参数更新，下降方向一致，乘上较大的能够进行很好的加速 下降中后期时，在局部最小值来回震荡的时候，，使得更新幅度增大，跳出陷阱 在梯度改变方向的时候，能够减少更新 总而言之，momentum项能够在相关方向加速SGD，抑制振荡，从而加快收敛  2.Nesterov nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。 将上一节中的公式展开可得：
-可以看出，并没有直接改变当前梯度，所以Nesterov的改进就是让之前的动量直接影响当前的动量。即：
-3.Adagrad Adagrad其实是对学习率进行了一个约束。即：
-此处，对从1到进行一个递推形成一个约束项regularizer，，用来保证分母非0
-特点：
- 前期较小的时候， regularizer较大，能够放大梯度 后期较大的时候，regularizer较小，能够约束梯度 适合处理稀疏梯度  缺点：
- 由公式可以看出，仍依赖于人工设置一个全局学习率 设置过大的话，会使regularizer过于敏感，对梯度的调节太大 中后期，分母上梯度平方的累加将会越来越大，使，使得训练提前结束  4.Adadelta Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。 Adagrad会累加之前所有的梯度平方，而Adadelta只累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：
-在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后：
-其中，代表求期望。
-此时，可以看出Adadelta已经不用依赖于全局学习率了。
-特点：
- 训练初中期，加速效果不错，很快 训练后期，反复在局部最小值附近抖动  5.</description>
+      <guid>https://HHUsimba.github.io/java/aqs%E7%AC%94%E8%AE%B0/</guid>
+      <description>1、AQS简介 AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个双向链表。
+Sync queue：同步队列，是一个双向链表。包括head节点和tail节点。head节点主要用作后续的调度。 Condition queue：非必须，单向链表。当程序中存在cindition的时候才会存在此列表。
+AQS核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。
+AQS使用一个int成员变量来表示同步状态，通过内置的FIFO队列来完成获取资源线程的排队工作。AQS使用CAS对该同步状态进行原子操作实现对其值的修改。
+状态信息通过procted类型的getState，setState，compareAndSetState进行操作
+//返回同步状态的当前值 protected final int getState() { return state; } // 设置同步状态的值 protected final void setState(int newState) { state = newState; } //原子地（CAS操作）将同步状态值设置为给定值update如果当前同步状态的值等于expect（期望值） protected final boolean compareAndSetState(int expect, int update) { return unsafe.compareAndSwapInt(this, stateOffset, expect, update); } 2、AQS设计思想 使用Node实现FIFO队列，可以用于构建锁或者其他同步装置的基础框架。
+利用int类型标识状态。在AQS类中有一个叫做state的成员变量
+/** The synchronization state. */ private volatile int state;基于AQS有一个同步组件，叫做ReentrantLock。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。   基于AQS有一个同步组件，叫做ReentrantLock。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。
+  继承：子类通过继承并通过实现它的方法管理其状态（acquire和release方法操纵状态）。
+  可以同时实现排它锁和共享锁模式（独占、共享），站在一个使用者的角度，AQS的功能主要分为两类：独占和共享。它的所有子类中，要么实现并使用了它的独占功能的api，要么使用了共享锁的功能，而不会同时使用两套api，即便是最有名的子类ReentrantReadWriteLock也是通过两个内部类读锁和写锁分别实现了两套api来实现的。
+  3、AQS的大致实现思路 AQS内部维护了一个CLH队列来管理锁。线程会首先尝试获取锁，如果失败就将当前线程及等待状态等信息包装成一个node节点加入到同步队列sync queue里。 接着会不断的循环尝试获取锁，条件是当前节点为head的直接后继才会尝试。如果失败就会阻塞自己直到自己被唤醒。而当持有锁的线程释放锁的时候，会唤醒队列中的后继线程。</description>
     </item>
     
   </channel>
