@@ -85,6 +85,20 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
     </item>
     
     <item>
+      <title>GC笔记</title>
+      <link>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 22 May 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</guid>
+      <description>1 判断对象已经死亡 堆中几乎放着所有的对象实例，对堆垃圾回收前的第一步就是要判断那些对象已经死亡（即不能再被任何途径使用的对象）。
+1.1 引用计数法 给对象中添加一个引用计数器，每当有一个地方引用它，计数器就加 1；当引用失效，计数器就减 1；任何时候计数器为 0 的对象就是不可能再被使用的。
+这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。 所谓对象之间的相互引用问题，如下面代码所示：除了对象 objA 和 objB 相互引用着对方之外，这两个对象之间再无任何引用。但是他们因为互相引用对方，导致它们的引用计数器都不为 0，于是引用计数算法无法通知 GC 回收器回收他们。
+public class ReferenceCountingGc { Object instance = null; public static void main(String[] args) { ReferenceCountingGc objA = new ReferenceCountingGc(); ReferenceCountingGc objB = new ReferenceCountingGc(); objA.instance = objB; objB.instance = objA; objA = null; objB = null; } } 1.2 可达性分析算法 这个算法的基本思想就是通过一系列的称为 “GC Roots” 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的。
+1.3 引用 无论是通过引用计数法判断对象引用数量，还是通过可达性分析法判断对象的引用链是否可达，判定对象的存活都与“引用”有关。
+JDK1.2 之前，Java 中引用的定义很传统：如果 reference 类型的数据存储的数值代表的是另一块内存的起始地址，就称这块内存代表一个引用。</description>
+    </item>
+    
+    <item>
       <title>MySQL设计</title>
       <link>https://HHUsimba.github.io/java/mysql%E8%AE%BE%E8%AE%A1/</link>
       <pubDate>Thu, 02 Apr 2020 22:59:22 +0800</pubDate>
@@ -144,25 +158,6 @@ public ArrayList(int initialCapacity) 用指定的大小来初始化内部的数
 ensureCapacityInternal方法名的英文大致是“确保内部容量”，size表示的是执行添加之前的元素个数，并非ArrayList的容量，容量应该是数组elementData的长度。ensureCapacityInternal该方法通过将现有的元素个数数组的容量比较。看如果需要扩容，则扩容。
 public boolean add(E e) { //确保内部容量(通过判断，如果够则不进行操作；容量不够就扩容来确保内部容量)  ensureCapacityInternal(size + 1); // ①Increments modCount!!  elementData[size++] = e;//②  return true; } 3.扩容 如果通过无参构造的话，初始数组容量为0，当真正对数组进行添加时，才真正分配容量。每次按照1.5倍（位运算）的比率通过copeOf的方式扩容。 在JKD1.6中实现是，如果通过无参构造的话，初始数组容量为10，每次通过copeOf的方式扩容后容量为原来的1.5倍，以上就是动态扩容的原理。
 ArrayList相当于在没指定initialCapacity时就是会使用延迟分配对象数组空间，当第一次插入元素时才分配10（默认）个对象空间。假如有20个数据需要添加，那么会分别在第一次的时候，将ArrayList的容量变为10 (如下图一)；之后扩容会按照1.5倍增长。也就是当添加第11个数据的时候，Arraylist继续扩容变为10*1.5=15(如下图二)；当添加第16个数据时，继续扩容变为15 * 1.5 =22个。</description>
-    </item>
-    
-    <item>
-      <title>AQS笔记</title>
-      <link>https://HHUsimba.github.io/java/aqs%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Mon, 02 Dec 2019 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/aqs%E7%AC%94%E8%AE%B0/</guid>
-      <description>1、AQS简介 AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个双向链表。
-Sync queue：同步队列，是一个双向链表。包括head节点和tail节点。head节点主要用作后续的调度。 Condition queue：非必须，单向链表。当程序中存在cindition的时候才会存在此列表。
-AQS核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。
-AQS使用一个int成员变量来表示同步状态，通过内置的FIFO队列来完成获取资源线程的排队工作。AQS使用CAS对该同步状态进行原子操作实现对其值的修改。
-状态信息通过procted类型的getState，setState，compareAndSetState进行操作
-//返回同步状态的当前值 protected final int getState() { return state; } // 设置同步状态的值 protected final void setState(int newState) { state = newState; } //原子地（CAS操作）将同步状态值设置为给定值update如果当前同步状态的值等于expect（期望值） protected final boolean compareAndSetState(int expect, int update) { return unsafe.compareAndSwapInt(this, stateOffset, expect, update); } 2、AQS设计思想 使用Node实现FIFO队列，可以用于构建锁或者其他同步装置的基础框架。
-利用int类型标识状态。在AQS类中有一个叫做state的成员变量
-/** The synchronization state. */ private volatile int state;基于AQS有一个同步组件，叫做ReentrantLock。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。   基于AQS有一个同步组件，叫做ReentrantLock。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。
-  继承：子类通过继承并通过实现它的方法管理其状态（acquire和release方法操纵状态）。
-  可以同时实现排它锁和共享锁模式（独占、共享），站在一个使用者的角度，AQS的功能主要分为两类：独占和共享。它的所有子类中，要么实现并使用了它的独占功能的api，要么使用了共享锁的功能，而不会同时使用两套api，即便是最有名的子类ReentrantReadWriteLock也是通过两个内部类读锁和写锁分别实现了两套api来实现的。
-  3、AQS的大致实现思路 AQS内部维护了一个CLH队列来管理锁。线程会首先尝试获取锁，如果失败就将当前线程及等待状态等信息包装成一个node节点加入到同步队列sync queue里。 接着会不断的循环尝试获取锁，条件是当前节点为head的直接后继才会尝试。如果失败就会阻塞自己直到自己被唤醒。而当持有锁的线程释放锁的时候，会唤醒队列中的后继线程。</description>
     </item>
     
   </channel>
