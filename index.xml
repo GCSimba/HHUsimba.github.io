@@ -87,15 +87,11 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
     <item>
       <title>GC笔记</title>
       <link>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Fri, 22 May 2020 22:59:22 +0800</pubDate>
+      <pubDate>Sun, 03 May 2020 22:59:22 +0800</pubDate>
       
       <guid>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</guid>
-      <description>1 判断对象已经死亡 堆中几乎放着所有的对象实例，对堆垃圾回收前的第一步就是要判断那些对象已经死亡（即不能再被任何途径使用的对象）。
-1.1 引用计数法 给对象中添加一个引用计数器，每当有一个地方引用它，计数器就加 1；当引用失效，计数器就减 1；任何时候计数器为 0 的对象就是不可能再被使用的。
-这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。 所谓对象之间的相互引用问题，如下面代码所示：除了对象 objA 和 objB 相互引用着对方之外，这两个对象之间再无任何引用。但是他们因为互相引用对方，导致它们的引用计数器都不为 0，于是引用计数算法无法通知 GC 回收器回收他们。
-public class ReferenceCountingGc { Object instance = null; public static void main(String[] args) { ReferenceCountingGc objA = new ReferenceCountingGc(); ReferenceCountingGc objB = new ReferenceCountingGc(); objA.instance = objB; objB.instance = objA; objA = null; objB = null; } } 1.2 可达性分析算法 这个算法的基本思想就是通过一系列的称为 “GC Roots” 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的。
-1.3 引用 无论是通过引用计数法判断对象引用数量，还是通过可达性分析法判断对象的引用链是否可达，判定对象的存活都与“引用”有关。
-JDK1.2 之前，Java 中引用的定义很传统：如果 reference 类型的数据存储的数值代表的是另一块内存的起始地址，就称这块内存代表一个引用。</description>
+      <description>1 判断对象已经死亡 堆中几乎放着所有的对象实例，对堆垃圾回收前的第一步就是要判断那些对象已经死亡（即不能再被任何途径使用的对象）。 1.1 引用计数法 给对象中添加一个引用计数器，每当有一个地方引用它，计数器就加 1；当引用失效，计数器就减 1；任何时候计数器为 0 的对象就是不可能再被使用的。 这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。 所谓对象之间的相互引用问题，如下面代码所示：除了对象 objA 和 objB 相互引用着对方之外，这两个对象之间再无任何引用。但是他们因为互相引用对方，导致它们的引用计数器都不为 0，于是引用计数算法无法通知 GC 回收器回收他们。
+public class ReferenceCountingGc { Object instance = null; public static void main(String[] args) { ReferenceCountingGc objA = new ReferenceCountingGc(); ReferenceCountingGc objB = new ReferenceCountingGc(); objA.instance = objB; objB.instance = objA; objA = null; objB = null; } } 1.2 可达性分析算法 这个算法的基本思想就是通过一系列的称为 “GC Roots” 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的。 1.3 引用 无论是通过引用计数法判断对象引用数量，还是通过可达性分析法判断对象的引用链是否可达，判定对象的存活都与“引用”有关。 JDK1.2 之前，Java 中引用的定义很传统：如果 reference 类型的数据存储的数值代表的是另一块内存的起始地址，就称这块内存代表一个引用。 JDK1.</description>
     </item>
     
     <item>
