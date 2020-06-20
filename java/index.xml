@@ -63,6 +63,20 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
     </item>
     
     <item>
+      <title>GC调优策略</title>
+      <link>https://HHUsimba.github.io/java/gc%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5/</link>
+      <pubDate>Mon, 25 May 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/gc%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5/</guid>
+      <description>回收器参数 目前主要有串行、并行和并发三种，对于大内存的应用而言，串行的性能太低，因此使用到的主要是并行和并发两种。并行和并发 GC 的策略通过 UseParallelGC 和 UseConcMarkSweepGC 来指定，还有一些细节的配置参数用来配置策略的执行方式。例如：XX:ParallelGCThreads， XX:CMSInitiatingOccupancyFraction 等。 通常：Young 区对象回收只可选择并行（耗时间），Old 区选择并发（耗 CPU）。
+常用 GC 调优策略  GC 调优原则； GC 调优目的； GC 调优策略；  GC 调优原则 在调优之前，我们需要记住下面的原则：
+ 多数的 Java 应用不需要在服务器上进行 GC 优化； 多数导致 GC 问题的 Java 应用，都不是因为我们参数设置错误，而是代码问题； 在应用上线之前，先考虑将机器的 JVM 参数设置到最优（最适合）； 减少创建对象的数量； 减少使用全局变量和大对象； GC 优化是到最后不得已才采用的手段； 在实际使用中，分析 GC 情况优化代码比优化 GC 参数要多得多。
+ GC 调优目的 将转移到老年代的对象数量降低到最小； 减少 GC 的执行时间。
+GC 调优策略 策略 1：将新对象预留在新生代，由于 Full GC 的成本远高于 Minor GC，因此尽可能将对象分配在新生代是明智的做法，实际项目中根据 GC 日志分析新生代空间大小分配是否合理，适当通过“-Xmn”命令调节新生代大小，最大限度降低新对象直接进入老年代的情况。
+策略 2：大对象进入老年代，虽然大部分情况下，将对象分配在新生代是合理的。但是对于大对象这种做法却值得商榷，大对象如果首次在新生代分配可能会出现空间不足导致很多年龄不够的小对象被分配的老年代，破坏新生代的对象结构，可能会出现频繁的 full gc。因此，对于大对象，可以设置直接进入老年代（当然短命的大对象对于垃圾回收来说简直就是噩梦）。-XX:PretenureSizeThreshold 可以设置直接进入老年代的对象大小。</description>
+    </item>
+    
+    <item>
       <title>GC笔记</title>
       <link>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sun, 03 May 2020 22:59:22 +0800</pubDate>
@@ -151,23 +165,6 @@ AQS使用一个int成员变量来表示同步状态，通过内置的FIFO队列�
   继承：子类通过继承并通过实现它的方法管理其状态（acquire和release方法操纵状态）。
   可以同时实现排它锁和共享锁模式（独占、共享），站在一个使用者的角度，AQS的功能主要分为两类：独占和共享。它的所有子类中，要么实现并使用了它的独占功能的api，要么使用了共享锁的功能，而不会同时使用两套api，即便是最有名的子类ReentrantReadWriteLock也是通过两个内部类读锁和写锁分别实现了两套api来实现的。
   3、AQS的大致实现思路 AQS内部维护了一个CLH队列来管理锁。线程会首先尝试获取锁，如果失败就将当前线程及等待状态等信息包装成一个node节点加入到同步队列sync queue里。 接着会不断的循环尝试获取锁，条件是当前节点为head的直接后继才会尝试。如果失败就会阻塞自己直到自己被唤醒。而当持有锁的线程释放锁的时候，会唤醒队列中的后继线程。</description>
-    </item>
-    
-    <item>
-      <title>MySQL</title>
-      <link>https://HHUsimba.github.io/java/mysql/</link>
-      <pubDate>Sun, 26 May 2019 19:41:04 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/mysql/</guid>
-      <description>常见命令 查看MySQL提供的所有存储引擎
-mysql&amp;gt; show engines; MySQL 当前默认的存储引擎是InnoDB,并且在5.7版本所有的存储引擎中只有 InnoDB 是事务性存储引擎，也就是说只有 InnoDB 支持事务。
-查看MySQL当前默认的存储引擎
-mysql&amp;gt; show variables like &amp;#39;%storage_engine%&amp;#39;; 查看表的存储引擎
-show table status like &amp;#34;table_name&amp;#34; ; MyISAM和InnoDB区别 MyISAM是MySQL的默认数据库引擎（5.5版之前）。虽然性能极佳，而且提供了大量的特性，包括全文索引、压缩、空间函数等，但MyISAM不支持事务和行级锁，而且最大的缺陷就是崩溃后无法安全恢复。不过，5.5版本之后，MySQL引入了InnoDB（事务性数据库引擎），MySQL 5.5版本后默认的存储引擎为InnoDB。
-大多数时候使用的都是 InnoDB 存储引擎，但是在某些情况下使用 MyISAM 也是合适的比如读密集的情况下。
-两者的对比：
- 是否支持行级锁 : MyISAM 只有表级锁(table-level locking)，而InnoDB 支持行级锁(row-level locking)和表级锁,默认为行级锁。 是否支持事务和崩溃后的安全恢复： MyISAM 强调的是性能，每次查询具有原子性,其执行速度比InnoDB类型更快，但是不提供事务支持。但是InnoDB 提供事务支持事务，外部键等高级数据库功能。 具有事务(commit)、回滚(rollback)和崩溃修复能力(crash recovery capabilities)的事务安全(transaction-safe (ACID compliant))型表。 是否支持外键： MyISAM不支持，而InnoDB支持。 是否支持MVCC ：仅 InnoDB 支持。应对高并发事务, MVCC比单纯的加锁更高效;MVCC只在 READ COMMITTED 和 REPEATABLE READ 两个隔离级别下工作;MVCC可以使用 乐观(optimistic)锁 和 悲观(pessimistic)锁来实现;各数据库中MVCC实现并不统一。  《MySQL高性能》:
- 不要轻易相信“MyISAM比InnoDB快”之类的经验之谈，这个结论往往不是绝对的。在很多我们已知场景中，InnoDB的速度都可以让MyISAM望尘莫及，尤其是用到了聚簇索引，或者需要访问的数据都可以放入内存的应用。</description>
     </item>
     
   </channel>
