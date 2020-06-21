@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 26 May 2020 19:41:04 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 22:59:22 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>计算机网络</title>
+      <link>https://HHUsimba.github.io/java/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Tue, 26 May 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <description>一 OSI与TCP/IP各层协议? 1.1 应用层 应用层(application-layer）的任务是通过应用进程间的交互来完成特定网络应用。应用层协议定义的是应用进程（进程：主机中正在运行的程序）间的通信和交互的规则。对于不同的网络应用需要不同的应用层协议。在互联网中应用层协议很多，如域名系统DNS，支持万维网应用的 HTTP协议，支持电子邮件的 SMTP协议等等。我们把应用层交互的数据单元称为报文。
+域名系统
+ 域名系统(Domain Name System缩写 DNS，Domain Name被译为域名)是因特网的一项核心服务，它作为可以将域名和IP地址相互映射的一个分布式数据库，能够使人更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。（百度百科）例如：一个公司的 Web 网站可看作是它在网上的门户，而域名就相当于其门牌地址，通常域名都使用该公司的名称或简称。例如上面提到的微软公司的域名，类似的还有：IBM 公司的域名是 www.ibm.com、Oracle 公司的域名是 www.oracle.com、Cisco公司的域名是 www.cisco.com 等。
+ HTTP协议
+ 超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的 WWW（万维网） 文件都必须遵守这个标准。设计 HTTP 最初的目的是为了提供一种发布和接收 HTML 页面的方法。（百度百科）
+ 1.2 运输层 运输层(transport layer)的主要任务就是负责向两台主机进程之间的通信提供通用的数据传输服务。应用进程利用该服务传送应用层报文。“通用的”是指并不针对某一个特定的网络应用，而是多种应用可以使用同一个运输层服务。由于一台主机可同时运行多个线程，因此运输层有复用和分用的功能。所谓复用就是指多个应用层进程可同时使用下面运输层的服务，分用和复用相反，是运输层把收到的信息分别交付上面应用层中的相应进程。
+运输层主要使用以下两种协议:
+ 传输控制协议 TCP（Transmission Control Protocol）&amp;ndash;提供面向连接的，可靠的数据传输服务。 用户数据协议 UDP（User Datagram Protocol）&amp;ndash;提供无连接的，尽最大努力的数据传输服务（不保证数据传输的可靠性）。  TCP 与 UDP 的对比见问题三。
+1.3 网络层 在 计算机网络中进行通信的两个计算机之间可能会经过很多个数据链路，也可能还要经过很多通信子网。网络层的任务就是选择合适的网间路由和交换结点， 确保数据及时传送。 在发送数据时，网络层把运输层产生的报文段或用户数据报封装成分组和包进行传送。在 TCP/IP 体系结构中，由于网络层使用 IP 协议，因此分组也叫 IP 数据报 ，简称 数据报。
+这里要注意：不要把运输层的“用户数据报 UDP ”和网络层的“ IP 数据报”弄混。另外，无论是哪一层的数据单元，都可笼统地用“分组”来表示。</description>
+    </item>
     
     <item>
       <title>Linux</title>
@@ -146,25 +164,6 @@ public ArrayList(int initialCapacity) 用指定的大小来初始化内部的数
 ensureCapacityInternal方法名的英文大致是“确保内部容量”，size表示的是执行添加之前的元素个数，并非ArrayList的容量，容量应该是数组elementData的长度。ensureCapacityInternal该方法通过将现有的元素个数数组的容量比较。看如果需要扩容，则扩容。
 public boolean add(E e) { //确保内部容量(通过判断，如果够则不进行操作；容量不够就扩容来确保内部容量)  ensureCapacityInternal(size + 1); // ①Increments modCount!!  elementData[size++] = e;//②  return true; } 3.扩容 如果通过无参构造的话，初始数组容量为0，当真正对数组进行添加时，才真正分配容量。每次按照1.5倍（位运算）的比率通过copeOf的方式扩容。 在JKD1.6中实现是，如果通过无参构造的话，初始数组容量为10，每次通过copeOf的方式扩容后容量为原来的1.5倍，以上就是动态扩容的原理。
 ArrayList相当于在没指定initialCapacity时就是会使用延迟分配对象数组空间，当第一次插入元素时才分配10（默认）个对象空间。假如有20个数据需要添加，那么会分别在第一次的时候，将ArrayList的容量变为10 (如下图一)；之后扩容会按照1.5倍增长。也就是当添加第11个数据的时候，Arraylist继续扩容变为10*1.5=15(如下图二)；当添加第16个数据时，继续扩容变为15 * 1.5 =22个。</description>
-    </item>
-    
-    <item>
-      <title>AQS笔记</title>
-      <link>https://HHUsimba.github.io/java/aqs%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Mon, 02 Dec 2019 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/aqs%E7%AC%94%E8%AE%B0/</guid>
-      <description>1、AQS简介 AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个双向链表。
-Sync queue：同步队列，是一个双向链表。包括head节点和tail节点。head节点主要用作后续的调度。 Condition queue：非必须，单向链表。当程序中存在cindition的时候才会存在此列表。
-AQS核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是用CLH队列锁实现的，即将暂时获取不到锁的线程加入到队列中。
-AQS使用一个int成员变量来表示同步状态，通过内置的FIFO队列来完成获取资源线程的排队工作。AQS使用CAS对该同步状态进行原子操作实现对其值的修改。
-状态信息通过procted类型的getState，setState，compareAndSetState进行操作
-//返回同步状态的当前值 protected final int getState() { return state; } // 设置同步状态的值 protected final void setState(int newState) { state = newState; } //原子地（CAS操作）将同步状态值设置为给定值update如果当前同步状态的值等于expect（期望值） protected final boolean compareAndSetState(int expect, int update) { return unsafe.compareAndSwapInt(this, stateOffset, expect, update); } 2、AQS设计思想 使用Node实现FIFO队列，可以用于构建锁或者其他同步装置的基础框架。
-利用int类型标识状态。在AQS类中有一个叫做state的成员变量
-/** The synchronization state. */ private volatile int state;基于AQS有一个同步组件，叫做ReentrantLock。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。   基于AQS有一个同步组件，叫做ReentrantLock。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。
-  继承：子类通过继承并通过实现它的方法管理其状态（acquire和release方法操纵状态）。
-  可以同时实现排它锁和共享锁模式（独占、共享），站在一个使用者的角度，AQS的功能主要分为两类：独占和共享。它的所有子类中，要么实现并使用了它的独占功能的api，要么使用了共享锁的功能，而不会同时使用两套api，即便是最有名的子类ReentrantReadWriteLock也是通过两个内部类读锁和写锁分别实现了两套api来实现的。
-  3、AQS的大致实现思路 AQS内部维护了一个CLH队列来管理锁。线程会首先尝试获取锁，如果失败就将当前线程及等待状态等信息包装成一个node节点加入到同步队列sync queue里。 接着会不断的循环尝试获取锁，条件是当前节点为head的直接后继才会尝试。如果失败就会阻塞自己直到自己被唤醒。而当持有锁的线程释放锁的时候，会唤醒队列中的后继线程。</description>
     </item>
     
   </channel>
