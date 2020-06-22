@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="随机森林调参">
+<meta itemprop="description" content="Sklearn.ensemble.RandomForstClassifier 参数说明 Sklearn.ensemble.RandomForstClassifier(n_estimators=10, criterion=’gini’, max_depth=None,min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features=’auto’, max_leaf_nodes=None,min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=1,random_state=None, verbose=0, warm_start=False, class_weight=None) *n_estimators* : integer, optional (default=10)
+随机森林树的数目
+*criterion* : string, optional (default=”gini”)
+衡量分裂质量的功能。 支持的标准是基尼杂质的“gini”和信息增益的“熵”。 注意：此参数是特定于树的。
+*max_features* : int, float, string or None, optional (default=”auto”)
+寻找最佳分割时要考虑的功能数量：
+如果是int，则在每次拆分时考虑max_features功能。
+如果为float，则max_features为百分比，并在每次拆分时考虑int（max_features * n_features）要素。
+如果是“auto”，则max_features = sqrt（n_features）。
+如果是“sqrt”，则max_features = sqrt（n_features）（与“auto”相同）。
+如果是“log2”，则max_features = log2（n_features）。
+如果为None，则max_features = n_features。
+注意：在找到节点样本的至少一个有效分区之前，搜索分割不会停止，即使它需要有效地检查超过max_features的功能。
+*max_depth* : integer or None, optional (default=None)
+树的最大深度。 如果为None，则扩展节点直到所有叶子都是纯的或直到所有叶子包含少于min_samples_split样本。
+*min_samples_split* : int, float, optional (default=2)">
+<meta itemprop="datePublished" content="2020-04-06T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2020-04-06T22:59:22&#43;08:00" />
+<meta itemprop="wordCount" content="177">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="随机森林调参" />
+<meta property="og:description" content="Sklearn.ensemble.RandomForstClassifier 参数说明 Sklearn.ensemble.RandomForstClassifier(n_estimators=10, criterion=’gini’, max_depth=None,min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features=’auto’, max_leaf_nodes=None,min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=1,random_state=None, verbose=0, warm_start=False, class_weight=None) *n_estimators* : integer, optional (default=10)
+随机森林树的数目
+*criterion* : string, optional (default=”gini”)
+衡量分裂质量的功能。 支持的标准是基尼杂质的“gini”和信息增益的“熵”。 注意：此参数是特定于树的。
+*max_features* : int, float, string or None, optional (default=”auto”)
+寻找最佳分割时要考虑的功能数量：
+如果是int，则在每次拆分时考虑max_features功能。
+如果为float，则max_features为百分比，并在每次拆分时考虑int（max_features * n_features）要素。
+如果是“auto”，则max_features = sqrt（n_features）。
+如果是“sqrt”，则max_features = sqrt（n_features）（与“auto”相同）。
+如果是“log2”，则max_features = log2（n_features）。
+如果为None，则max_features = n_features。
+注意：在找到节点样本的至少一个有效分区之前，搜索分割不会停止，即使它需要有效地检查超过max_features的功能。
+*max_depth* : integer or None, optional (default=None)
+树的最大深度。 如果为None，则扩展节点直到所有叶子都是纯的或直到所有叶子包含少于min_samples_split样本。
+*min_samples_split* : int, float, optional (default=2)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%B0%83%E5%8F%82/" />
+<meta property="article:published_time" content="2020-04-06T22:59:22+08:00" />
+<meta property="article:modified_time" content="2020-04-06T22:59:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="随机森林调参"/>
+<meta name="twitter:description" content="Sklearn.ensemble.RandomForstClassifier 参数说明 Sklearn.ensemble.RandomForstClassifier(n_estimators=10, criterion=’gini’, max_depth=None,min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features=’auto’, max_leaf_nodes=None,min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=1,random_state=None, verbose=0, warm_start=False, class_weight=None) *n_estimators* : integer, optional (default=10)
+随机森林树的数目
+*criterion* : string, optional (default=”gini”)
+衡量分裂质量的功能。 支持的标准是基尼杂质的“gini”和信息增益的“熵”。 注意：此参数是特定于树的。
+*max_features* : int, float, string or None, optional (default=”auto”)
+寻找最佳分割时要考虑的功能数量：
+如果是int，则在每次拆分时考虑max_features功能。
+如果为float，则max_features为百分比，并在每次拆分时考虑int（max_features * n_features）要素。
+如果是“auto”，则max_features = sqrt（n_features）。
+如果是“sqrt”，则max_features = sqrt（n_features）（与“auto”相同）。
+如果是“log2”，则max_features = log2（n_features）。
+如果为None，则max_features = n_features。
+注意：在找到节点样本的至少一个有效分区之前，搜索分割不会停止，即使它需要有效地检查超过max_features的功能。
+*max_depth* : integer or None, optional (default=None)
+树的最大深度。 如果为None，则扩展节点直到所有叶子都是纯的或直到所有叶子包含少于min_samples_split样本。
+*min_samples_split* : int, float, optional (default=2)"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>随机森林调参</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>随机森林调参</h1>
+		<div class="content">
+			<h2 id="sklearnensemblerandomforstclassifier-参数说明">Sklearn.ensemble.RandomForstClassifier 参数说明<a href="#sklearnensemblerandomforstclassifier-参数说明" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Sklearn</span><span class="o">.</span><span class="n">ensemble</span><span class="o">.</span><span class="n">RandomForstClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="err">’</span><span class="n">gini</span><span class="err">’</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="err">’</span><span class="n">auto</span><span class="err">’</span><span class="p">,</span> <span class="n">max_leaf_nodes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">min_impurity_decrease</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">min_impurity_split</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">oob_score</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">warm_start</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">class_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</code></pre></div><p><em><strong>*n_estimators*</strong></em> : integer, optional (default=10)</p>
+<p>随机森林树的数目</p>
+<p><em><strong>*criterion*</strong></em> : string, optional (default=”gini”)</p>
+<p>衡量分裂质量的功能。 支持的标准是基尼杂质的“gini”和信息增益的“熵”。 注意：此参数是特定于树的。</p>
+<p><em><strong>*max_features*</strong></em> : int, float, string or None, optional (default=”auto”)</p>
+<p>寻找最佳分割时要考虑的功能数量：</p>
+<p>如果是int，则在每次拆分时考虑max_features功能。</p>
+<p>如果为float，则max_features为百分比，并在每次拆分时考虑int（max_features * n_features）要素。</p>
+<p>如果是“auto”，则max_features = sqrt（n_features）。</p>
+<p>如果是“sqrt”，则max_features = sqrt（n_features）（与“auto”相同）。</p>
+<p>如果是“log2”，则max_features = log2（n_features）。</p>
+<p>如果为None，则max_features = n_features。</p>
+<p>注意：在找到节点样本的至少一个有效分区之前，搜索分割不会停止，即使它需要有效地检查超过max_features的功能。</p>
+<p><em><strong>*max_depth*</strong></em> : integer or None, optional (default=None)</p>
+<p>树的最大深度。 如果为None，则扩展节点直到所有叶子都是纯的或直到所有叶子包含少于min_samples_split样本。</p>
+<p><em><strong>*min_samples_split*</strong></em> : int, float, optional (default=2)</p>
+<p>拆分内部节点所需的最小样本数：</p>
+<p>如果是int，则将min_samples_split视为最小数字。</p>
+<p>如果是float，则min_samples_split是百分比，ceil（min_samples_split * n_samples）是每个分割的最小样本数。</p>
+<p><em><strong>*min_samples_leaf*</strong></em> : int, float, optional (default=1)</p>
+<p>叶子节点所需的最小样本数：</p>
+<p>如果是int，则将min_samples_leaf视为最小数字。</p>
+<p>如果是float，则min_samples_leaf是百分比，ceil（min_samples_leaf * n_samples）是每个节点的最小样本数。</p>
+<p><em><strong>*min_weight_fraction_leaf*</strong></em> : float, optional (default=0.)</p>
+<p>需要在叶节点处的权重总和（所有输入样本）的最小加权分数。 当未提供sample_weight时，样本具有相同的权重。</p>
+<p><em><strong>*max_leaf_nodes*</strong></em> : int or None, optional (default=None)</p>
+<p>以最佳方式使用max_leaf_nodes种植树木。 最佳节点定义为杂质的相对减少。 如果None则无限数量的叶节点。</p>
+<p><em><strong>*min_impurity_split*</strong></em> : float,</p>
+<p>树木生长早期停止的门槛。 如果节点的杂质高于阈值，节点将分裂，否则它是叶子。</p>
+<p><em><strong>*min_impurity_decrease*</strong></em> : float, optional (default=0.)</p>
+<p>如果该分裂导致杂质的减少大于或等于该值，则将分裂节点。</p>
+<p><em><strong>*bootstrap*</strong></em> : boolean, optional (default=True)</p>
+<p>是否在构建树时使用bootstrap样本。</p>
+<p><em><strong>*oob_score*</strong></em> : bool (default=False)</p>
+<p>是否使用袋外样品来估计泛化精度。</p>
+<p><em><strong>*n_jobs*</strong></em> : integer, optional (default=1)</p>
+<p>适合和预测并行运行的核心数。 如果为-1，则将作业数设置为核心数。</p>
+<p><em><strong>*random_state*</strong></em> : int, RandomState instance or None, optional (default=None)</p>
+<p>如果是int，则random_state是随机数生成器使用的种子; 如果是RandomState实例，则random_state是随机数生成器; 如果为None，则随机数生成器是np.random使用的RandomState实例。</p>
+<p><em><strong>*verbose*</strong></em> : int, optional (default=0)</p>
+<p>控制树构建过程的详细程度。</p>
+<p><em><strong>*warm_start*</strong></em> : bool, optional (default=False)</p>
+<p>设置为True时，重用上一个调用的解决方案以适合并向整体添加更多估算器，否则，只需适合整个新林。</p>
+<p><em><strong>*class_weight*</strong></em> : dict, list of dicts, “balanced”,</p>
+<p>“balanced_subsample”或None，optional（default = None）与{class_label：weight}形式的类相关联的权重。如果没有给出，所有类都应该有一个权重。对于多输出问题，可以按与y列相同的顺序提供dicts列表。</p>
+<p>请注意，对于多输出（包括多标记），应为其自己的dict中的每个列的每个类定义权重。例如，对于四类多标签分类权重应为[{0：1,1：1}，{0：1,1：5}，{0：1,1：1}，{0：1,1： 1}]而不是[{1：1}，{2：5}，{3：1}，{4：1}]。</p>
+<p>“平衡”模式使用y的值自动调整与输入数据中的类频率成反比的权重，如n_samples /（n_classes * np.bincount（y））</p>
+<p>“balanced_subsample”模式与“balanced”相同，只是基于每个生长的树的bootstrap样本计算权重。</p>
+<p>对于多输出，y的每列的权重将相乘。</p>
+<p>如果指定了sample_weight，这些权重将与sample_weight（通过fit方法传递）相乘。</p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>
