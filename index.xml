@@ -22,6 +22,29 @@
     </item>
     
     <item>
+      <title>Spring</title>
+      <link>https://HHUsimba.github.io/java/spring/</link>
+      <pubDate>Sat, 30 May 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/spring/</guid>
+      <description>Spring中用到的设计模式 工厂模式:IOC容器 代理模式:AOP 策略模式:在spring采取动态代理时，根据代理的类有无实现接口有JDK和CGLIB两种代理方式，就是采用策略模式实现的 单例模式:默认情况下spring中的bean只存在一个实例
+讲讲Spring中的IOC与AOP IoC的核心是依赖反转，将创建对象和对象之间的依赖管理交给IoC容器来做，完成对象之间的解耦。 AOP主要是利用代理模式，把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。
+AOP的应用场景
+权限，日志，处理异常，事务等等，个人理解就是把许多接口都要用的又和接口本身主要的业务逻辑无关的部分抽出来，写成一个切面，单独维护，比如权限验证。这样可以使接口符合“单一职责原则”，只关注主要的业务逻辑，也提高了代码的重用性。
+Spring中的编码统一要如何做 配置拦截器
+&amp;lt;filter&amp;gt; &amp;lt;filter-name&amp;gt;CharacterEncodingFilter&amp;lt;/filter-name&amp;gt; &amp;lt;filter-class&amp;gt;org.springframework.web.filter.CharacterEncodingFilter&amp;lt;/filter-class&amp;gt; &amp;lt;init-param&amp;gt; &amp;lt;param-name&amp;gt;encoding&amp;lt;/param-name&amp;gt; &amp;lt;param-value&amp;gt;UTF-8&amp;lt;/param-value&amp;gt; &amp;lt;/init-param&amp;gt; &amp;lt;init-param&amp;gt; &amp;lt;param-name&amp;gt;forceEncoding&amp;lt;/param-name&amp;gt; &amp;lt;param-value&amp;gt;true&amp;lt;/param-value&amp;gt; &amp;lt;/init-param&amp;gt; &amp;lt;/filter&amp;gt; &amp;lt;filter-mapping&amp;gt; &amp;lt;filter-name&amp;gt;CharacterEncodingFilter&amp;lt;/filter-name&amp;gt; &amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt; &amp;lt;/filter-mapping&amp;gt; Spring框架 Spring框架是一个为Java应用程序的开发提供了综合、广泛的基础性支持的Java平台。Spring帮助开发者解决了开发中基础性的问题，使得开发人员可以专注于应用程序的开发。Spring框架本身亦是按照设计模式精心打造，这使得我们可以在开发环境中安心的集成Spring框架，不必担心Spring是如何在后台进行工作的
+Spring有哪些模块
+Spring框架至今已集成了20多个模块。这些模块主要被分如下图所示的核心容器、数据访问/集成,、Web、AOP（面向切面编程）、工具、消息和测试模块
+Spring有哪几种配置方式
+将Spring配置到应用开发中有以下三种方式：
+ 基于XML的配置 基于注解的配置 基于Java的配置  Spring Bean的生命周期 Spring Bean的生命周期简单易懂。在一个bean实例被初始化时，需要执行一系列的初始化操作以达到可用的状态。同样的，当一个bean不在被调用时需要进行相关的析构操作，并从bean容器中移除。
+Spring bean factory 负责管理在spring容器中被创建的bean的生命周期。Bean的生命周期由两组回调（call back）方法组成。
+ 初始化之后调用的回调方法。 销毁之前调用的回调方法。  1.Spring代理模式怎么实现的
+ Java 动态代理。具体有如下四步骤：
+ 通过实现 InvocationHandler 接口创建自己的调用处理器； 通过为 Proxy 类指定 ClassLoader 对象和一组 interface 来创建动态代理类； 通过反射机制获得动态代理类的构造函数，其唯一参数类型是调用处理器接口类型； 通过构造函数创建动态代理类实例，构造时调用处理器对象作为参数被传入。  GCLIB代理</description>
+    </item>
+    
+    <item>
       <title>随机森林计算特征重要性</title>
       <link>https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%AE%A1%E7%AE%97%E7%89%B9%E5%BE%81%E9%87%8D%E8%A6%81%E6%80%A7/</link>
       <pubDate>Sat, 30 May 2020 00:04:23 +0800</pubDate>
@@ -149,30 +172,6 @@ SELECT * FROM tb1 WHERE id &amp;lt; 500; B+树是有序的，在这种范围查�
 唯一索引，普通索引，前缀索引等索引属于二级索引。
 PS:不懂的同学可以暂存疑，慢慢往下看，后面会有答案的，也可以自行搜索。
  唯一索引(Unique Key) ：唯一索引也是一种约束。**唯一索引的属性列不能出现重复的数据，但是允许数据为NULL，一张表允许创建多个唯一索引。**建立唯一索引的目的大部分时候都是为了该属性列的数据的唯一性，而不是为了查询效率。 普通索引(Index) ：普通索引的唯一作用就是为了快速查询数据，一张表允许创建多个普通索引，并允许数据重复和NULL。 前缀索引(Prefix) ：前缀索引只适用于字符串类型的数据。前缀索引是对文本的前几个字符创建索引，相比普通索引建立的数据更小， 因为只取前几个字符。 全文索引(Full Text) ：全文索引主要是为了检索大文本数据中的关键字的信息，是目前搜索引擎数据库使用的一种技术。Mysql5.</description>
-    </item>
-    
-    <item>
-      <title>随机森林调参</title>
-      <link>https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%B0%83%E5%8F%82/</link>
-      <pubDate>Mon, 06 Apr 2020 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/machine-learning/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E8%B0%83%E5%8F%82/</guid>
-      <description>Sklearn.ensemble.RandomForstClassifier 参数说明 Sklearn.ensemble.RandomForstClassifier(n_estimators=10, criterion=’gini’, max_depth=None,min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features=’auto’, max_leaf_nodes=None,min_impurity_decrease=0.0, min_impurity_split=None, bootstrap=True, oob_score=False, n_jobs=1,random_state=None, verbose=0, warm_start=False, class_weight=None) *n_estimators* : integer, optional (default=10)
-随机森林树的数目
-*criterion* : string, optional (default=”gini”)
-衡量分裂质量的功能。 支持的标准是基尼杂质的“gini”和信息增益的“熵”。 注意：此参数是特定于树的。
-*max_features* : int, float, string or None, optional (default=”auto”)
-寻找最佳分割时要考虑的功能数量：
-如果是int，则在每次拆分时考虑max_features功能。
-如果为float，则max_features为百分比，并在每次拆分时考虑int（max_features * n_features）要素。
-如果是“auto”，则max_features = sqrt（n_features）。
-如果是“sqrt”，则max_features = sqrt（n_features）（与“auto”相同）。
-如果是“log2”，则max_features = log2（n_features）。
-如果为None，则max_features = n_features。
-注意：在找到节点样本的至少一个有效分区之前，搜索分割不会停止，即使它需要有效地检查超过max_features的功能。
-*max_depth* : integer or None, optional (default=None)
-树的最大深度。 如果为None，则扩展节点直到所有叶子都是纯的或直到所有叶子包含少于min_samples_split样本。
-*min_samples_split* : int, float, optional (default=2)</description>
     </item>
     
   </channel>
