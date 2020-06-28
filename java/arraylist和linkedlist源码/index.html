@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="ArrayList和LinkedList源码">
+<meta itemprop="description" content="ArrayList /** * Default initial capacity. * ArrayList 默认的数组容量 */ private static final int DEFAULT_CAPACITY = 10; /** * Shared empty array instance used for empty instances. * 用于空实例的共享空数组实例 */ private static final Object[] EMPTY_ELEMENTDATA = {}; /** * Shared empty array instance used for default sized empty instances. We * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when * first element is added. * 另一个共享空数组实例，用的不多,用于区别上面的EMPTY_ELEMENTDATA */ private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {}; /** * The array buffer into which the elements of the ArrayList are stored.">
+
+<meta itemprop="wordCount" content="2491">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="ArrayList和LinkedList源码" />
+<meta property="og:description" content="ArrayList /** * Default initial capacity. * ArrayList 默认的数组容量 */ private static final int DEFAULT_CAPACITY = 10; /** * Shared empty array instance used for empty instances. * 用于空实例的共享空数组实例 */ private static final Object[] EMPTY_ELEMENTDATA = {}; /** * Shared empty array instance used for default sized empty instances. We * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when * first element is added. * 另一个共享空数组实例，用的不多,用于区别上面的EMPTY_ELEMENTDATA */ private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {}; /** * The array buffer into which the elements of the ArrayList are stored." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/java/arraylist%E5%92%8Clinkedlist%E6%BA%90%E7%A0%81/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ArrayList和LinkedList源码"/>
+<meta name="twitter:description" content="ArrayList /** * Default initial capacity. * ArrayList 默认的数组容量 */ private static final int DEFAULT_CAPACITY = 10; /** * Shared empty array instance used for empty instances. * 用于空实例的共享空数组实例 */ private static final Object[] EMPTY_ELEMENTDATA = {}; /** * Shared empty array instance used for default sized empty instances. We * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when * first element is added. * 另一个共享空数组实例，用的不多,用于区别上面的EMPTY_ELEMENTDATA */ private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {}; /** * The array buffer into which the elements of the ArrayList are stored."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>ArrayList和LinkedList源码</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>ArrayList和LinkedList源码</h1>
+		<div class="content">
+			<h2 id="arraylist">ArrayList<a href="#arraylist" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Default initial capacity.
+</span><span class="cm">     * ArrayList 默认的数组容量
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DEFAULT_CAPACITY</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * Shared empty array instance used for empty instances.
+</span><span class="cm">     *  用于空实例的共享空数组实例
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">EMPTY_ELEMENTDATA</span> <span class="o">=</span> <span class="o">{};</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * Shared empty array instance used for default sized empty instances. We
+</span><span class="cm">     * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when
+</span><span class="cm">     * first element is added.
+</span><span class="cm">     * 另一个共享空数组实例，用的不多,用于区别上面的EMPTY_ELEMENTDATA
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">DEFAULTCAPACITY_EMPTY_ELEMENTDATA</span> <span class="o">=</span> <span class="o">{};</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * The array buffer into which the elements of the ArrayList are stored.
+</span><span class="cm">     * The capacity of the ArrayList is the length of this array buffer. Any
+</span><span class="cm">     * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
+</span><span class="cm">     * will be expanded to DEFAULT_CAPACITY when the first element is added.
+</span><span class="cm">     * ArrayList底层的容器  
+</span><span class="cm">     */</span>
+    <span class="c1">// Android-note: Also accessed from java.util.Collections
+</span><span class="c1"></span>    <span class="kd">transient</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">elementData</span><span class="o">;</span> <span class="c1">// non-private to simplify nested class access
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     * The size of the ArrayList (the number of elements it contains).
+</span><span class="cm">     * 当前存放了多少个元素   并非数组大小
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+</code></pre></div><p>ArrayList是基于动态数组的数据结构。实现了list接口，是以数组的方式实现的。所谓动态数组是这样实现的，如果没有指定数组的大小，则申请默认大小为10 的数组，当元素个数增加，数据无法存储时，系统会另外申请一个长度为当前长度的1.5倍的数组，然后把之前的数据拷贝到新建的数组中。
+数组的特征是可以使用索引的方式来快速定位对象的位置。适合读取数据。</p>
+<h3 id="add">add()<a href="#add" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">* 添加指定元素到末尾
+</span><span class="cm">*/</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ensureCapacityInternal</span><span class="o">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>  <span class="c1">// Increments modCount!!
+</span><span class="c1"></span>        <span class="n">elementData</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">ensureCapacityInternal</span><span class="o">(</span><span class="kt">int</span> <span class="n">minCapacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">elementData</span> <span class="o">==</span> <span class="n">DEFAULTCAPACITY_EMPTY_ELEMENTDATA</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">minCapacity</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">DEFAULT_CAPACITY</span><span class="o">,</span> <span class="n">minCapacity</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">ensureExplicitCapacity</span><span class="o">(</span><span class="n">minCapacity</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">ensureExplicitCapacity</span><span class="o">(</span><span class="kt">int</span> <span class="n">minCapacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+
+        <span class="c1">// overflow-conscious code
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">minCapacity</span> <span class="o">-</span> <span class="n">elementData</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span>
+            <span class="n">grow</span><span class="o">(</span><span class="n">minCapacity</span><span class="o">);</span>
+    <span class="o">}</span>
+
+  <span class="c1">//扩容
+</span><span class="c1"></span> <span class="kd">private</span> <span class="kt">void</span> <span class="nf">grow</span><span class="o">(</span><span class="kt">int</span> <span class="n">minCapacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// overflow-conscious code
+</span><span class="c1"></span>        <span class="c1">//1. 记录之前的数组长度
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">oldCapacity</span> <span class="o">=</span> <span class="n">elementData</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="c1">//2. 新数组的大小=老数组大小+老数组大小的一半
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">newCapacity</span> <span class="o">=</span> <span class="n">oldCapacity</span> <span class="o">+</span> <span class="o">(</span><span class="n">oldCapacity</span> <span class="o">&gt;&gt;</span> <span class="n">1</span><span class="o">);</span>
+        <span class="c1">//3. 判断上面的扩容之后的大小newCapacity是否够装minCapacity个元素
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">newCapacity</span> <span class="o">-</span> <span class="n">minCapacity</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span>
+            <span class="n">newCapacity</span> <span class="o">=</span> <span class="n">minCapacity</span><span class="o">;</span>
+              <span class="c1">//4.判断新数组容量是否大于最大值
+</span><span class="c1"></span>    <span class="c1">//如果新数组容量比最大值(Integer.MAX_VALUE - 8)还大,那么交给hugeCapacity()去处理,该抛异常则抛异常
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">newCapacity</span> <span class="o">-</span> <span class="n">MAX_ARRAY_SIZE</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span>
+            <span class="n">newCapacity</span> <span class="o">=</span> <span class="n">hugeCapacity</span><span class="o">(</span><span class="n">minCapacity</span><span class="o">);</span>
+        <span class="c1">// minCapacity is usually close to size, so this is a win:
+</span><span class="c1"></span>        <span class="c1">//5. 复制数组,注意,这里是浅复制
+</span><span class="c1"></span>        <span class="n">elementData</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">elementData</span><span class="o">,</span> <span class="n">newCapacity</span><span class="o">);</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">hugeCapacity</span><span class="o">(</span><span class="kt">int</span> <span class="n">minCapacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">minCapacity</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="c1">// overflow
+</span><span class="c1"></span>            <span class="k">throw</span> <span class="k">new</span> <span class="n">OutOfMemoryError</span><span class="o">();</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">minCapacity</span> <span class="o">&gt;</span> <span class="n">MAX_ARRAY_SIZE</span><span class="o">)</span> <span class="o">?</span>
+            <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">:</span>
+            <span class="n">MAX_ARRAY_SIZE</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>思路：
+1.首先判断添加一个元素是否会导致数组溢出
+2.判断是否溢出:如果原数组为空，那么第一次添加数组时会给数组一个默认大小10，接着判断是否溢出，如果溢出则去扩容，扩容规则：新数组是原数组大小的1.5倍，最后通过Arrays.copyOf()去浅复制
+3.添加元素到末尾</p>
+<h3 id="get">get()<a href="#get" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * 返回指定位置处元素
+</span><span class="cm">*/</span>
+ <span class="kd">public</span> <span class="n">E</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IndexOutOfBoundsException</span><span class="o">(</span><span class="n">outOfBoundsMsg</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+
+        <span class="k">return</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">elementData</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="set">set()<a href="#set" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">E</span> <span class="nf">set</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">E</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IndexOutOfBoundsException</span><span class="o">(</span><span class="n">outOfBoundsMsg</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+
+        <span class="n">E</span> <span class="n">oldValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">elementData</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+        <span class="n">elementData</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">oldValue</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p>思路：替换index索引处的元素为element,可能会抛出IndexOutOfBoundsException.这里比较简单,就是将index处的元素替换成element</p>
+<h3 id="remove">remove()<a href="#remove" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">E</span> <span class="nf">remove</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IndexOutOfBoundsException</span><span class="o">(</span><span class="n">outOfBoundsMsg</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="n">E</span> <span class="n">oldValue</span> <span class="o">=</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">elementData</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+<span class="c1">//    复制的长度
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">numMoved</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="n">index</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">numMoved</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span>
+        <span class="c1">//数组之间的复制 
+</span><span class="c1"></span>            <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">elementData</span><span class="o">,</span> <span class="n">index</span><span class="o">+</span><span class="n">1</span><span class="o">,</span> <span class="n">elementData</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span>
+                             <span class="n">numMoved</span><span class="o">);</span>
+        <span class="n">elementData</span><span class="o">[--</span><span class="n">size</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// clear to let GC do its work
+</span><span class="c1"></span>
+        <span class="k">return</span> <span class="n">oldValue</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">arraycopy</span> <span class="o">(</span><span class="n">Object</span> <span class="n">src</span><span class="o">,</span><span class="c1">//源数组
+</span><span class="c1"></span>                             <span class="kt">int</span> <span class="n">srcPos</span><span class="o">,</span><span class="c1">//源数组要复制的起始位置
+</span><span class="c1"></span>                             <span class="n">Object</span> <span class="n">dest</span><span class="o">,</span><span class="c1">//目的数组
+</span><span class="c1"></span>                             <span class="kt">int</span> <span class="n">destPos</span><span class="o">,</span><span class="c1">//目的数组放置的起始位置
+</span><span class="c1"></span>                             <span class="kt">int</span> <span class="n">length</span><span class="o">)</span><span class="c1">//复制的长度
+</span></code></pre></div><p>思路：数组自己复制自己，跳过需要移除的下标元素</p>
+<h3 id="arraylist总结">ArrayList总结<a href="#arraylist总结" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>1.底层是object数组存数据
+2.扩容机制：默认大小是10，扩容是扩容到之前的1.5倍大小，每次扩容是将原数组中的数据复制到新的数组中
+3.添加:如果是添加到数组的指定位置,那么可能会挪动大量的数组元素,并且可能会触发扩容机制;如果是添加到末尾的话,那么只可能触发扩容机制.
+4.删除:如果是删除数组指定位置的元素,那么可能会挪动大量的数组元素;如果是删除末尾元素的话,那么代价是最小的. ArrayList里面的删除元素,其实是将该元素置为null.
+5.查询和改某个位置的元素是非常快的( O(1) ).</p>
+<hr>
+<h2 id="linkedlist">LinkedList<a href="#linkedlist" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>LinkedList 是一个继承于AbstractSequentialList的双向链表。它也可以被当作堆栈、队列或双端队列进行操作。有关索引的操作可能从链表头开始遍历到链表尾部，也可能从尾部遍历到链表头部，这取决于看索引更靠近哪一端。
+LinkedList 实现 List 接口，能对它进行队列操作。
+LinkedList 实现 Deque 接口，即能将LinkedList当作双端队列使用。
+LinkedList 实现了Cloneable接口，即覆盖了函数clone()，能克隆。
+LinkedList 实现java.io.Serializable接口，这意味着LinkedList支持序列化，能通过序列化去传输。
+LinkedList 是非同步的。</p>
+<h3 id="内部结构">内部结构<a href="#内部结构" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>LinkedList内部是一个双端链表的结构
+关键字transient 序列化对象的时候，这个属性就不会序列化到指定的目的地中</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">transient</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * Pointer to first node. 指向链表头部
+</span><span class="cm">     */</span>
+    <span class="kd">transient</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">first</span><span class="o">;</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * Pointer to last node.指向链表尾部
+</span><span class="cm">     */</span>
+    <span class="kd">transient</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">last</span><span class="o">;</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="n">E</span> <span class="n">item</span><span class="o">;</span>
+        <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+        <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">prev</span><span class="o">;</span>
+
+        <span class="n">Node</span><span class="o">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">prev</span><span class="o">,</span> <span class="n">E</span> <span class="n">element</span><span class="o">,</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="构造函数">构造函数<a href="#构造函数" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>默认构造方法是空的，什么都没做，表示初始化的时候size为0，first和last的节点都为空：</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Constructs an empty list.
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">LinkedList</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+</code></pre></div><p>带Collection值得对象作为入参的构造函数</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">  <span class="cm">/**
+</span><span class="cm">     * Constructs a list containing the elements of the specified
+</span><span class="cm">     * collection, in the order they are returned by the collection&#39;s
+</span><span class="cm">     * iterator.
+</span><span class="cm">     *
+</span><span class="cm">     * @param  c the collection whose elements are to be placed into this list
+</span><span class="cm">     * @throws NullPointerException if the specified collection is null
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">LinkedList</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">();</span><span class="c1">//调用默认的无参构造函数
+</span><span class="c1"></span>        <span class="n">addAll</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="add-1">add()<a href="#add-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Appends the specified element to the end of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * &lt;p&gt;This method is equivalent to {@link #addLast}.
+</span><span class="cm">     *
+</span><span class="cm">     * @param e element to be appended to this list
+</span><span class="cm">     * @return {@code true} (as specified by {@link Collection#add})
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">linkLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+     <span class="cm">/**
+</span><span class="cm">     * Links e as last element.
+</span><span class="cm">     */</span>
+    <span class="kt">void</span> <span class="nf">linkLast</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 记录 尾结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="c1">//新加一个尾结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">&lt;&gt;(</span><span class="n">l</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="c1">//新的尾结点赋值给链表的尾结点
+</span><span class="c1"></span>        <span class="n">last</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="c1">//如果之前的尾结点为空
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//链表的头结点=尾结点=新结点 (相当于空链表插入第一个元素,头结点等于尾节点)
+</span><span class="c1"></span>        <span class="k">else</span><span class="c1">//如果不为空，
+</span><span class="c1"></span>            <span class="n">l</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//将之前的尾结点的next指针指向新的结点
+</span><span class="c1"></span>        <span class="c1">//增加链表长度
+</span><span class="c1"></span>        <span class="n">size</span><span class="o">++;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+</code></pre></div><p>add(E e)添加成功返回true,添加失败返回false.分配内存空间不是必须是连续的,所以只要是还能给它分配空间,就不会添加失败.当空间不够分配时(内存溢出),会抛出OutOfMemory.</p>
+<ul>
+<li>addLast(E e) 添加元素到末尾
+内部实现和add(E e)一样</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="cm">/**
+</span><span class="cm">     * Appends the specified element to the end of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * &lt;p&gt;This method is equivalent to {@link #add}.
+</span><span class="cm">     *
+</span><span class="cm">     * @param e the element to add
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addLast</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">linkLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div><ul>
+<li>addFirst(E e) 添加元素到链表头部</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Inserts the specified element at the beginning of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @param e the element to add
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addFirst</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">linkFirst</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * Links e as first element.
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">linkFirst</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">//记录头结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">//新建头结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">&lt;&gt;(</span><span class="kc">null</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="n">f</span><span class="o">);</span>
+        <span class="c1">//新建的结点赋值给链表的头结点
+</span><span class="c1"></span>        <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="c1">//如果之前头结点为空
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//头结点=尾结点=新建的结点 （相当于空链表插入第一个元素,头结点等于尾节点）
+</span><span class="c1"></span>        <span class="k">else</span> <span class="c1">//如果不为空
+</span><span class="c1"></span>            <span class="n">f</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//之前头结点的 prev指针指向 新建的结点
+</span><span class="c1"></span>        <span class="c1">//增减链表长度
+</span><span class="c1"></span>        <span class="n">size</span><span class="o">++;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+</code></pre></div><ul>
+<li>add(int index, E element) 添加元素到指定位置
+可能会抛出IndexOutOfBoundsException</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">   <span class="cm">/**
+</span><span class="cm">     * Inserts the specified element at the specified position in this list.
+</span><span class="cm">     * Shifts the element currently at that position (if any) and any
+</span><span class="cm">     * subsequent elements to the right (adds one to their indices).
+</span><span class="cm">     *
+</span><span class="cm">     * @param index index at which the specified element is to be inserted
+</span><span class="cm">     * @param element element to be inserted
+</span><span class="cm">     * @throws IndexOutOfBoundsException {@inheritDoc}
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">E</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//检查是否越界
+</span><span class="c1"></span>        <span class="n">checkPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span>
+            <span class="n">linkLast</span><span class="o">(</span><span class="n">element</span><span class="o">);</span><span class="c1">//和 add(E e) 添加到链表末尾相同
+</span><span class="c1"></span>        <span class="k">else</span>
+            <span class="n">linkBefore</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="cm">/**
+</span><span class="cm">    *检查是否越界
+</span><span class="cm">    */</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkPositionIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">isPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">))</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IndexOutOfBoundsException</span><span class="o">(</span><span class="n">outOfBoundsMsg</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+    <span class="o">}</span>
+ <span class="cm">/**
+</span><span class="cm">     * Returns the (non-null) Node at the specified element index.
+</span><span class="cm">     * 返回指定元素索引处的（非空）节点。
+</span><span class="cm">     */</span>
+    <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">node</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// assert isElementIndex(index);
+</span><span class="c1">//如果index在链表的前半部分,那么从first开始往后查找;否则,从last往前面查找
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;&gt;</span> <span class="n">1</span><span class="o">))</span> <span class="o">{</span>
+        <span class="c1">//记录第一个节点
+</span><span class="c1"></span>            <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+            <span class="c1">//循环从第一个节点开始往后查，直到达到index处，返回index处元素
+</span><span class="c1"></span>            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">index</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//index在链表的后半部分，记录最后一个节点
+</span><span class="c1"></span>            <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+            <span class="c1">//循环从最后一个节点开始往前查，直到达到index处，返回index处的元素
+</span><span class="c1"></span>            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">index</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+ <span class="cm">/**
+</span><span class="cm">     * Inserts element e before non-null Node succ.
+</span><span class="cm">     * 在非null节点succ之前插入元素e。
+</span><span class="cm">     */</span>
+    <span class="kt">void</span> <span class="nf">linkBefore</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">,</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">succ</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// assert succ != null;
+</span><span class="c1"></span>        <span class="c1">//记录succ的前一个结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">succ</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="c1">//新建一个结点，前结点是pred  ,数据是e,下一个结点是succ
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">&lt;&gt;(</span><span class="n">pred</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="n">succ</span><span class="o">);</span>
+        <span class="c1">//将新的结点赋值给 succ的前结点
+</span><span class="c1"></span>        <span class="n">succ</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="c1">//如果之前的succ的前一个结点 pred  为空
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">pred</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//如果为空,那么说明succ是之前的头节点.现在新节点在succ的前面,所以新节点是头节点
+</span><span class="c1"></span>        <span class="k">else</span>
+            <span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//否则，直接将succ的前一个节点pred指向新节点就可以了
+</span><span class="c1"></span>        <span class="c1">//增加链表长度
+</span><span class="c1"></span>        <span class="n">size</span><span class="o">++;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+</code></pre></div><p>总结：
+首先判断插入的位置是在链表的最后还在在中间
+如果是插入到链表的末尾，那么将之前的尾结点指向新的结点
+如果是插入到链表中间
+需要找到index 处的结点
+将新结点赋值给index处结点的前一个（prev）结点
+将index处结点的前一个结点的next指针指向新结点</p>
+<ul>
+<li>将指定集合的所有元素插入到末尾位置</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">addAll</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">addAll</span><span class="o">(</span><span class="n">size</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+    <span class="o">}</span>
+     <span class="cm">/**
+</span><span class="cm">     * Inserts all of the elements in the specified collection into this
+</span><span class="cm">     * list, starting at the specified position.  Shifts the element
+</span><span class="cm">     * currently at that position (if any) and any subsequent elements to
+</span><span class="cm">     * the right (increases their indices).  The new elements will appear
+</span><span class="cm">     * in the list in the order that they are returned by the
+</span><span class="cm">     * specified collection&#39;s iterator.
+</span><span class="cm">     *
+</span><span class="cm">     * @param index index at which to insert the first element
+</span><span class="cm">     *              from the specified collection
+</span><span class="cm">     * @param c collection containing elements to be added to this list
+</span><span class="cm">     * @return {@code true} if this list changed as a result of the call
+</span><span class="cm">     * @throws IndexOutOfBoundsException {@inheritDoc}
+</span><span class="cm">     * @throws NullPointerException if the specified collection is null
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">addAll</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">Collection</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//1. 检查是否越界
+</span><span class="c1"></span>        <span class="n">checkPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">//将插入的集合转成数组
+</span><span class="c1"></span>        <span class="n">Object</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">toArray</span><span class="o">();</span>
+        <span class="c1">// 记录插入元素集合的个数
+</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">numNew</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+         <span class="n">如果个数为0</span><span class="o">,</span><span class="n">那么插入失败</span><span class="o">,</span><span class="n">不继续执行了</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="n">numNew</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+
+        <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">pred</span><span class="o">,</span> <span class="n">succ</span><span class="o">;</span><span class="c1">// 目标索引的前一个结点，目标索引的结点
+</span><span class="c1"></span>        <span class="c1">//判断下插入的index和链表size是否相等，相等则相当于在链表末尾插入
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">succ</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span><span class="c1">//index 处结点为null
+</span><span class="c1"></span>            <span class="n">pred</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span><span class="c1">// indext处前结点 为尾结点
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span><span class="c1">//否则，插入中间
+</span><span class="c1"></span>            <span class="n">succ</span> <span class="o">=</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">);</span><span class="c1">//找到index 处结点
+</span><span class="c1"></span>            <span class="n">pred</span> <span class="o">=</span> <span class="n">succ</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span><span class="c1">//记录index处前一个结点
+</span><span class="c1"></span>        <span class="o">}</span>
+        <span class="c1">//循环将集合中所有元素连接到pred后面
+</span><span class="c1"></span>        <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">o</span> <span class="o">:</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&#34;unchecked&#34;</span><span class="o">)</span> <span class="n">E</span> <span class="n">e</span> <span class="o">=</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+            <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">&lt;&gt;(</span><span class="n">pred</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="c1">//如果前一个是空,那么将新节点作为头结点
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">pred</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+            <span class="k">else</span>
+                <span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span><span class="c1">//指向新节点
+</span><span class="c1"></span>                <span class="n">pred</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">//判断succ是否为空，为空的话,那么集合的最后一个元素就是尾节点
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">succ</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">pred</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span><span class="c1">//非空的话,那么将succ连接到集合的最后一个元素后面
+</span><span class="c1"></span>            <span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">succ</span><span class="o">;</span>
+            <span class="n">succ</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">pred</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">//8. 链表长度+numNew
+</span><span class="c1"></span>        <span class="n">size</span> <span class="o">+=</span> <span class="n">numNew</span><span class="o">;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p><img src="https://img-blog.csdnimg.cn/20200628145046200.png?size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<ul>
+<li>offer() offerLast(E e) 添加元素到链表尾部</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Adds the specified element as the tail (last element) of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @param e the element to add
+</span><span class="cm">     * @return {@code true} (as specified by {@link Queue#offer})
+</span><span class="cm">     * @since 1.5
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">offer</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">add</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="cm">/**
+</span><span class="cm">     * Inserts the specified element at the end of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @param e the element to insert
+</span><span class="cm">     * @return {@code true} (as specified by {@link Deque#offerLast})
+</span><span class="cm">     * @since 1.6
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">offerLast</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">addLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><ul>
+<li>offerFirst(E e) 添加元素到链表头部</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"> <span class="cm">/**
+</span><span class="cm">     * Inserts the specified element at the front of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @param e the element to insert
+</span><span class="cm">     * @return {@code true} (as specified by {@link Deque#offerFirst})
+</span><span class="cm">     * @since 1.6
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">offerFirst</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">addFirst</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="remove-1">remove()<a href="#remove-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<ul>
+<li>E remove()，removeFirst() 移除链表第一个元素</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Retrieves and removes the head (first element) of this list.
+</span><span class="cm">     *移除链表第一个元素
+</span><span class="cm">     * @return the head of this list
+</span><span class="cm">     * @throws NoSuchElementException if this list is empty
+</span><span class="cm">     * @since 1.5
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">remove</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">removeFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+ <span class="cm">/**
+</span><span class="cm">     * Removes and returns the first element from this list.
+</span><span class="cm">     *移除和返回 链表的第一个元素
+</span><span class="cm">     * @return the first element from this list
+</span><span class="cm">     * @throws NoSuchElementException if this list is empty
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">removeFirst</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">NoSuchElementException</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">unlinkFirst</span><span class="o">(</span><span class="n">f</span><span class="o">);</span>
+    <span class="o">}</span>
+   <span class="cm">/**
+</span><span class="cm">     * Unlinks non-null first node f.
+</span><span class="cm">     * 将第一个结点删掉
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="n">E</span> <span class="nf">unlinkFirst</span><span class="o">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// assert f == first &amp;&amp; f != null;
+</span><span class="c1"></span>        <span class="c1">//记录第一个结点的数据值
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">E</span> <span class="n">element</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">//记录下一个结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="c1">//将第一个结点置空，帮助Gc 回收
+</span><span class="c1"></span>        <span class="n">f</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">f</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// help GC
+</span><span class="c1"></span>        <span class="c1">//将之前头结点的下一个结点 赋值为头结点
+</span><span class="c1"></span>        <span class="n">first</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+        <span class="c1">//如果为空，则链表没有结点了，
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">else</span><span class="c1">//否则，将新节点的prev指针置为空
+</span><span class="c1"></span>            <span class="n">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+         <span class="c1">//链表长度 -1
+</span><span class="c1"></span>        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="c1">// 返回删除结点的数据值
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="cm">/**
+</span><span class="cm">     * The number of times this list has been &lt;i&gt;structurally modified&lt;/i&gt;.
+</span><span class="cm">     * Structural modifications are those that change the size of the
+</span><span class="cm">     * list, or otherwise perturb it in such a fashion that iterations in
+</span><span class="cm">     * progress may yield incorrect results.
+</span><span class="cm">     */</span>
+     <span class="kd">protected</span> <span class="kd">transient</span> <span class="kt">int</span> <span class="n">modCount</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</code></pre></div><ul>
+<li>E removeLast() 移除最后一个元素并返回</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Removes and returns the last element from this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @return the last element from this list
+</span><span class="cm">     * @throws NoSuchElementException if this list is empty
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">removeLast</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">NoSuchElementException</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">unlinkLast</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
+    <span class="o">}</span>
+ <span class="cm">/**
+</span><span class="cm">     * Unlinks non-null last node l.
+</span><span class="cm">     * 移除链表最后一个元素
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="n">E</span> <span class="nf">unlinkLast</span><span class="o">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// assert l == last &amp;&amp; l != null;
+</span><span class="c1"></span>        <span class="c1">//记录删除结点（尾结点）的数据值
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">E</span> <span class="n">element</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">//记录删除结点 （尾结点）的前结点
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="c1">//将尾结点置空，方便Gc
+</span><span class="c1"></span>        <span class="n">l</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">l</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// help GC
+</span><span class="c1"></span>        <span class="c1">//将前结点 赋值给链表尾结点
+</span><span class="c1"></span>        <span class="n">last</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+        <span class="c1">//判断前结点是否为空
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">prev</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span><span class="c1">//如果为空，则链表没有结点了
+</span><span class="c1"></span>        <span class="k">else</span>
+            <span class="n">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span><span class="c1">// 否则，直接将新的尾节点的next指针指向null
+</span><span class="c1"></span>         <span class="c1">//链表长度-1
+</span><span class="c1"></span>        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="k">return</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><ul>
+<li>removeFirstOccurrence(Object o) remove(Object o) 从此链表中删除第一次出现的指定元素o</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Removes the first occurrence of the specified element in this
+</span><span class="cm">     * list (when traversing the list from head to tail).  If the list
+</span><span class="cm">     * does not contain the element, it is unchanged.
+</span><span class="cm">     */</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">removeFirstOccurrence</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">remove</span><span class="o">(</span><span class="n">o</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="cm">/**
+</span><span class="cm">     * Removes the first occurrence of the specified element from this list,
+</span><span class="cm">     * if it is present.  If this list does not contain the element, it is
+</span><span class="cm">     * unchanged. 
+</span><span class="cm">     * /
+</span><span class="cm">public boolean remove(Object o) {
+</span><span class="cm">    //判断o是否为空
+</span><span class="cm">        if (o == null) {
+</span><span class="cm">         // 找第一个数据值为null的节点
+</span><span class="cm">            for (Node&lt;E&gt; x = first; x != null; x = x.next) {
+</span><span class="cm">                if (x.item == null) {
+</span><span class="cm">                    unlink(x);//删除结点
+</span><span class="cm">                    return true;
+</span><span class="cm">                }
+</span><span class="cm">            }
+</span><span class="cm">        } else {// /非空  循环,找第一个与o的数据值相等的节点
+</span><span class="cm">            for (Node&lt;E&gt; x = first; x != null; x = x.next) {
+</span><span class="cm">                if (o.equals(x.item)) {
+</span><span class="cm">                    unlink(x);//删除结点
+</span><span class="cm">                    return true;
+</span><span class="cm">                }
+</span><span class="cm">            }
+</span><span class="cm">        }
+</span><span class="cm">        return false;
+</span><span class="cm">    }
+</span><span class="cm">
+</span><span class="cm">/**
+</span><span class="cm">     * Unlinks non-null node x.
+</span><span class="cm">     * 移除节点x
+</span><span class="cm">     */</span>
+    <span class="n">E</span> <span class="nf">unlink</span><span class="o">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// assert x != null;
+</span><span class="c1"></span>        <span class="c1">//1. 记录该节点数据值,前一个节点prev,后一个节点next
+</span><span class="c1"></span>        <span class="kd">final</span> <span class="n">E</span> <span class="n">element</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+    <span class="c1">//判断前一个节点是否为空
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">prev</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span><span class="c1">//为空的话,那么说明之前x节点是头节点  这时x的下一个节点成为头节点
+</span><span class="c1"></span>        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span><span class="c1">//非空的话,将前一个节点的next指针指向x的下一个节点
+</span><span class="c1"></span>            <span class="n">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">//x的prev置为null
+</span><span class="c1"></span>        <span class="o">}</span>
+
+    <span class="c1">// 判断x后一个节点是否为空
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span><span class="c1">//为空的话,那么说明之前x节点是尾节点,这时x的前一个节点成为尾节点
+</span><span class="c1"></span>            <span class="n">last</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span><span class="c1">//为空的话,将x的下一个节点的prev指针指向prev(x的前一个节点)
+</span><span class="c1"></span>            <span class="n">x</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">//x的next指针置空
+</span><span class="c1"></span>        <span class="o">}</span>
+    <span class="c1">//x节点数据值置空
+</span><span class="c1"></span>        <span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="c1">//链表长度-1
+</span><span class="c1"></span>        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="k">return</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><p><img src="https://img-blog.csdnimg.cn/20200628145128891.png?size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<ul>
+<li>E remove(int index) 移除指定位置元素</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Removes the element at the specified position in this list.  Shifts any
+</span><span class="cm">     * subsequent elements to the left (subtracts one from their indices).
+</span><span class="cm">     * Returns the element that was removed from the list.
+</span><span class="cm">     */</span>
+<span class="kd">public</span> <span class="n">E</span> <span class="nf">remove</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">////检查入参是否合法/越界
+</span><span class="c1"></span>        <span class="n">checkElementIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">////node(index)找到index处的节点  
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">unlink</span><span class="o">(</span><span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">));</span><span class="c1">//删除index处的结点
+</span><span class="c1"></span>    <span class="o">}</span>
+</code></pre></div><ul>
+<li>removeLastOccurrence(Object o) 从此链表中删除最后一次出现的指定元素o.</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Removes the last occurrence of the specified element in this
+</span><span class="cm">     * list (when traversing the list from head to tail).  If the list
+</span><span class="cm">     * does not contain the element, it is unchanged.
+</span><span class="cm">     * 遍历时是从尾节点开始往前查找的.
+</span><span class="cm">     */</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">removeLastOccurrence</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">unlink</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">unlink</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><ul>
+<li>E poll() 获取第一个元素的同时删除第一个元素,当链表无节点时,不会报错</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Retrieves and removes the head (first element) of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @return the head of this list, or {@code null} if this list is empty
+</span><span class="cm">     * @since 1.5
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">poll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">unlinkFirst</span><span class="o">(</span><span class="n">f</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div><ul>
+<li>E pop() 获取第一个元素的同时删除第一个元素,当链表无节点时,会报错</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Pops an element from the stack represented by this list.  In other
+</span><span class="cm">     * words, removes and returns the first element of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * &lt;p&gt;This method is equivalent to {@link #removeFirst()}.
+</span><span class="cm">     *
+</span><span class="cm">     * @return the element at the front of this list (which is the top
+</span><span class="cm">     *         of the stack represented by this list)
+</span><span class="cm">     * @throws NoSuchElementException if this list is empty
+</span><span class="cm">     * @since 1.6
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">pop</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">removeFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="set-1">set()<a href="#set-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<ul>
+<li>E set(int index, E element) 设置index处节点数据值为element</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Replaces the element at the specified position in this list with the
+</span><span class="cm">     * specified element.
+</span><span class="cm">     *
+</span><span class="cm">     * @param index index of the element to replace
+</span><span class="cm">     * @param element element to be stored at the specified position
+</span><span class="cm">     * @return the element previously at the specified position
+</span><span class="cm">     * @throws IndexOutOfBoundsException {@inheritDoc}
+</span><span class="cm">     */</span>
+<span class="kd">public</span> <span class="n">E</span> <span class="nf">set</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">E</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//检查是否越界
+</span><span class="c1"></span>        <span class="n">checkElementIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">//找到index处节点
+</span><span class="c1"></span>        <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">//保存该节点旧值
+</span><span class="c1"></span>        <span class="n">E</span> <span class="n">oldVal</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">//替换为新值
+</span><span class="c1"></span>        <span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+         <span class="c1">//将旧值返回
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">oldVal</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><h3 id="get-1">get()<a href="#get-1" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<ul>
+<li>E element() E getFirst() 获取链表第一个元素. 方法比较简单,就是将链表头节点数据值进行返回</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm">     * Retrieves, but does not remove, the head (first element) of this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @return the head of this list
+</span><span class="cm">     * @throws NoSuchElementException if this list is empty
+</span><span class="cm">     * @since 1.5
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">element</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">getFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="cm">/**
+</span><span class="cm">     * Returns the first element in this list.
+</span><span class="cm">     *
+</span><span class="cm">     * @return the first element in this list
+</span><span class="cm">     * @throws NoSuchElementException if this list is empty
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">E</span> <span class="nf">getFirst</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">NoSuchElementException</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div><h2 id="arraylist与linkedlist使用场景">ArrayList与LinkedList使用场景<a href="#arraylist与linkedlist使用场景" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<p>对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。
+对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。</p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>
