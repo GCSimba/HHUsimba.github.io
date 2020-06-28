@@ -13,7 +13,8 @@
 Queue方法 1 add(E), offer(E) 在尾部添加: boolean add(E e); boolean offer(E e); 他们的共同之处是建议实现类禁止添加 null 元素，否则会报空指针 NullPointerException； 不同之处在于 add() 方法在添加失败（比如队列已满）时会报 一些运行时错误 错；而 offer() 方法即使在添加失败时也不会奔溃，只会返回 false。 2019.11.21 添加
 注意 Queue 是个接口，它提供的 add, offer 方法初衷是希望子类能够禁止添加元素为 null，这样可以避免在查询时返回 null 究竟是正确还是错误。 事实上大多数 Queue 的实现类的确响应了 Queue 接口的规定，比如 ArrayBlockingQueue，PriorityBlockingQueue 等等。 但还是有一些实现类没有这样要求，比如 LinkedList。
 2.remove(), poll() 删除并返回头部： E remove(); E poll(); 当队列为空时 remove() 方法会报 NoSuchElementException 错; 而 poll() 不会奔溃，只会返回 null。">
-
+<meta itemprop="datePublished" content="2019-10-30T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-30T22:59:22&#43;08:00" />
 <meta itemprop="wordCount" content="162">
 
 
@@ -26,7 +27,8 @@ Queue方法 1 add(E), offer(E) 在尾部添加: boolean add(E e); boolean offer(
 2.remove(), poll() 删除并返回头部： E remove(); E poll(); 当队列为空时 remove() 方法会报 NoSuchElementException 错; 而 poll() 不会奔溃，只会返回 null。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://HHUsimba.github.io/java/queue/" />
-
+<meta property="article:published_time" content="2019-10-30T22:59:22+08:00" />
+<meta property="article:modified_time" content="2019-10-30T22:59:22+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Queue"/>
 <meta name="twitter:description" content="Introduction Java 集合中的 Queue 继承自 Collection 接口 ，Deque, LinkedList, PriorityQueue, BlockingQueue 等类都实现了它。 Queue 用来存放 等待处理元素 的集合，这种场景一般用于缓冲、并发访问。 除了继承 Collection 接口的一些方法，Queue 还添加了额外的 添加、删除、查询操作。
