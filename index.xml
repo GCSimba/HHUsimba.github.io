@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 02 Jun 2020 22:59:22 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2020 22:59:22 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis</title>
+      <link>https://HHUsimba.github.io/java/redis/</link>
+      <pubDate>Thu, 25 Jun 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/redis/</guid>
+      <description>redis 简介 简单来说 redis 就是一个数据库，不过与传统数据库不同的是 redis 的数据是存在内存中的，所以读写速度非常快，因此 redis 被广泛应用于缓存方向。另外，redis 也经常用来做分布式锁。redis 提供了多种数据类型来支持不同的业务场景。除此之外，redis 支持事务 、持久化、LUA 脚本、LRU 驱动事件、多种集群方案。
+用 redis缓存的原因 主要从“高性能”和“高并发”这两点来看待这个问题。
+高性能：
+假如用户第一次访问数据库中的某些数据。这个过程会比较慢，因为是从硬盘上读取的。将该用户访问的数据存在缓存中，这样下一次再访问这些数据的时候就可以直接从缓存中获取了。操作缓存就是直接操作内存，所以速度相当快。如果数据库中的对应数据改变的之后，同步改变缓存中相应的数据即可！
+高并发：
+直接操作缓存能够承受的请求是远远大于直接访问数据库的，所以我们可以考虑把数据库中的部分数据转移到缓存中去，这样用户的一部分请求会直接到缓存这里而不用经过数据库。
+用 redis 而不用 map/guava 做缓存的原因 缓存分为本地缓存和分布式缓存。以 Java 为例，使用自带的 map 或者 guava 实现的是本地缓存，最主要的特点是轻量以及快速，生命周期随着 jvm 的销毁而结束，并且在多实例的情况下，每个实例都需要各自保存一份缓存，缓存不具有一致性。
+使用 redis 或 memcached 之类的称为分布式缓存，在多实例的情况下，各实例共用一份缓存数据，缓存具有一致性。缺点是需要保持 redis 或 memcached 服务的高可用，整个程序架构上较为复杂。
+redis 的线程模型 redis 内部使用文件事件处理器 file event handler，这个文件事件处理器是单线程的，所以 redis 才叫做单线程的模型。它采用 IO 多路复用机制同时监听多个 socket，根据 socket 上的事件来选择对应的事件处理器进行处理。
+文件事件处理器的结构包含 4 个部分：
+ 多个 socket IO 多路复用程序 文件事件分派器 事件处理器（连接应答处理器、命令请求处理器、命令回复处理器）  多个 socket 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 socket，会将 socket 产生的事件放入队列中排队，事件分派器每次从队列中取出一个事件，把该事件交给对应的事件处理器进行处理。</description>
+    </item>
     
     <item>
       <title>ArrayList和LinkedList源码</title>
@@ -146,16 +165,6 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
  GC 调优目的 将转移到老年代的对象数量降低到最小； 减少 GC 的执行时间。
 GC 调优策略 策略 1：将新对象预留在新生代，由于 Full GC 的成本远高于 Minor GC，因此尽可能将对象分配在新生代是明智的做法，实际项目中根据 GC 日志分析新生代空间大小分配是否合理，适当通过“-Xmn”命令调节新生代大小，最大限度降低新对象直接进入老年代的情况。
 策略 2：大对象进入老年代，虽然大部分情况下，将对象分配在新生代是合理的。但是对于大对象这种做法却值得商榷，大对象如果首次在新生代分配可能会出现空间不足导致很多年龄不够的小对象被分配的老年代，破坏新生代的对象结构，可能会出现频繁的 full gc。因此，对于大对象，可以设置直接进入老年代（当然短命的大对象对于垃圾回收来说简直就是噩梦）。-XX:PretenureSizeThreshold 可以设置直接进入老年代的对象大小。</description>
-    </item>
-    
-    <item>
-      <title>GC笔记</title>
-      <link>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Sun, 03 May 2020 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/gc%E7%AC%94%E8%AE%B0/</guid>
-      <description>1 判断对象已经死亡 堆中几乎放着所有的对象实例，对堆垃圾回收前的第一步就是要判断那些对象已经死亡（即不能再被任何途径使用的对象）。 1.1 引用计数法 给对象中添加一个引用计数器，每当有一个地方引用它，计数器就加 1；当引用失效，计数器就减 1；任何时候计数器为 0 的对象就是不可能再被使用的。 这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。 所谓对象之间的相互引用问题，如下面代码所示：除了对象 objA 和 objB 相互引用着对方之外，这两个对象之间再无任何引用。但是他们因为互相引用对方，导致它们的引用计数器都不为 0，于是引用计数算法无法通知 GC 回收器回收他们。
-public class ReferenceCountingGc { Object instance = null; public static void main(String[] args) { ReferenceCountingGc objA = new ReferenceCountingGc(); ReferenceCountingGc objB = new ReferenceCountingGc(); objA.instance = objB; objB.instance = objA; objA = null; objB = null; } } 1.2 可达性分析算法 这个算法的基本思想就是通过一系列的称为 “GC Roots” 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的。 1.3 引用 无论是通过引用计数法判断对象引用数量，还是通过可达性分析法判断对象的引用链是否可达，判定对象的存活都与“引用”有关。 JDK1.2 之前，Java 中引用的定义很传统：如果 reference 类型的数据存储的数值代表的是另一块内存的起始地址，就称这块内存代表一个引用。 JDK1.</description>
     </item>
     
   </channel>

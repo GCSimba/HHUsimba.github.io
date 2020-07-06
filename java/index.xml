@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 02 Jun 2020 22:59:22 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2020 22:59:22 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis</title>
+      <link>https://HHUsimba.github.io/java/redis/</link>
+      <pubDate>Thu, 25 Jun 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/redis/</guid>
+      <description>redis 简介 简单来说 redis 就是一个数据库，不过与传统数据库不同的是 redis 的数据是存在内存中的，所以读写速度非常快，因此 redis 被广泛应用于缓存方向。另外，redis 也经常用来做分布式锁。redis 提供了多种数据类型来支持不同的业务场景。除此之外，redis 支持事务 、持久化、LUA 脚本、LRU 驱动事件、多种集群方案。
+用 redis缓存的原因 主要从“高性能”和“高并发”这两点来看待这个问题。
+高性能：
+假如用户第一次访问数据库中的某些数据。这个过程会比较慢，因为是从硬盘上读取的。将该用户访问的数据存在缓存中，这样下一次再访问这些数据的时候就可以直接从缓存中获取了。操作缓存就是直接操作内存，所以速度相当快。如果数据库中的对应数据改变的之后，同步改变缓存中相应的数据即可！
+高并发：
+直接操作缓存能够承受的请求是远远大于直接访问数据库的，所以我们可以考虑把数据库中的部分数据转移到缓存中去，这样用户的一部分请求会直接到缓存这里而不用经过数据库。
+用 redis 而不用 map/guava 做缓存的原因 缓存分为本地缓存和分布式缓存。以 Java 为例，使用自带的 map 或者 guava 实现的是本地缓存，最主要的特点是轻量以及快速，生命周期随着 jvm 的销毁而结束，并且在多实例的情况下，每个实例都需要各自保存一份缓存，缓存不具有一致性。
+使用 redis 或 memcached 之类的称为分布式缓存，在多实例的情况下，各实例共用一份缓存数据，缓存具有一致性。缺点是需要保持 redis 或 memcached 服务的高可用，整个程序架构上较为复杂。
+redis 的线程模型 redis 内部使用文件事件处理器 file event handler，这个文件事件处理器是单线程的，所以 redis 才叫做单线程的模型。它采用 IO 多路复用机制同时监听多个 socket，根据 socket 上的事件来选择对应的事件处理器进行处理。
+文件事件处理器的结构包含 4 个部分：
+ 多个 socket IO 多路复用程序 文件事件分派器 事件处理器（连接应答处理器、命令请求处理器、命令回复处理器）  多个 socket 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 socket，会将 socket 产生的事件放入队列中排队，事件分派器每次从队列中取出一个事件，把该事件交给对应的事件处理器进行处理。</description>
+    </item>
     
     <item>
       <title>ArrayList和LinkedList源码</title>
@@ -159,30 +178,6 @@ SELECT * FROM tb1 WHERE id &amp;lt; 500; B+树是有序的，在这种范围查�
 唯一索引，普通索引，前缀索引等索引属于二级索引。
 PS:不懂的同学可以暂存疑，慢慢往下看，后面会有答案的，也可以自行搜索。
  唯一索引(Unique Key) ：唯一索引也是一种约束。**唯一索引的属性列不能出现重复的数据，但是允许数据为NULL，一张表允许创建多个唯一索引。**建立唯一索引的目的大部分时候都是为了该属性列的数据的唯一性，而不是为了查询效率。 普通索引(Index) ：普通索引的唯一作用就是为了快速查询数据，一张表允许创建多个普通索引，并允许数据重复和NULL。 前缀索引(Prefix) ：前缀索引只适用于字符串类型的数据。前缀索引是对文本的前几个字符创建索引，相比普通索引建立的数据更小， 因为只取前几个字符。 全文索引(Full Text) ：全文索引主要是为了检索大文本数据中的关键字的信息，是目前搜索引擎数据库使用的一种技术。Mysql5.</description>
-    </item>
-    
-    <item>
-      <title>MySQL性能优化</title>
-      <link>https://HHUsimba.github.io/java/mysql%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/</link>
-      <pubDate>Thu, 02 Apr 2020 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/mysql%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/</guid>
-      <description>数据库命令规范 •所有数据库对象名称必须使用小写字母并用下划线分割
-•所有数据库对象名称禁止使用 MySQL 保留关键字（如果表名中包含关键字查询时，需要将其用单引号括起来）
-•数据库对象的命名要能做到见名识意，并且最后不要超过 32 个字符
-•临时库表必须以 tmp_为前缀并以日期为后缀，备份表必须以 bak_为前缀并以日期 (时间戳) 为后缀
-•所有存储相同数据的列名和列类型必须一致（一般作为关联列，如果查询时关联列类型不一致会自动进行数据类型隐式转换，会造成列上的索引失效，导致查询效率降低）
- 数据库基本设计规范 1. 所有表必须使用 Innodb 存储引擎 没有特殊要求（即 Innodb 无法满足的功能如：列存储，存储空间数据等）的情况下，所有表必须使用 Innodb 存储引擎（MySQL5.5 之前默认使用 Myisam，5.6 以后默认的为 Innodb）。
-Innodb 支持事务，支持行级锁，更好的恢复性，高并发下性能更好。
-2. 数据库和表的字符集统一使用 UTF8 兼容性更好，统一字符集可以避免由于字符集转换产生的乱码，不同的字符集进行比较前需要进行转换会造成索引失效，如果数据库中有存储 emoji 表情的需要，字符集需要采用 utf8mb4 字符集。
-3. 所有表和字段都需要添加注释 使用 comment 从句添加表和列的备注，从一开始就进行数据字典的维护
-4. 尽量控制单表数据量的大小,建议控制在 500 万以内。 500 万并不是 MySQL 数据库的限制，过大会造成修改表结构，备份，恢复都会有很大的问题。
-可以用历史数据归档（应用于日志数据），分库分表（应用于业务数据）等手段来控制数据量大小
-5. 谨慎使用 MySQL 分区表 分区表在物理上表现为多个文件，在逻辑上表现为一个表；
-谨慎选择分区键，跨分区查询效率可能更低；
-建议采用物理分表的方式管理大数据。
-6.尽量做到冷热数据分离,减小表的宽度  MySQL 限制每个表最多存储 4096 列，并且每一行数据的大小不能超过 65535 字节。
- 减少磁盘 IO,保证热数据的内存缓存命中率（表越宽，把表装载进内存缓冲池时所占用的内存也就越大,也会消耗更多的 IO）；</description>
     </item>
     
   </channel>
