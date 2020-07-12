@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="项目_社区代码流程">
+<meta itemprop="description" content="社区代码流程 第一部分：首页搭建 一、首页搭建：
+1. 数据库建表：user表、comment表、discuss_post表、login_ticket表、user表
+2. 创建User、discussPost、Page模型。
+3. DiscussPostDAO: 分页查询帖子的数量、查询帖子的行数(方便分页)
+DiscussPost-mapper.xml配置DiscussPostDAO映射
+UserDao：根据id查user、根据username查user、根据email查询user、adduser、updateStatus、UpdateHeaderUrl、UpdatePassword（注解映射，无需配置mapper）
+4. DiscussPostService：getDiscussPosts、findDiscussPostRows
+UserService：根据id查用户
+5. **HomeController:getIndexPage():**展示首页的内容
+第二部分：开发社区登录模块 一、发送邮件：
+需求：邮箱设置 -启动客户端SMTP服务，配置邮箱参数，使用javaMailSender发送邮件。
+1. 配置邮件客户端：配置application.properties、MailClient类
+二、注册功能
+需求：访问注册页面 - 点击顶部区域内的链接，打开注册页面。
+提交注册数据 - 通过表单提交数据。
+- 服务端验证账号是否已存在、邮箱是否已注册。
+- 服务端发送激活邮件。
+激活注册账号 - 点击邮件中的链接，访问服务端的激活服务。
+1. UserDao：addUser
+2. 创建CommunityUtil类：生成随机字符串；MD5加密
+3. UserService：注册Register
+4. LoginController：显示注册页面、实现注册功能
+三、邮件激活功能：
+1. 创建CommunityConstant常量工具类存储静态常量。
+2. **UserService :**激活邮件的功能
+3. UserController：获取登录页面的方法、激活邮件的方法。
+四、获取验证码：
+1. 创建验证码配置类：KaptchaConfig
+2. LoginController：生成验证码的方法(/kaptcha)
+五、登录功能
+1. 创建LoginTicket模型
+2. LoginTicketDAO：insertLoginTicket() 、 selectByTicket 、updateStatus
+3. UserService:login()、logout
+4. LoginController：login登录方法">
+<meta itemprop="datePublished" content="2020-07-03T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2020-07-03T22:59:22&#43;08:00" />
+<meta itemprop="wordCount" content="450">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="项目_社区代码流程" />
+<meta property="og:description" content="社区代码流程 第一部分：首页搭建 一、首页搭建：
+1. 数据库建表：user表、comment表、discuss_post表、login_ticket表、user表
+2. 创建User、discussPost、Page模型。
+3. DiscussPostDAO: 分页查询帖子的数量、查询帖子的行数(方便分页)
+DiscussPost-mapper.xml配置DiscussPostDAO映射
+UserDao：根据id查user、根据username查user、根据email查询user、adduser、updateStatus、UpdateHeaderUrl、UpdatePassword（注解映射，无需配置mapper）
+4. DiscussPostService：getDiscussPosts、findDiscussPostRows
+UserService：根据id查用户
+5. **HomeController:getIndexPage():**展示首页的内容
+第二部分：开发社区登录模块 一、发送邮件：
+需求：邮箱设置 -启动客户端SMTP服务，配置邮箱参数，使用javaMailSender发送邮件。
+1. 配置邮件客户端：配置application.properties、MailClient类
+二、注册功能
+需求：访问注册页面 - 点击顶部区域内的链接，打开注册页面。
+提交注册数据 - 通过表单提交数据。
+- 服务端验证账号是否已存在、邮箱是否已注册。
+- 服务端发送激活邮件。
+激活注册账号 - 点击邮件中的链接，访问服务端的激活服务。
+1. UserDao：addUser
+2. 创建CommunityUtil类：生成随机字符串；MD5加密
+3. UserService：注册Register
+4. LoginController：显示注册页面、实现注册功能
+三、邮件激活功能：
+1. 创建CommunityConstant常量工具类存储静态常量。
+2. **UserService :**激活邮件的功能
+3. UserController：获取登录页面的方法、激活邮件的方法。
+四、获取验证码：
+1. 创建验证码配置类：KaptchaConfig
+2. LoginController：生成验证码的方法(/kaptcha)
+五、登录功能
+1. 创建LoginTicket模型
+2. LoginTicketDAO：insertLoginTicket() 、 selectByTicket 、updateStatus
+3. UserService:login()、logout
+4. LoginController：login登录方法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/java/%E9%A1%B9%E7%9B%AE_%E7%A4%BE%E5%8C%BA%E4%BB%A3%E7%A0%81%E6%B5%81%E7%A8%8B/" />
+<meta property="article:published_time" content="2020-07-03T22:59:22+08:00" />
+<meta property="article:modified_time" content="2020-07-03T22:59:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="项目_社区代码流程"/>
+<meta name="twitter:description" content="社区代码流程 第一部分：首页搭建 一、首页搭建：
+1. 数据库建表：user表、comment表、discuss_post表、login_ticket表、user表
+2. 创建User、discussPost、Page模型。
+3. DiscussPostDAO: 分页查询帖子的数量、查询帖子的行数(方便分页)
+DiscussPost-mapper.xml配置DiscussPostDAO映射
+UserDao：根据id查user、根据username查user、根据email查询user、adduser、updateStatus、UpdateHeaderUrl、UpdatePassword（注解映射，无需配置mapper）
+4. DiscussPostService：getDiscussPosts、findDiscussPostRows
+UserService：根据id查用户
+5. **HomeController:getIndexPage():**展示首页的内容
+第二部分：开发社区登录模块 一、发送邮件：
+需求：邮箱设置 -启动客户端SMTP服务，配置邮箱参数，使用javaMailSender发送邮件。
+1. 配置邮件客户端：配置application.properties、MailClient类
+二、注册功能
+需求：访问注册页面 - 点击顶部区域内的链接，打开注册页面。
+提交注册数据 - 通过表单提交数据。
+- 服务端验证账号是否已存在、邮箱是否已注册。
+- 服务端发送激活邮件。
+激活注册账号 - 点击邮件中的链接，访问服务端的激活服务。
+1. UserDao：addUser
+2. 创建CommunityUtil类：生成随机字符串；MD5加密
+3. UserService：注册Register
+4. LoginController：显示注册页面、实现注册功能
+三、邮件激活功能：
+1. 创建CommunityConstant常量工具类存储静态常量。
+2. **UserService :**激活邮件的功能
+3. UserController：获取登录页面的方法、激活邮件的方法。
+四、获取验证码：
+1. 创建验证码配置类：KaptchaConfig
+2. LoginController：生成验证码的方法(/kaptcha)
+五、登录功能
+1. 创建LoginTicket模型
+2. LoginTicketDAO：insertLoginTicket() 、 selectByTicket 、updateStatus
+3. UserService:login()、logout
+4. LoginController：login登录方法"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>项目_社区代码流程</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>项目_社区代码流程</h1>
+		<div class="content">
+			<h3 id="社区代码流程">社区代码流程<a href="#社区代码流程" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<h3 id="第一部分首页搭建"><strong>第一部分：首页搭建</strong><a href="#第一部分首页搭建" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><strong>一、首页搭建：</strong></p>
+<p><strong>1.</strong> 数据库建表：user表、comment表、discuss_post表、login_ticket表、user表</p>
+<p><strong>2.</strong> 创建User、discussPost、Page模型。</p>
+<p><strong>3.</strong> DiscussPostDAO: 分页查询帖子的数量、查询帖子的行数(方便分页)</p>
+<p><strong>DiscussPost-mapper.xml</strong>配置DiscussPostDAO映射</p>
+<p><strong>UserDao</strong>：根据id查user、根据username查user、根据email查询user、adduser、updateStatus、UpdateHeaderUrl、UpdatePassword（注解映射，无需配置mapper）</p>
+<p><strong>4.</strong> <strong>DiscussPostService</strong>：getDiscussPosts、findDiscussPostRows</p>
+<p><strong>UserService</strong>：根据id查用户</p>
+<p><strong>5.</strong> **HomeController:getIndexPage():**展示首页的内容</p>
+<h3 id="第二部分开发社区登录模块"><strong>第二部分：开发社区登录模块</strong><a href="#第二部分开发社区登录模块" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><strong>一、发送邮件：</strong></p>
+<p><strong>需求：邮箱设置 -启动客户端SMTP服务，配置邮箱参数，使用javaMailSender发送邮件。</strong></p>
+<p><strong>1.</strong> <strong>配置邮件客户端：配置application.properties、MailClient类</strong></p>
+<p><strong>二、注册功能</strong></p>
+<p><strong>需求：访问注册页面 - 点击顶部区域内的链接，打开注册页面。</strong></p>
+<p><strong>提交注册数据 - 通过表单提交数据。</strong></p>
+<p><strong>-</strong> <strong>服务端验证账号是否已存在、邮箱是否已注册。</strong></p>
+<p><strong>-</strong> <strong>服务端发送激活邮件。</strong></p>
+<p><strong>激活注册账号 - 点击邮件中的链接，访问服务端的激活服务。</strong></p>
+<p><strong>1.</strong> <strong>UserDao</strong>：addUser</p>
+<p><strong>2.</strong> <strong>创建CommunityUtil类：生成随机字符串；MD5加密</strong></p>
+<p><strong>3.</strong> <strong>UserService</strong>：注册Register</p>
+<p><strong>4.</strong> <strong>LoginController</strong>：显示注册页面、实现注册功能</p>
+<p><strong>三、邮件激活功能：</strong></p>
+<p><strong>1.</strong> <strong>创建CommunityConstant常量工具类存储静态常量。</strong></p>
+<p><strong>2.</strong> **UserService :**激活邮件的功能</p>
+<p><strong>3.</strong> <strong>UserController</strong>：获取登录页面的方法、激活邮件的方法。</p>
+<p><strong>四、获取验证码：</strong></p>
+<p><strong>1.</strong> <strong>创建验证码配置类：KaptchaConfig</strong></p>
+<p><strong>2.</strong> <strong>LoginController</strong>：生成验证码的方法(/kaptcha)</p>
+<p><strong>五、登录功能</strong></p>
+<p><strong>1.</strong> <strong>创建LoginTicket模型</strong></p>
+<p><strong>2.</strong> <strong>LoginTicketDAO</strong>：insertLoginTicket() 、 selectByTicket 、updateStatus</p>
+<p><strong>3.</strong> <strong>UserService:login()</strong>、logout</p>
+<p><strong>4.</strong> <strong>LoginController</strong>：login登录方法</p>
+<p><strong>六、显示登录信息</strong></p>
+<p><strong>1.</strong> <strong>创建HostHolder和CookieUtil工具类</strong></p>
+<p><strong>2.</strong> <strong>创建LoginTicketInterceptor拦截器拦截用户请求</strong></p>
+<p><strong>3.</strong> <strong>创建WebMVCConfig类注册拦截器</strong></p>
+<p><strong>七、上传头像</strong></p>
+<p><strong>1.</strong> <strong>UserService</strong>：上传头像的功能。</p>
+<p><strong>2.</strong> <strong>UserController</strong>：uploadHeader()上传头像、getHeader()获取头像</p>
+<p><strong>八、登录校验</strong></p>
+<p><strong>1.</strong> <strong>创建LoginRequired注解</strong></p>
+<p><strong>2.</strong> <strong>创建LoginRequiredInterceptor拦截器拦截请求</strong></p>
+<p><strong>4.</strong> <strong>在WebMVCConfig类注册拦截器</strong></p>
+<p><strong>3.</strong> <strong>UserController</strong>**：为需要进行登录校验的方法添上LoginRequired注解**</p>
+<h3 id="第三部分开发社区核心功能"><strong>第三部分：开发社区核心功能</strong><a href="#第三部分开发社区核心功能" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><strong>一、敏感词过滤</strong></p>
+<p><strong>1.</strong> <strong>利用字典树编写敏感词过滤的类</strong></p>
+<p><strong>2.</strong> <strong>创建一个用于存放敏感词的text文本文件</strong></p>
+<p><strong>二、发布帖子</strong></p>
+<p><strong>1.</strong> <strong>在CommunityUtil中获取Json格式字符串的功能</strong></p>
+<p><strong>2.</strong> <strong>DiscussPostDao</strong>**：addDiscussPost()**</p>
+<p><strong>3.</strong> <strong>DiscussPostService:addDiscussPost()****，需要进行敏感词过滤和HTML标签过滤</strong></p>
+<p><strong>4.</strong> <strong>DiscussPostController</strong>**：@postMapping(“/add”) : addDiscussPost()**</p>
+<p><strong>三、查看帖子详情</strong></p>
+<p><strong>1.</strong> <strong>DiscussPostDao</strong>**：selectDiscussPostById()**</p>
+<p><strong>2.</strong> <strong>DiscussPostService:findDiscussPostById()</strong></p>
+<p><strong>3.</strong> <strong>DiscussPostController:getDiscussPost()</strong></p>
+<p>**四、**<strong>显示评论</strong></p>
+<p><strong>1.</strong> <strong>在CommunityConstant配置实体类型：帖子和评论</strong></p>
+<p><strong>2.</strong> <strong>创建Comment模型</strong></p>
+<p><strong>3.</strong> **CommentDao:**<strong>根据实体查询所有的评论分页展示 、查询评论的数量</strong></p>
+<p><strong>Comment-mapper.xml****映射</strong></p>
+<p><strong>4.</strong> <strong>CommentService</strong>**：根据实体查询所有的评论分页展示 、查询评论的数量**</p>
+<p><strong>5.</strong> <strong>DiscussController</strong>**：getDiscussPost()**</p>
+<p><strong>6.</strong> <strong>CommentDao</strong>**：新增评论，更新评论的数量**</p>
+<p><strong>DiscussPostDao</strong>**：更新帖子的数量**</p>
+<p><strong>7.</strong> <strong>CommentService</strong>**：查询评论的数量，更新评论的数量**</p>
+<p>**DiscussPostService:**<strong>更新帖子的数量</strong></p>
+<p><strong>8.</strong> <strong>cCommentController</strong>**：增加评论**</p>
+<p><strong>五、私信列表：</strong></p>
+<p>**1.**新建model：Message</p>
+<p><strong>2.MessageDao</strong>：查询当前用户的会话列表，（分页） selectConversations()</p>
+<p>​    <strong>查询当前用户的会话数量 selectConversationCount()</strong></p>
+<p>​    <strong>查询某个会话所包含的私信列表（分页） selectLetters()</strong></p>
+<p>​    <strong>查询某个对话所包含的私信数量 selectLetterCount()</strong></p>
+<p>​    <strong>查询未读私信的数量 selectLetterUnreadCount()</strong></p>
+<p>​    <strong>根据MessageDao写Message-mapper.xml配置文件</strong></p>
+<p><strong>3.MessageService</strong>：实现MessageDao的相关方法</p>
+<p><strong>4.MessageController</strong>：</p>
+<p><strong>私信列表：getLetterList()</strong></p>
+<p>​    <strong>私信详情：getLetterDetail()</strong></p>
+<p>​    <strong>辅助方法：getLetterTarget得到私信来自于哪个用户？</strong></p>
+<p><strong>六、发送私信：</strong></p>
+<p><strong>1.</strong> <strong>messageDao</strong>：新增私信，修改多个私信的状态(已读or删除)</p>
+<p><strong>2.</strong> <strong>messageService</strong>：新增私信（addmessage）：敏感词过滤，HTML过滤</p>
+<p>​          <strong>读取消息，将消息的状态置为1</strong></p>
+<p><strong>3.</strong> <strong>MessageController</strong>：辅助方法：或许发送私信的目标用户</p>
+<p>​           <strong>在私信列表中将私信设置为已读</strong></p>
+<p>​           <strong>SendMessage()</strong>，返回Json字符串格式：0表示发送成功</p>
+<p><strong>七、统一处理异常：</strong></p>
+<p><strong>1.</strong> <strong>homeController</strong>：获取500.error页面</p>
+<p><strong>2.</strong> <strong>通知方法：ExceptionAdvice</strong></p>
+<p><strong>八、统一记录日志：</strong></p>
+<p><strong>1.</strong> <strong>编写一个切面：ServiceLogAspect（AOP）</strong></p>
+<h3 id="第四部分高性能存储方案"><strong>第四部分：高性能存储方案</strong><a href="#第四部分高性能存储方案" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><strong>一、整合Redis：</strong></p>
+<p><strong>1.</strong> <strong>application.properties</strong>配置redis</p>
+<p><strong>2.</strong> <strong>RedisConfig</strong> <strong>配置redis</strong></p>
+<p><strong>二、点赞：</strong></p>
+<p><strong>1.</strong> <strong>RedisUtil</strong>**：getEntityLikeKey()**</p>
+<p><strong>2.</strong> **LikeService:**<strong>点赞、查询某一个实体点赞的数量、获取某人对某个实体点赞的状态</strong></p>
+<p><strong>3.</strong> <strong>LikeController</strong>**：like**</p>
+<p><strong>4.</strong> <strong>HomeController</strong>**：在首页显示某一个帖子被赞的数量**</p>
+<p><strong>5.</strong> <strong>DiscussPostController</strong>**：在添加帖子的方法中显示帖子被点赞的数量和状态**</p>
+<p><strong>在评论中显示评论被点赞的数量和状态</strong></p>
+<p><strong>在回复中显示回复被点赞的数量和状态</strong></p>
+<p><strong>三、我收到的赞</strong></p>
+<p>**1.**<strong>在redisUtil中设置某一个用户的赞的key</strong></p>
+<p>**2.**<strong>重构LikeService中点赞的方法，增加一个参数：entityUserId 用事务管理点赞和踩的操作（查询操作在外部进行）</strong></p>
+<p><strong>3.LikeService</strong>**：追加方法：查询某一个实体被赞的数量**</p>
+<p>**4.**<strong>表现层：点赞方法加一个参数entityUserId</strong></p>
+<p>**5.**<strong>在UserController中添加一个个人主页 @getMapping(&quot;/profile/{userId}&quot;)</strong></p>
+<p><strong>四、关注和取消关注</strong></p>
+<p>**1.**<strong>在redisKeyUtil中定义Follower和Followee的key</strong></p>
+<p><strong>某个用户关注的实体：格式：Followee：Followee：userId：entityType -&gt;zset(entityId,now)</strong></p>
+<p><strong>某个实体拥有的粉丝：格式：Follower：Follower：entityType：entityId -&gt;zset(userId,now)</strong></p>
+<p>**2.FollowService:**<strong>使用事务管理关注和取消关注的业务：</strong></p>
+<p><strong>在Redis中用事务管理关注和取消关注，但是将查询业务放到事务外部避免幻读。</strong></p>
+<p><strong>3.FollowController</strong>**：@postMapping(&quot;/follow&rdquo;) @postMapping(&quot;/unfollow&rdquo;);**</p>
+<p><strong>4.FollowService</strong>**：查询某一个用户关注对象的数量，统计某一个实体粉丝的数量，查询当前对象是否被用户关注（hasFollowed）**</p>
+<p><strong>5.UserController</strong>**：在个人主页方法中查询关注数量、粉丝数量、当前用户对这个用户是否已经关注（判断是否登录）**</p>
+<p><strong>五、关注列表和粉丝列表</strong></p>
+<p><strong>业务层：查询某一个用户关注的人，支持分页展示。</strong></p>
+<p>​    <strong>查询某一个用户的粉丝，支持分页。</strong></p>
+<p><strong>表现层：处理”查询关注的人”、”查询粉丝”请求。</strong></p>
+<p><strong>1.FollowService</strong>**：**</p>
+<p><strong>查询某用户关注的人findFollowees:支持分页查询，查询该用户关注的对象（用户）的id集合，判断集合是否为空，不为空就遍历集合，将user和FollowTime装到map中。</strong></p>
+<p><strong>查询关注某个用户的粉丝findFollowers:支持分页查询，查询该用户的粉丝的id集合返回List&lt;map&lt;String,Object&raquo;判断集合是否为空，不为空就遍历集合，将user和FollowTime装到map中。</strong></p>
+<p><strong>2.FollowController</strong>**：**</p>
+<p><strong>关注对象列表：getMapping(&quot;/followees/{userId}&quot;) : getFollowees()：</strong></p>
+<p><strong>model.add(&ldquo;user&rdquo;,user)</strong></p>
+<p>​         <strong>分页：5条数据，path：&quot;/followees&rdquo; + userId</strong></p>
+<p>​         <strong>查询：查询当前用户关注的对象的列表 判断列表是否为空 遍历获取map 得到某一个用户,然后判断该用户是否已经被关注,最后把userList放到model中 返回：&ldquo;site/followee&rdquo;;</strong></p>
+<p><strong>粉丝列表和关注对象列表逻辑类似。</strong></p>
+<p>​</p>
+<p><strong>六、优化登录模块</strong></p>
+<p><strong>使用Redis来存储验证码</strong></p>
+<p><strong>-</strong> <strong>验证码需要频繁的访问与刷新，对性能要求比较高</strong></p>
+<p><strong>-</strong> <strong>验证码不需要永久保存，通常在很短的时间内就会失效</strong></p>
+<p><strong>-</strong> <strong>分布式部署时，存在session共享的问题。</strong></p>
+<p><strong>使用Redis来存储登录凭证</strong></p>
+<p><strong>-</strong> <strong>每次处理请求时，都要查询用户凭证，访问频率非常高。</strong></p>
+<p><strong>使用Redis缓存用户信息</strong></p>
+<p><strong>-</strong> <strong>处理每次请求时，都要根据凭证查询用户信息，访问的平率非常高。</strong></p>
+<p><strong>七、使用Redis来存储验证码</strong></p>
+<p><strong>1.RedisKeyUtil</strong>**：定义一个前缀：kaptchakey，在获取kaptcha的方法中传入一个字符串来标识验证码的拥有者。**</p>
+<p><strong>2.LoginController</strong>**：**</p>
+<p><strong>重构getkaptcha，将存入session替换成存入redis，验证码的所有者用工具类来随机生成。将验证码存到cookie中，设置cookie的生效时间，路径，然后将cookie添加并返回给前端页面。将验证码存入redis，验证码就是一个字符串，存入普通的value中，设置超时时间。</strong></p>
+<p><strong>重构login，注释session相关，从Cookie中取出onwner，判断owner是否为空，不为空就获取redis的值。</strong></p>
+<p><strong>八、使用Redis来存储登录凭证</strong></p>
+<p><strong>1.RedisKeyUtil</strong>**：定义一个前缀：Ticketkey ，在getTickey方法中传入String ticket表示当前用户的ticket。**</p>
+<p>**2.LoginTicketDao :**<strong>不推荐使用LoginTicketDao。（加Deprecated注解）</strong></p>
+<p><strong>UserService</strong>**：在生成登录凭证方法内部注释LoginTicketDao插入LoginTicket的操作，将loginTicket放到redis中。在logout方法中取出loginTicket，然后改变LoginTicket的状态变为无效状态，然后存到redis中。在findLoginTicket中，查询LoginTicket，然后返回LoginTicket的值。**</p>
+<p><strong>九、使用Redis缓存用户信息</strong></p>
+<p><strong>1.RedisKeyUtil</strong>**：定义一个前缀：PREFIX_USER 提供一个获取getUserKey的方法**</p>
+<p>**2.**<strong>缓存：</strong></p>
+<p><strong>UserService</strong>**：缓存的方法：**</p>
+<p>​      **1.**<strong>优先从缓存中取值</strong></p>
+<p>​      **2.**<strong>如果缓存中没有数据就从数据库中读取数据的放到缓存中</strong></p>
+<p>​      **3.**<strong>数据变更时，清除缓存数据</strong></p>
+<p><strong>findUserById()****：从缓存中取出user，判断user是否为空，若为空则初始化user，返回user。</strong></p>
+<p><strong>Activation()****：修改状态码后，清除缓存数据。</strong></p>
+<p><strong>uploadHeaderUrl()****：先更新头像，返回更新的行数，然后清除缓存数据。</strong></p>
+<h3 id="第五部分-使用kafka搭建tb级异步消息队列"><strong>第五部分</strong> <strong>使用Kafka搭建TB级异步消息队列</strong><a href="#第五部分-使用kafka搭建tb级异步消息队列" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p><strong>一、<strong><strong>Spring</strong></strong>整合Kafka</strong></p>
+<p><strong>1.</strong> <strong>配置kafka：在application.properties中配置kafkaProperties。</strong></p>
+<p><strong>2.</strong> <strong>编写Producer类：发送消息</strong></p>
+<p><strong>3.</strong> <strong>Consumer****类：KafkaListener注解监听一个主题，打印队列中的消息</strong></p>
+<p><strong>4.</strong> <strong>Test****类测试Kafka。</strong></p>
+<p><strong>二、发送系统通知：</strong></p>
+<p><strong>触发事件：</strong></p>
+<p><strong>-</strong> <strong>评论后，发布通知</strong></p>
+<p><strong>-</strong> <strong>点赞后，发布通知</strong></p>
+<p><strong>-</strong> <strong>关注后，发布通知</strong></p>
+<p><strong>处理事件：</strong></p>
+<p><strong>-</strong> <strong>封装事件对象</strong></p>
+<p><strong>-</strong> <strong>开发事件的生产者</strong></p>
+<p><strong>-</strong> <strong>开发事件的消费者</strong></p>
+<p>**1.**<strong>创建一个Event模型，对字段的Set方法进行调整，使对象能够链式调用set方法。</strong></p>
+<p>**2.**<strong>新建一个包：event</strong></p>
+<p><strong>生产者：EventProducer：</strong></p>
+<p>​     <strong>触发事件：fireEvent(),将事件发布到指定的主题，内容用jsonString</strong></p>
+<p>​     <strong>注意：将消息发送到kafka的时候，需要将对象转成jsonString</strong></p>
+<p><strong>在常量类中定义主题字段：TOPIC_COMMENT 、TOPIC_LIKE、 TOPIC_FOLLOW</strong></p>
+<p><strong>消费者：就是监听主题，然后发送消息（消息存到数据库中）</strong></p>
+<p><strong>EventConsumer</strong>**：让Kafka的Consumer端监听多个TOPIC**</p>
+<p>​    **handleCommentMessage():**<strong>判断消息队列中记录的值是否为空，若为空则打上日志，返回。</strong></p>
+<p>​    <strong>获取事件对象，判断事件对象是否为空，若为空则打上日志，返回。</strong></p>
+<p>​    <strong>发送站内通知：在常量类中定义USER_ID，初始化消息message。</strong></p>
+<p>​    <strong>设置一个map表示消息的内容声明为content，将事件的触发者、事件类型、事件id存到map中。</strong></p>
+<p>​    <strong>判断事件中的数据是否为空，若不为空就设置到事件的data域中。</strong></p>
+<p>​    <strong>最后将map初始化到message中。</strong></p>
+<p>​    <strong>将message存储到数据库中。</strong></p>
+<p><strong>3.CommentController</strong>**：实现常量接口，注入producer，在添加评论以后触发评论事件，初始化评论事件，根据评论的类型获取事件实体的作者，将作者的id初始化到事件中，最后由producer发送事件。**</p>
+<p><strong>4.LikeController</strong>**：实现常量接口，注入producer，触发点赞事件，当LikeStatus=1时表示用户点赞，初始化事件，由producer发送事件。**</p>
+<p><strong>5.FollowController</strong>**：实现常量接口，注入producer，当当前用户Follow以后，触发关注事件，初始化事件，由producer发送事件。**</p>
+<p><strong>三、显示系统通知</strong></p>
+<p><strong>通知列表 - 显示评论、点赞、关注三种类型的通知</strong></p>
+<p><strong>通知详情 - 分页显示某一类主题所包含的通知</strong></p>
+<p><strong>未读消息 - 在页面头部显示所有的未读消息数量</strong></p>
+<p><strong>通知列表</strong></p>
+<p><strong>1.messageDao</strong>**：**</p>
+<p><strong>查询某一个主题下最新的通知 selectLatestNotice()</strong></p>
+<p><strong>查询某个主题所包含的通知数量 selectNoticeCount()</strong></p>
+<p><strong>查询未读的通知数量 selectNoticeUnreadCount()</strong></p>
+<p>**message.xml:**<strong>将Dao里的方法实现</strong></p>
+<p><strong>2.messageService</strong>**：**</p>
+<p><strong>findLatestNotice()****、selectNotiesCount()、selectNoticeUnreadCount()</strong></p>
+<p><strong>3.messageController:getMapping(&quot;/notics/list&rdquo;):getNoticeList:</strong></p>
+<p><strong>查询评论类的通知：设置一个Map集合作为messageVO，判断查询到的通知信息是否为空，将信息存储到map中，将content中的数据进行转义，将comment类型通知设置的user，entityType，entityId，postId传到VO中，将通知的数量和未读的数量也存到VO中，最后用model返回给前端页面。name：commentNotice</strong></p>
+<p><strong>查询点赞类的通知：复用评论通知的message和vo，修改主题的类型，model.addAttribute(&ldquo;likeNotice&rdquo;,messageVO)</strong></p>
+<p><strong>查询关注类型的通知：复用评论通知的message和vo，修改主题的类型，model.addAttribute(&ldquo;followNotice&rdquo;,messageVO)</strong></p>
+<p><strong>注意：关注通知类型的通知不需要postId属性。</strong></p>
+<p><strong>查询未读消息数量 model.addAttribute(&ldquo;letterUnreadCount&rdquo;);</strong></p>
+<p><strong>查询所有通知的数量 model.addAttribute(&ldquo;noticeUnreadCount&rdquo;);</strong></p>
+<p><strong>在私信列表中：查询所有通知的数量 model.addAttribute(&ldquo;noticeUnreadCount&rdquo;);</strong></p>
+<p><strong>通知详情</strong></p>
+<p><strong>1.</strong> <strong>messageDao</strong>**：selectNotices()查询某一个主题的通知列表。**</p>
+<p><strong>2.</strong> <strong>message.xml</strong>**：实现selectNotices()**</p>
+<p><strong>3.</strong> <strong>messageService:FindNotices()</strong></p>
+<p><strong>4.</strong> <strong>messageController:getNoticeDetail()</strong></p>
+<h3 id="第六部分elasticsearch-分布式搜索引擎"><strong>第六部分：ElasticSearch 分布式搜索引擎</strong><a href="#第六部分elasticsearch-分布式搜索引擎" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
+<p>**一、**<strong>初识ElasticSearch</strong></p>
+<p><strong>1.</strong> <strong>简介：ES是一个分布式、Restful风格的搜索引擎，支持对各种类型的数据的检索。搜索速度快，可以提供实时的搜索服务。便于水平扩展，每秒可以处理PB级的数据。</strong></p>
+<p><strong>2.</strong> <strong>解压ES压缩包，修改配置：</strong></p>
+<p><strong>config/elasticSearch.yml: cluster.name:nowcoder</strong></p>
+<p>​           **path.data:**<strong>数据的存放目录</strong></p>
+<p>​           **path.logs:**<strong>项目运行的日志</strong></p>
+<p><strong>3.</strong> <strong>配置ES的环境变量</strong></p>
+<p><strong>4.</strong> <strong>IK****分词器：解压到ES的plugins目录下。</strong></p>
+<p><strong>5.</strong> <strong>在ES/bin目录下点击bat文件，启动ES。</strong></p>
+<p><strong>6.</strong> <strong>在postman查询有多少个索引：localhost:9200/_cat/indices?v</strong></p>
+<p><strong>7.</strong> <strong>在postman查询索引的内容：localhost:9200/discusspost/_search</strong></p>
+<p>postman执行es的参考博客：https://blog.csdn.net/prepared/article/details/88811921</p>
+<p><strong>二、<strong><strong>Spring</strong></strong>整合ElasticSearch</strong></p>
+<p><strong>1.</strong> <strong>引入依赖：Spring-boot-data-elasticsearch</strong></p>
+<p><strong>2.</strong> <strong>在application.properties中配置ElasticSearch的名字和节点的端口号。</strong></p>
+<p><strong>3.</strong> <strong>在communityApplication中设置es.set.netty.runtime.available.processors为false来解决Netty启动冲突的问题。（这个属性在Netty4Utils中为true）</strong></p>
+<p><strong>4.</strong> <strong>在DiscussPost实体类上用注解使实体类和ES关联</strong></p>
+<p><strong>5.</strong> <strong>创建DiscussPostRepository继承ES的接口，指明关联的实体类和实体类的主键类型。</strong></p>
+<p><strong>6.</strong> <strong>在ElasticSearchTest中测试ES：插入数据，修改数据，删除数据，用两种不同的方式查询数据。</strong></p>
+<p>**三、**<strong>开发社区搜索功能</strong></p>
+<p><strong>搜索服务：将帖子保存到ES服务器，从ES服务器中删除帖子，从ES服务器中搜索帖子</strong></p>
+<p><strong>发布事件：发布帖子时，讲帖子异步地提交到ES服务器。增加评论时，将帖子异步的提交到ES服务器，在消费组件中增加一个方法，消费帖子发布事件。</strong></p>
+<p><strong>显示结果：在控制器中处理搜索请求，在HTML中显示搜索结果。</strong></p>
+<p><strong>1.</strong>  <strong>新建ElasticsearchService：注入 DiscussPostRepository、elasticsearchTemplate。</strong></p>
+<p><strong>向ES中存DiscussPost、通过ｉｄ删除ES中的数据，查询数据（改动测试代码）</strong></p>
+<p><strong>2.</strong>  <strong>在DiscussPostController中触发发帖事件：注入生产者 创建一个新的Event并发送该事件进入消息队列</strong></p>
+<p><strong>在常量类中定义发帖事件的常量：主题：发帖</strong></p>
+<p><strong>3.</strong>  <strong>CommentController</strong>**：addComment：判断评论对象是否是帖子，如果是就创建一个新的事件并发送到消息队列**</p>
+<p><strong>4.</strong>  <strong>EventConsumer</strong>**：注入：DiscussPostService、ElasticsearchService；增加一个消费发帖事件的方法，查询帖子数据，然后存储到ES服务器中。**</p>
+<p><strong>5.</strong>  <strong>SearchController</strong>**：注入ElasticsearchService；、LikeService、UserService**</p>
+<p><strong>getMapping(&ldquo;search&rdquo;) search(String Keyword,Page page,Model model):</strong></p>
+<p>　<strong>搜索帖子然后聚合搜索结果的数据：</strong></p>
+<p>　　<strong>设置一个map存储post、user、likeCount</strong></p>
+<p><strong>model.add(&ldquo;discussPosts&rdquo;,discussPosts)</strong></p>
+<p><strong>model.add(&ldquo;keyword&rdquo;,keyword)</strong></p>
+<p><strong>设置分页信息， return：&ldquo;site/search&rdquo;;</strong>　</p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>
