@@ -388,7 +388,7 @@ UserService：根据id查用户
 <p><strong>查询评论类的通知：设置一个Map集合作为messageVO，判断查询到的通知信息是否为空，将信息存储到map中，将content中的数据进行转义，将comment类型通知设置的user，entityType，entityId，postId传到VO中，将通知的数量和未读的数量也存到VO中，最后用model返回给前端页面。name：commentNotice</strong></p>
 <p><strong>查询点赞类的通知：复用评论通知的message和vo，修改主题的类型，model.addAttribute(&ldquo;likeNotice&rdquo;,messageVO)</strong></p>
 <p><strong>查询关注类型的通知：复用评论通知的message和vo，修改主题的类型，model.addAttribute(&ldquo;followNotice&rdquo;,messageVO)</strong></p>
-<p><strong>注意：关注通知类型的通知不需要postId属性。</strong></p>
+<p><strong>注意：关注通知类型的通知不需要postId属性</strong></p>
 <p><strong>查询未读消息数量 model.addAttribute(&ldquo;letterUnreadCount&rdquo;);</strong></p>
 <p><strong>查询所有通知的数量 model.addAttribute(&ldquo;noticeUnreadCount&rdquo;);</strong></p>
 <p><strong>在私信列表中：查询所有通知的数量 model.addAttribute(&ldquo;noticeUnreadCount&rdquo;);</strong></p>
@@ -405,8 +405,8 @@ UserService：根据id查用户
 <p>​           **path.data:**数据的存放目录</p>
 <p>​           **path.logs:**项目运行的日志</p>
 <p><strong>3.</strong> <strong>配置ES的环境变量</strong></p>
-<p><strong>4.</strong> <strong>IK</strong>分词器：解压到ES的plugins目录下。</p>
-<p><strong>5.</strong> <strong>在ES/bin目录下点击bat文件，启动ES。</strong></p>
+<p><strong>4.</strong> <strong>IK</strong>分词器：解压到ES的plugins目录下</p>
+<p><strong>5.</strong> <strong>在ES/bin目录下点击bat文件，启动ES</strong></p>
 <p><strong>6.</strong> <strong>在postman查询有多少个索引：localhost:9200/_cat/indices?v</strong></p>
 <p><strong>7.</strong> <strong>在postman查询索引的内容：localhost:9200/discusspost/_search</strong></p>
 <p>postman执行es的参考博客：https://blog.csdn.net/prepared/article/details/88811921</p>
