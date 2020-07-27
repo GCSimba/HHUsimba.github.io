@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="排序算法总结">
+<meta itemprop="description" content="package sort; import java.util.ArrayList; import java.util.Arrays; public class Sort { public static void main(String[] args) { int[] arr = new int[20]; int index = 0; for (int i = 20; i &gt; 0; i--)// 从大到小构建数组 	arr[index&#43;&#43;] = i; System.out.println(&#34;原数组：&#34;); System.out.println(Arrays.toString(arr)); System.out.println(&#34;开始排序&#34;); arr = BubbleSort(arr); System.out.println(&#34;BubbleSort排序后为：&#34;); System.out.println(Arrays.toString(arr)); } // 工具：交换数组中元素的位置 	public static int[] swap(int[] arr, int i, int j) { int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; return arr; } // ****** 1.">
+<meta itemprop="datePublished" content="2020-07-25T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2020-07-25T22:59:22&#43;08:00" />
+<meta itemprop="wordCount" content="1486">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="排序算法总结" />
+<meta property="og:description" content="package sort; import java.util.ArrayList; import java.util.Arrays; public class Sort { public static void main(String[] args) { int[] arr = new int[20]; int index = 0; for (int i = 20; i &gt; 0; i--)// 从大到小构建数组 	arr[index&#43;&#43;] = i; System.out.println(&#34;原数组：&#34;); System.out.println(Arrays.toString(arr)); System.out.println(&#34;开始排序&#34;); arr = BubbleSort(arr); System.out.println(&#34;BubbleSort排序后为：&#34;); System.out.println(Arrays.toString(arr)); } // 工具：交换数组中元素的位置 	public static int[] swap(int[] arr, int i, int j) { int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; return arr; } // ****** 1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/java/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" />
+<meta property="article:published_time" content="2020-07-25T22:59:22+08:00" />
+<meta property="article:modified_time" content="2020-07-25T22:59:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="排序算法总结"/>
+<meta name="twitter:description" content="package sort; import java.util.ArrayList; import java.util.Arrays; public class Sort { public static void main(String[] args) { int[] arr = new int[20]; int index = 0; for (int i = 20; i &gt; 0; i--)// 从大到小构建数组 	arr[index&#43;&#43;] = i; System.out.println(&#34;原数组：&#34;); System.out.println(Arrays.toString(arr)); System.out.println(&#34;开始排序&#34;); arr = BubbleSort(arr); System.out.println(&#34;BubbleSort排序后为：&#34;); System.out.println(Arrays.toString(arr)); } // 工具：交换数组中元素的位置 	public static int[] swap(int[] arr, int i, int j) { int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp; return arr; } // ****** 1."/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>排序算法总结</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>排序算法总结</h1>
+		<div class="content">
+			<p><img src="https://img-blog.csdnimg.cn/2020072721005848.png?" alt="在这里插入图片描述"></p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">sort</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sort</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">20</span><span class="o">];</span>
+		<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">20</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span><span class="c1">// 从大到小构建数组
+</span><span class="c1"></span>			<span class="n">arr</span><span class="o">[</span><span class="n">index</span><span class="o">++]</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;原数组：&#34;</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;开始排序&#34;</span><span class="o">);</span>
+		<span class="n">arr</span> <span class="o">=</span> <span class="n">BubbleSort</span><span class="o">(</span><span class="n">arr</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;BubbleSort排序后为：&#34;</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 工具：交换数组中元素的位置
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">swap</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+		<span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+		<span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">;</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 1.直接插入排序 ******
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">InsertionSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="c1">// 将 i+1 位置的数插入 0 到 i 之间的数组，从后往前遍历
+</span><span class="c1"></span>			<span class="c1">// current 指 i+1 的位置元素，pre 指 0 到 i 中依次向前遍历的指针
+</span><span class="c1"></span>			<span class="kt">int</span> <span class="n">current</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">];</span>
+			<span class="kt">int</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">pre</span> <span class="o">&gt;=</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="n">current</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">[</span><span class="n">pre</span><span class="o">])</span> <span class="o">{</span>
+				<span class="n">arr</span><span class="o">[</span><span class="n">pre</span> <span class="o">+</span> <span class="n">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">pre</span><span class="o">];</span>
+				<span class="n">pre</span><span class="o">--;</span>
+			<span class="o">}</span>
+			<span class="c1">// 最后将原来 i+1 位置的元素放入现在 0 到 i+1 之间数组中正确的位置上
+</span><span class="c1"></span>			<span class="c1">// pre+1 是因为刚才循环结束时又自减了一次
+</span><span class="c1"></span>			<span class="n">arr</span><span class="o">[</span><span class="n">pre</span> <span class="o">+</span> <span class="n">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">current</span><span class="o">;</span>
+			<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 2.希尔排序 ******
+</span><span class="c1"></span>	<span class="c1">// 希尔排序最重要的变量就是 gap，所有需要+1或者自加1的地方都要注意
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">ShellSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">current</span><span class="o">,</span> <span class="n">gap</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span>
+		<span class="k">while</span> <span class="o">(</span><span class="n">gap</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">gap</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="c1">// 将 pre+gap 位置的数插入 0 到 pre 之间“同组”的数组，从后往前遍历
+</span><span class="c1"></span>				<span class="c1">// current 指 pre+gap 的位置元素
+</span><span class="c1"></span>				<span class="n">current</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+				<span class="kt">int</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">gap</span><span class="o">;</span>
+				<span class="k">while</span> <span class="o">(</span><span class="n">pre</span> <span class="o">&gt;=</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="o">[</span><span class="n">pre</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">current</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">arr</span><span class="o">[</span><span class="n">pre</span> <span class="o">+</span> <span class="n">gap</span><span class="o">]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">pre</span><span class="o">];</span>
+					<span class="n">pre</span> <span class="o">-=</span> <span class="n">gap</span><span class="o">;</span>
+				<span class="o">}</span>
+				<span class="n">arr</span><span class="o">[</span><span class="n">pre</span> <span class="o">+</span> <span class="n">gap</span><span class="o">]</span> <span class="o">=</span> <span class="n">current</span><span class="o">;</span>
+				<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+			<span class="o">}</span>
+			<span class="n">gap</span> <span class="o">/=</span> <span class="n">2</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 3.简单选择排序 ******
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">SelectionSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="c1">// 每一轮挑出一个最小的元素，依次与不断增长的 i 位置的元素交换
+</span><span class="c1"></span>			<span class="kt">int</span> <span class="n">MinIndex</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">[</span><span class="n">MinIndex</span><span class="o">])</span>
+					<span class="n">MinIndex</span> <span class="o">=</span> <span class="n">j</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="n">arr</span> <span class="o">=</span> <span class="n">swap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">MinIndex</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+			<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 4.堆排序 ******
+</span><span class="c1"></span>	<span class="c1">// 主函数
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">HeapSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+		<span class="c1">// 堆排序第一步是先把当前数组变成一个最大堆
+</span><span class="c1"></span>		<span class="n">arr</span> <span class="o">=</span> <span class="n">AdjustMaxHeap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">len</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+		<span class="k">while</span> <span class="o">(</span><span class="n">len</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 取出堆顶的元素（最大元素）与末尾还没有确定位置的元素交换
+</span><span class="c1"></span>			<span class="n">arr</span> <span class="o">=</span> <span class="n">swap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">len</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+			<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+			<span class="n">len</span><span class="o">--;</span>
+			<span class="n">arr</span> <span class="o">=</span> <span class="n">AdjustMaxHeap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">len</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 调整为最大堆
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">AdjustMaxHeap</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lastIndex</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">lastIndex</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+			<span class="n">arr</span> <span class="o">=</span> <span class="n">AdjustLocalHeap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">lastIndex</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 调整局部堆使其成为局部最大堆
+</span><span class="c1"></span>	<span class="cm">/*
+</span><span class="cm">	 * 注意事项：堆中结点是从 1 开始的，但把数组看作堆的话，数组的下标是从 0 开始的 那么父结点与子结点的关系就会发生变化： 父结点 = （子结点-1）/2
+</span><span class="cm">	 * 左子结点 = 父结点*2+1 右子结点 = 父结点*2+2
+</span><span class="cm">	 */</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">AdjustLocalHeap</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lastIndex</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// 找出当前结点和左右子结点（如果有左右子结点的话）中最大的元素，让这个最大的元素成为父结点
+</span><span class="c1"></span>		<span class="kt">int</span> <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">1</span> <span class="o">&lt;=</span> <span class="n">lastIndex</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">1</span><span class="o">])</span>
+			<span class="n">maxIndex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span>
+		<span class="c1">// 这里要多一个右子结点是否大于左子结点的判定
+</span><span class="c1"></span>		<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">2</span> <span class="o">&lt;=</span> <span class="n">lastIndex</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">2</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">2</span><span class="o">])</span>
+			<span class="n">maxIndex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">+</span> <span class="n">2</span><span class="o">;</span>
+		<span class="c1">// 如果父结点不是三个结点中的最大结点，那么将最大结点变成父结点
+</span><span class="c1"></span>		<span class="c1">// 再通过递归看看这个比较小的父结点能不能再“往下沉”
+</span><span class="c1"></span>		<span class="k">if</span> <span class="o">(</span><span class="n">maxIndex</span> <span class="o">!=</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">arr</span> <span class="o">=</span> <span class="n">swap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">maxIndex</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+			<span class="n">arr</span> <span class="o">=</span> <span class="n">AdjustLocalHeap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">lastIndex</span><span class="o">,</span> <span class="n">maxIndex</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 5.冒泡排序 ******
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">BubbleSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="kt">boolean</span> <span class="n">isSorted</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isSorted</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+			<span class="n">isSorted</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">arr</span><span class="o">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">1</span><span class="o">])</span> <span class="o">{</span>
+					<span class="n">isSorted</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+					<span class="n">arr</span> <span class="o">=</span> <span class="n">swap</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+			<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 6.快速排序 ******
+</span><span class="c1"></span>	<span class="c1">// 主函数
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">QuickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="n">arr</span> <span class="o">=</span> <span class="n">LocalQuickSort</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 快速排序
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">LocalQuickSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">last</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">last</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="c1">// benchmark 指基准数，也就是这一轮将要确定位置的数
+</span><span class="c1"></span>		<span class="kt">int</span> <span class="n">benchmark</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">start</span><span class="o">];</span>
+		<span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="n">start</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+		<span class="k">while</span> <span class="o">(</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 必须右指针先走
+</span><span class="c1"></span>			<span class="k">while</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">benchmark</span> <span class="o">&amp;&amp;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span>
+				<span class="n">right</span><span class="o">--;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&lt;=</span> <span class="n">benchmark</span> <span class="o">&amp;&amp;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span>
+				<span class="n">arr</span><span class="o">[</span><span class="n">left</span><span class="o">++]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">right</span><span class="o">];</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">&lt;</span> <span class="n">benchmark</span> <span class="o">&amp;&amp;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span>
+				<span class="n">left</span><span class="o">++;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">right</span><span class="o">]</span> <span class="o">&gt;=</span> <span class="n">benchmark</span> <span class="o">&amp;&amp;</span> <span class="n">left</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">)</span>
+				<span class="n">arr</span><span class="o">[</span><span class="n">right</span><span class="o">--]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">left</span><span class="o">];</span>
+		<span class="o">}</span>
+		<span class="n">arr</span><span class="o">[</span><span class="n">left</span><span class="o">]</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">;</span>
+		<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+		<span class="c1">// 通过递归，分别对已确定位置的数的两边区域进行快速排序
+</span><span class="c1"></span>		<span class="n">arr</span> <span class="o">=</span> <span class="n">LocalQuickSort</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">left</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+		<span class="n">arr</span> <span class="o">=</span> <span class="n">LocalQuickSort</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">left</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">last</span><span class="o">);</span>
+
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 7.归并排序 ******
+</span><span class="c1"></span>	<span class="c1">// 主函数
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">MergeSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="n">arr</span> <span class="o">=</span> <span class="n">Merge</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 归并排序
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">Merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">last</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// start &lt; last 的判断意味着 arr 指定的范围内必须至少有两个元素
+</span><span class="c1"></span>		<span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">last</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">last</span><span class="o">)</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span>
+			<span class="c1">// 左右部分分别递归
+</span><span class="c1"></span>			<span class="n">arr</span> <span class="o">=</span> <span class="n">Merge</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">mid</span><span class="o">);</span>
+			<span class="n">arr</span> <span class="o">=</span> <span class="n">Merge</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">mid</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">last</span><span class="o">);</span>
+			<span class="c1">// 递归层面：从里往外依次将左半部分和右半部分整合成一个部分
+</span><span class="c1"></span>			<span class="n">arr</span> <span class="o">=</span> <span class="n">merge</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">mid</span><span class="o">,</span> <span class="n">last</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">start</span><span class="o">,</span> <span class="kt">int</span> <span class="n">mid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">last</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// tempArr 指一个额外数组，用来临时给 arr 中同一区域的元素排序
+</span><span class="c1"></span>		<span class="kt">int</span><span class="o">[]</span> <span class="n">tempArr</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+		<span class="c1">// p1 指 arr 指定区域的左半部分的指针，p2 指 arr 指定区域的右半部分的指针，p 指额外数组 tempArr 的指针
+</span><span class="c1"></span>		<span class="kt">int</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">start</span><span class="o">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">start</span><span class="o">;</span>
+		<span class="c1">// 从指定区域的左右半部分中取出最小元素放入额外数组，完成指定区域内的排序
+</span><span class="c1"></span>		<span class="k">while</span> <span class="o">(</span><span class="n">p1</span> <span class="o">&lt;=</span> <span class="n">mid</span> <span class="o">&amp;&amp;</span> <span class="n">p2</span> <span class="o">&lt;=</span> <span class="n">last</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">p1</span><span class="o">]</span> <span class="o">&lt;=</span> <span class="n">arr</span><span class="o">[</span><span class="n">p2</span><span class="o">])</span>
+				<span class="n">tempArr</span><span class="o">[</span><span class="n">p</span><span class="o">++]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">p1</span><span class="o">++];</span>
+			<span class="k">else</span>
+				<span class="n">tempArr</span><span class="o">[</span><span class="n">p</span><span class="o">++]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">p2</span><span class="o">++];</span>
+		<span class="o">}</span>
+		<span class="k">while</span> <span class="o">(</span><span class="n">p1</span> <span class="o">&lt;=</span> <span class="n">mid</span><span class="o">)</span>
+			<span class="n">tempArr</span><span class="o">[</span><span class="n">p</span><span class="o">++]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">p1</span><span class="o">++];</span>
+		<span class="k">while</span> <span class="o">(</span><span class="n">p2</span> <span class="o">&lt;=</span> <span class="n">last</span><span class="o">)</span>
+			<span class="n">tempArr</span><span class="o">[</span><span class="n">p</span><span class="o">++]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">p2</span><span class="o">++];</span>
+		<span class="c1">// 将额外数组中的数据覆盖到原 arr 数组中
+</span><span class="c1"></span>		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">start</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">last</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+			<span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">tempArr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 8.基数排序 ******
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">RadixSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="c1">// max 指数组中最大的数，maxDigit 指这个最大的数是几位数
+</span><span class="c1"></span>		<span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span>
+			<span class="n">max</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">max</span><span class="o">);</span>
+		<span class="kt">int</span> <span class="n">maxDigit</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+		<span class="k">while</span> <span class="o">(</span><span class="n">max</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">max</span> <span class="o">/=</span> <span class="n">10</span><span class="o">;</span>
+			<span class="n">maxDigit</span><span class="o">++;</span>
+		<span class="o">}</span>
+		<span class="c1">// mod 用于为数组中的数取余数，div 用于把通过 mod 取的余数变成个位数
+</span><span class="c1"></span>		<span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">div</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">bucket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;();</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">bucket</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;());</span>
+		<span class="o">}</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxDigit</span><span class="o">;</span> <span class="n">i</span><span class="o">++,</span> <span class="n">mod</span> <span class="o">*=</span> <span class="n">10</span><span class="o">,</span> <span class="n">div</span> <span class="o">*=</span> <span class="n">10</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 打印这一轮的排序结果
+</span><span class="c1"></span>			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr</span><span class="o">));</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="c1">// num 指当前元素 arr[j] 的个/十/百/千位是几
+</span><span class="c1"></span>				<span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">%</span> <span class="n">mod</span><span class="o">)</span> <span class="o">/</span> <span class="n">div</span><span class="o">;</span>
+				<span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">num</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]);</span>
+			<span class="o">}</span>
+			<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">).</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">))</span>
+						<span class="n">arr</span><span class="o">[</span><span class="n">index</span><span class="o">++]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+					<span class="c1">// 将桶中所有的动态数组清空，否则第二次循环开始再用到这些动态数组时里面还会有数据
+</span><span class="c1"></span>					<span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">).</span><span class="na">clear</span><span class="o">();</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 9.计数排序 ******
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">CountingSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">min</span><span class="o">,</span> <span class="n">max</span><span class="o">;</span>
+		<span class="n">min</span> <span class="o">=</span> <span class="n">max</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span>
+				<span class="n">max</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">min</span><span class="o">)</span>
+				<span class="n">min</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="c1">// bucket 指用来存储每个元素出现次数的桶，长度为元素的范围
+</span><span class="c1"></span>		<span class="kt">int</span><span class="o">[]</span> <span class="n">bucket</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">max</span> <span class="o">-</span> <span class="n">min</span> <span class="o">+</span> <span class="n">1</span><span class="o">];</span>
+		<span class="c1">// 把 bucket 用 0 填满，因为之后要累加
+</span><span class="c1"></span>		<span class="n">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">bucket</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+		<span class="c1">// 在 bucket 中相应的位置记录每个元素出现的次数
+</span><span class="c1"></span>		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">bucket</span><span class="o">[</span><span class="n">x</span> <span class="o">-</span> <span class="n">min</span><span class="o">]++;</span>
+		<span class="o">}</span>
+		<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+		<span class="c1">// 依次从 bucket 中提取元素覆盖到原来的 arr 上
+</span><span class="c1"></span>		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">bucket</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">bucket</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">arr</span><span class="o">[</span><span class="n">index</span><span class="o">++]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">min</span><span class="o">;</span>
+				<span class="n">bucket</span><span class="o">[</span><span class="n">i</span><span class="o">]--;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// ****** 10.桶排序 ******
+</span><span class="c1"></span>	<span class="c1">// 主函数
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">BucketSort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="n">arr</span> <span class="o">=</span> <span class="n">Bucket</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 桶排序
+</span><span class="c1"></span>	<span class="c1">// bucketSize 指每个桶的容量，bucketCount 指桶的个数
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="nf">Bucket</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">bucketSize</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">min</span><span class="o">,</span> <span class="n">max</span><span class="o">;</span>
+		<span class="n">min</span> <span class="o">=</span> <span class="n">max</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">max</span><span class="o">)</span>
+				<span class="n">max</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">min</span><span class="o">)</span>
+				<span class="n">min</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="kt">int</span> <span class="n">bucketCount</span> <span class="o">=</span> <span class="o">(</span><span class="n">max</span> <span class="o">-</span> <span class="n">min</span><span class="o">)</span> <span class="o">/</span> <span class="n">bucketSize</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span>
+		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">bucket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;();</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">bucketCount</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+			<span class="n">bucket</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;());</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 遍历每个桶
+</span><span class="c1"></span>			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">bucketIndex</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">bucketIndex</span> <span class="o">&lt;</span> <span class="n">bucketCount</span><span class="o">;</span> <span class="n">bucketIndex</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="c1">// 如果 arr 当前元素在该桶的范围内，则将该元素放入该桶内，并结束遍历每个桶的循环
+</span><span class="c1"></span>				<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">min</span> <span class="o">+</span> <span class="n">bucketIndex</span> <span class="o">*</span> <span class="n">bucketSize</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min</span> <span class="o">+</span> <span class="o">(</span><span class="n">bucketIndex</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span> <span class="o">*</span> <span class="n">bucketSize</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">bucketIndex</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+					<span class="k">break</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">bucketCount</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="c1">// 对每个桶使用直接插入排序，调整桶内元素的顺序
+</span><span class="c1"></span>			<span class="n">bucket</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">InsertionSortOfArrayList</span><span class="o">(</span><span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)));</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">:</span> <span class="n">bucket</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+				<span class="n">arr</span><span class="o">[</span><span class="n">index</span><span class="o">++]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">// 针对动态数组的直接插入排序
+</span><span class="c1"></span>	<span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">InsertionSortOfArrayList</span><span class="o">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">arr</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span> <span class="o">||</span> <span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span>
+			<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">current</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">pre</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">pre</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+			<span class="n">current</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">arr</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">pre</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">current</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">arr</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">pre</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">arr</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">pre</span><span class="o">));</span>
+				<span class="n">pre</span><span class="o">--;</span>
+			<span class="o">}</span>
+			<span class="n">arr</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">pre</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">current</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">arr</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>
