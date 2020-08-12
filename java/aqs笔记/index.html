@@ -140,10 +140,10 @@ AQS使用一个int成员变量来表示同步状态，通过内置的FIFO队列�
 <h3 id="3aqs的大致实现思路">3、AQS的大致实现思路<a href="#3aqs的大致实现思路" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h3>
 <p>AQS内部维护了一个CLH队列来管理锁。线程会首先尝试获取锁，如果失败就将当前线程及等待状态等信息包装成一个node节点加入到同步队列sync queue里。 接着会不断的循环尝试获取锁，条件是当前节点为head的直接后继才会尝试。如果失败就会阻塞自己直到自己被唤醒。而当持有锁的线程释放锁的时候，会唤醒队列中的后继线程。</p>
 <p>CLH(Craig,Landin,and Hagersten)队列是一个虚拟的双向队列（虚拟的双向队列即不存在队列实例，仅存在结点之间的关联关系）。AQS是将每条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node）来实现锁的分配。</p>
-<p>参考两篇文章：</p>
+<p>参考文章：</p>
 <p><a href="http://www.cnblogs.com/waterystone/p/4920797.html">http://www.cnblogs.com/waterystone/p/4920797.html</a></p>
 <p><a href="https://www.cnblogs.com/chengxiao/archive/2017/07/24/7141160.html">https://www.cnblogs.com/chengxiao/archive/2017/07/24/7141160.html</a></p>
-<p>参照：https://blog.csdn.net/jesonjoke/article/details/80054133</p>
+<p><a href="https://blog.csdn.net/jesonjoke/article/details/80054133">https://blog.csdn.net/jesonjoke/article/details/80054133</a></p>
 <p><a href="https://github.com/JDawnF/JavaGuide/blob/master/Java%E7%9B%B8%E5%85%B3/Multithread/AQS.md">https://github.com/JDawnF/JavaGuide/blob/master/Java%E7%9B%B8%E5%85%B3/Multithread/AQS.md</a></p>
 
 		</div>
