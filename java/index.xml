@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 25 Jul 2020 22:59:22 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 15 Aug 2020 22:59:22 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>任务执行和调度</title>
+      <link>https://HHUsimba.github.io/java/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/</link>
+      <pubDate>Sat, 15 Aug 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/</guid>
+      <description>任务执行和调度 pring框架分别用TaskExecutor和TaskScheduler接口抽象了任务的异步执行和调度。Spring还提供了一些接口的实现，这些接口在应用服务器环境中支持线程池或委托给CommonJ（CommonJ WorkManager）。
+Spring还提供了一些集成类来支持与Timer（JDK）和Quartz调度器（Quartz Scheduler https://www.quartz-scheduler.org/）的调度。</description>
+    </item>
     
     <item>
       <title>排序算法总结</title>
@@ -181,20 +191,6 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
   除此之外，还有自定义的类加载器，它们之间的层次关系被称为类加载器的双亲委派模型。该模型要求除了顶层的启动类加载器外，其余的类加载器都应该有自己的父类加载器，而这种父子关系一般通过组合（Composition）关系来实现，而不是通过继承（Inheritance）。
  双亲委派模型过程 某个特定的类加载器在接到加载类的请求时，首先将加载任务委托给父类加载器，依次递归，如果父类加载器可以完成类加载任务，就成功返回；只有父类加载器无法完成此加载任务时，才自己去加载。
 使用双亲委派模型的好处在于Java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存在在rt.jar中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的Bootstrap ClassLoader进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果没有双亲委派模型而是由各个类加载器自行加载的话，如果用户编写了一个java.lang.Object的同名类并放在ClassPath中，那系统中将会出现多个不同的Object类，程序将混乱。因此，如果开发者尝试编写一个与rt.jar类库中重名的Java类，可以正常编译，但是永远无法被加载运行。</description>
-    </item>
-    
-    <item>
-      <title>GC调优策略</title>
-      <link>https://HHUsimba.github.io/java/gc%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5/</link>
-      <pubDate>Mon, 25 May 2020 22:59:22 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/gc%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5/</guid>
-      <description>回收器参数 目前主要有串行、并行和并发三种，对于大内存的应用而言，串行的性能太低，因此使用到的主要是并行和并发两种。并行和并发 GC 的策略通过 UseParallelGC 和 UseConcMarkSweepGC 来指定，还有一些细节的配置参数用来配置策略的执行方式。例如：XX:ParallelGCThreads， XX:CMSInitiatingOccupancyFraction 等。 通常：Young 区对象回收只可选择并行（耗时间），Old 区选择并发（耗 CPU）。
-常用 GC 调优策略  GC 调优原则； GC 调优目的； GC 调优策略；  GC 调优原则 在调优之前，我们需要记住下面的原则：
- 多数的 Java 应用不需要在服务器上进行 GC 优化； 多数导致 GC 问题的 Java 应用，都不是因为我们参数设置错误，而是代码问题； 在应用上线之前，先考虑将机器的 JVM 参数设置到最优（最适合）； 减少创建对象的数量； 减少使用全局变量和大对象； GC 优化是到最后不得已才采用的手段； 在实际使用中，分析 GC 情况优化代码比优化 GC 参数要多得多。
- GC 调优目的 将转移到老年代的对象数量降低到最小； 减少 GC 的执行时间。
-GC 调优策略 策略 1：将新对象预留在新生代，由于 Full GC 的成本远高于 Minor GC，因此尽可能将对象分配在新生代是明智的做法，实际项目中根据 GC 日志分析新生代空间大小分配是否合理，适当通过“-Xmn”命令调节新生代大小，最大限度降低新对象直接进入老年代的情况。
-策略 2：大对象进入老年代，虽然大部分情况下，将对象分配在新生代是合理的。但是对于大对象这种做法却值得商榷，大对象如果首次在新生代分配可能会出现空间不足导致很多年龄不够的小对象被分配的老年代，破坏新生代的对象结构，可能会出现频繁的 full gc。因此，对于大对象，可以设置直接进入老年代（当然短命的大对象对于垃圾回收来说简直就是噩梦）。-XX:PretenureSizeThreshold 可以设置直接进入老年代的对象大小。</description>
     </item>
     
   </channel>

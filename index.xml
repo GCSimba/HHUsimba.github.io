@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 25 Jul 2020 22:59:22 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 15 Aug 2020 22:59:22 +0800</lastBuildDate>
     
 	<atom:link href="https://HHUsimba.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>任务执行和调度</title>
+      <link>https://HHUsimba.github.io/java/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/</link>
+      <pubDate>Sat, 15 Aug 2020 22:59:22 +0800</pubDate>
+      
+      <guid>https://HHUsimba.github.io/java/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/</guid>
+      <description>任务执行和调度 pring框架分别用TaskExecutor和TaskScheduler接口抽象了任务的异步执行和调度。Spring还提供了一些接口的实现，这些接口在应用服务器环境中支持线程池或委托给CommonJ（CommonJ WorkManager）。
+Spring还提供了一些集成类来支持与Timer（JDK）和Quartz调度器（Quartz Scheduler https://www.quartz-scheduler.org/）的调度。</description>
+    </item>
     
     <item>
       <title>排序算法总结</title>
@@ -175,17 +185,6 @@ inode也需要消耗硬盘空间，所以在格式化硬盘的时候，操作系
   链接文件: 链接文件分为符号链接(软链接)文件和硬链接文件
   硬链接(Hard Link):硬链接的文件拥有相同的inode，因为操作系统是靠inode来区分文件的， 2个inode相同的文件，就代表它们是一个文件。 删除一个文件并不会对其他拥有相同inode的文件产生影响，只有当inode相同的所有文件被删除了， 这个文件才会被删除。换言之，你建立一个文件的硬链接，这个文件和硬链接它们的inode是相同的, 无论你删除的是硬链接还是源文件，都不会对彼此造成影响,除非你把硬链接和源文件都删除， 这个文件才被删除。
   符号链接(软链接)(Symbolic Link): 符号链接类似于Windows上的快捷方式，它保存了源文件的路径。 当符号链接被删除时，并不会影响源文件。但是当源文件被删除时，符号链接就找不到源文件了。</description>
-    </item>
-    
-    <item>
-      <title>This引用逃逸</title>
-      <link>https://HHUsimba.github.io/java/this%E5%BC%95%E7%94%A8%E9%80%83%E9%80%B8/</link>
-      <pubDate>Tue, 26 May 2020 19:41:04 +0800</pubDate>
-      
-      <guid>https://HHUsimba.github.io/java/this%E5%BC%95%E7%94%A8%E9%80%83%E9%80%B8/</guid>
-      <description>This逃逸含义 在构造器构造还未彻底完成前（即实例初始化阶段还未完成），将自身this引用向外抛出并被其他线程复制（访问）了该引用，可能会问到该还未被初始化的变量，甚至可能会造成更大严重的问题。
-例如：
-1 /** 2 * 模拟this逃逸 3 * @author Lijian 4 * 5 */ 6 public class ThisEscape { 7 //final常量会保证在构造器内完成初始化（但是仅限于未发生this逃逸的情况下，具体可以看多线程对final保证可见性的实现）  8 final int i; 9 //尽管实例变量有初始值，但是还实例化完成 10 int j = 0; 11 static ThisEscape obj; 12 public ThisEscape() { 13 i=1; 14 j=1; 15 //将this逃逸抛出给线程B 16 obj = new ThisEscape(); 17 } 18 public static void main(String[] args) { 19 //线程A：模拟构造器中this逃逸,将未构造完全对象引用抛出 20 /*Thread threadA = new Thread(new Runnable() { 21 @Override 22 public void run() { 23 //obj = new ThisEscape(); 24 } 25 });*/ 26 //线程B：读取对象引用，访问i/j变量 27 Thread threadB = new Thread(new Runnable() { 28 @Override 29 public void run() { 30 31 //可能会发生初始化失败的情况解释：实例变量i的初始化被重排序到构造器外，此时1还未被初始化 32 ThisEscape objB = obj; 33 try { 34 System.</description>
     </item>
     
   </channel>
