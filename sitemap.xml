@@ -103,11 +103,6 @@
   </url>
   
   <url>
-    <loc>https://HHUsimba.github.io/java/mysql%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2020-04-02T22:59:22+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://HHUsimba.github.io/java/git/</loc>
     <lastmod>2020-03-22T22:59:22+08:00</lastmod>
   </url>
@@ -130,6 +125,11 @@
   <url>
     <loc>https://HHUsimba.github.io/java/queue/</loc>
     <lastmod>2019-10-30T22:59:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://HHUsimba.github.io/java/mysql%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2019-06-12T22:59:22+08:00</lastmod>
   </url>
   
   <url>
