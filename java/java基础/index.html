@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#494f5c">
+	<meta name="msapplication-TileColor" content="#494f5c">
+<meta itemprop="name" content="java基础">
+<meta itemprop="description" content="基础 【OOP的理解】 OOP是面向对象编程，特征分别是封装、继承、多态、抽象。 可以设计出低耦合的系统，使系统更加灵活、更加易于维护。
+封装：封装是指将对象信息状态通过访问权限修饰符隐藏在对象内部，不允许外部程序直接访问，如果外部程序要访问对象内部，可以调用内部提供的get或set方法。
+继承：子类继承了父类所有的成员方法和属性，并且可以拥有自己特性。
+多态：有两种形式可以实现多态：继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。
+重载就是同样的一个方法能够根据输入数据的不同，做出不同的处理
+重写就是当子类继承自父类的相同方法，输入数据一样，但要做出有别于父类的响应时，你就要覆盖父类方法
+【Object类的常用方法】 hashCode() 的作用是获取哈希码，返回一个 int 整数。哈希码的作用是确定该对象在哈希表中的索引位置。
+== : 它的作用是判断两个对象的地址是不是相等。
+equals() : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：
+  情况 1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。
+  情况 2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来比较两个对象的内容是否相等；若它们的内容相等，则返回 true (即，认为这两个对象相等
+hashCode（）与 equals（）的相关规定
+  如果两个对象相等，则 hashcode 一定也是相同的
+  两个对象相等,对两个对象分别调用 equals 方法都返回 true
+  两个对象有相同的 hashcode 值，它们也不一定是相等的
+  因此，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖
+    finalize()：GC在回收对象之前调用该方法，释放内存
+toString()返回一个String对象
+getClass()返回一个Class对象
+wait(),wait(long),wait(long,int),notify(),notifyAll()">
+<meta itemprop="datePublished" content="2020-08-28T22:59:22&#43;08:00" />
+<meta itemprop="dateModified" content="2020-08-28T22:59:22&#43;08:00" />
+<meta itemprop="wordCount" content="822">
+
+
+
+<meta itemprop="keywords" content="" /><meta property="og:title" content="java基础" />
+<meta property="og:description" content="基础 【OOP的理解】 OOP是面向对象编程，特征分别是封装、继承、多态、抽象。 可以设计出低耦合的系统，使系统更加灵活、更加易于维护。
+封装：封装是指将对象信息状态通过访问权限修饰符隐藏在对象内部，不允许外部程序直接访问，如果外部程序要访问对象内部，可以调用内部提供的get或set方法。
+继承：子类继承了父类所有的成员方法和属性，并且可以拥有自己特性。
+多态：有两种形式可以实现多态：继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。
+重载就是同样的一个方法能够根据输入数据的不同，做出不同的处理
+重写就是当子类继承自父类的相同方法，输入数据一样，但要做出有别于父类的响应时，你就要覆盖父类方法
+【Object类的常用方法】 hashCode() 的作用是获取哈希码，返回一个 int 整数。哈希码的作用是确定该对象在哈希表中的索引位置。
+== : 它的作用是判断两个对象的地址是不是相等。
+equals() : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：
+  情况 1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。
+  情况 2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来比较两个对象的内容是否相等；若它们的内容相等，则返回 true (即，认为这两个对象相等
+hashCode（）与 equals（）的相关规定
+  如果两个对象相等，则 hashcode 一定也是相同的
+  两个对象相等,对两个对象分别调用 equals 方法都返回 true
+  两个对象有相同的 hashcode 值，它们也不一定是相等的
+  因此，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖
+    finalize()：GC在回收对象之前调用该方法，释放内存
+toString()返回一个String对象
+getClass()返回一个Class对象
+wait(),wait(long),wait(long,int),notify(),notifyAll()" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://HHUsimba.github.io/java/java%E5%9F%BA%E7%A1%80/" />
+<meta property="article:published_time" content="2020-08-28T22:59:22+08:00" />
+<meta property="article:modified_time" content="2020-08-28T22:59:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="java基础"/>
+<meta name="twitter:description" content="基础 【OOP的理解】 OOP是面向对象编程，特征分别是封装、继承、多态、抽象。 可以设计出低耦合的系统，使系统更加灵活、更加易于维护。
+封装：封装是指将对象信息状态通过访问权限修饰符隐藏在对象内部，不允许外部程序直接访问，如果外部程序要访问对象内部，可以调用内部提供的get或set方法。
+继承：子类继承了父类所有的成员方法和属性，并且可以拥有自己特性。
+多态：有两种形式可以实现多态：继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。
+重载就是同样的一个方法能够根据输入数据的不同，做出不同的处理
+重写就是当子类继承自父类的相同方法，输入数据一样，但要做出有别于父类的响应时，你就要覆盖父类方法
+【Object类的常用方法】 hashCode() 的作用是获取哈希码，返回一个 int 整数。哈希码的作用是确定该对象在哈希表中的索引位置。
+== : 它的作用是判断两个对象的地址是不是相等。
+equals() : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：
+  情况 1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。
+  情况 2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来比较两个对象的内容是否相等；若它们的内容相等，则返回 true (即，认为这两个对象相等
+hashCode（）与 equals（）的相关规定
+  如果两个对象相等，则 hashcode 一定也是相同的
+  两个对象相等,对两个对象分别调用 equals 方法都返回 true
+  两个对象有相同的 hashcode 值，它们也不一定是相等的
+  因此，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖
+    finalize()：GC在回收对象之前调用该方法，释放内存
+toString()返回一个String对象
+getClass()返回一个Class对象
+wait(),wait(long),wait(long,int),notify(),notifyAll()"/>
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<title>java基础</title>
+	<link rel="stylesheet" href="https://HHUsimba.github.io/css/style.min.657bcb7af31123e4156b1a3d2ff60a636717e54ead74f882136b5114cf72b55e.css" integrity="sha256-ZXvLevMRI+QVaxo9L/YKY2cX5U6tdPiCE2tRFM9ytV4=" crossorigin="anonymous">
+	
+</head>
+
+<body id="page">
+	
+	<header id="site-header" class="animated slideInUp faster">
+		<div class="hdr-wrapper section-inner">
+			<div class="hdr-left">
+				<div class="site-branding">
+					<a href="https://HHUsimba.github.io/">Simba</a>
+				</div>
+				<nav class="site-nav hide-in-mobile">
+					
+				<a href="https://HHUsimba.github.io/java/">Java</a>
+				<a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a>
+				<a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a>
+
+				</nav>
+			</div>
+			<div class="hdr-right hdr-icons">
+				<span class="hdr-social hide-in-mobile"><a href="https://github.com/" target="_blank" rel="noopener me" title="Github"><svg xmlns="http://www.w3.org/2000/svg" class="feather" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a><a href="https://space.bilibili.com/10246091" target="_blank" rel="noopener me" title="Bilibili"><svg xmlns="http://www.w3.org/2000/svg" class="feather feather-link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></span><button id="menu-btn" class="hdr-btn" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+			</div>
+		</div>
+	</header>
+	<div id="mobile-menu" class="animated fast">
+		<ul>
+			<li><a href="https://HHUsimba.github.io/java/">Java</a></li>
+			<li><a href="https://HHUsimba.github.io/machine-learning/">Machine Learning</a></li>
+			<li><a href="https://HHUsimba.github.io/%E4%B8%8D%E5%BF%98%E5%88%9D%E5%BF%83%E6%96%B9%E5%BE%97%E5%A7%8B%E7%BB%88/">About</a></li>
+		</ul>
+	</div>
+
+
+	<main class="site-main section-inner thin animated fadeIn faster">
+		<h1>java基础</h1>
+		<div class="content">
+			<h2 id="基础">基础<a href="#基础" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h4 id="oop的理解">【OOP的理解】<a href="#oop的理解" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>OOP是面向对象编程，特征分别是封装、继承、多态、抽象。 可以设计出低耦合的系统，使系统更加灵活、更加易于维护。</p>
+<p>封装：封装是指将对象信息状态通过访问权限修饰符隐藏在对象内部，不允许外部程序直接访问，如果外部程序要访问对象内部，可以调用内部提供的get或set方法。</p>
+<p>继承：子类继承了父类所有的成员方法和属性，并且可以拥有自己特性。</p>
+<p>多态：有两种形式可以实现多态：继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。</p>
+<p>重载就是同样的一个方法能够根据输入数据的不同，做出不同的处理</p>
+<p>重写就是当子类继承自父类的相同方法，输入数据一样，但要做出有别于父类的响应时，你就要覆盖父类方法</p>
+<h4 id="object类的常用方法">【Object类的常用方法】<a href="#object类的常用方法" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p><img src="https://img-blog.csdn.net/20161205181623207" alt="Objectç±»çå½æ°"></p>
+<p>hashCode() 的作用是获取哈希码，返回一个 int 整数。哈希码的作用是确定该对象在哈希表中的索引位置。</p>
+<p><strong>==</strong> : 它的作用是判断两个对象的地址是不是相等。</p>
+<p>equals() : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
+<ul>
+<li>
+<p>情况 1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。</p>
+</li>
+<li>
+<p>情况 2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来比较两个对象的内容是否相等；若它们的内容相等，则返回 true (即，认为这两个对象相等</p>
+<p>hashCode（）与 equals（）的相关规定</p>
+<ol>
+<li>
+<p>如果两个对象相等，则 hashcode 一定也是相同的</p>
+</li>
+<li>
+<p>两个对象相等,对两个对象分别调用 equals 方法都返回 true</p>
+</li>
+<li>
+<p>两个对象有相同的 hashcode 值，它们也不一定是相等的</p>
+</li>
+<li>
+<p>因此，equals 方法被覆盖过，则 hashCode 方法也必须被覆盖</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>finalize()：GC在回收对象之前调用该方法，释放内存</p>
+<p>toString()返回一个String对象</p>
+<p>getClass()返回一个Class对象</p>
+<p>wait(),wait(long),wait(long,int),notify(),notifyAll()</p>
+<ul>
+<li>这几个函数体现的是Java的多线程机制</li>
+<li>在使用的时候要求在synchronize语句中使用</li>
+<li>wait()用于让当前线程失去操作权限，当前线程进入等待序列</li>
+<li>notify()用于随机通知一个持有对象的锁的线程获取操作权限</li>
+<li>notifyAll()用于通知所有持有对象的锁的线程获取操作权限</li>
+<li>wait(long) 和wait(long,int)用于设定下一次获取锁的距离当前释放锁的时间间隔</li>
+</ul>
+<h2 id="集合">集合<a href="#集合" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h5 id="集合框架底层数据结构总结">【集合框架底层数据结构总结】<a href="#集合框架底层数据结构总结" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h5>
+<p>Collection:	List：Arraylist（object数组）</p>
+<p>​								Vector(object数组)</p>
+<p>​								LinkedList（双向链表）</p>
+<p>​						Set:	hashset(无序唯一，底层由hashmap实现)</p>
+<p>​								   Linkedhashset(继承于Hashset,底层通过linkedhashmap实现)</p>
+<p>​								   Treeset（有序，唯一，红黑树）</p>
+<p>​	Map:		hashmap</p>
+<p>​					 Linkedhashmap(继承自hashmap,增加了一条双向链表，这样可以保证插入的顺序)</p>
+<p>​					 HashTable(数组+链表)</p>
+<p>​					 Treemap(红黑树)</p>
+<h4 id="listsetmap的区别">【list,set,map的区别】<a href="#listsetmap的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>list存储有重复元素的有序对象</p>
+<p>set不允许有重复的集合</p>
+<p>map用键值对存储</p>
+<h4 id="arraylistlinkedlistvector的区别">【Arraylist，LinkedList，Vector的区别】<a href="#arraylistlinkedlistvector的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>[Arraylist]</p>
+<p>Arraylist底层使用的是object数组，当数组进行添加时，才真正分配容量，数组的初始化容量为10，通过ensureCapacityInternal方法保证内部容量，用copyof的方式每次扩容1.5倍。由于采用的是数组存储，所以插入和删除的时间复杂度受元素位置的影响，元素直接添加到末尾的话是按复杂度是O(1)，指定位置添加的话是O(n-i)，空间浪费会体现在会在列表结尾预留一定的空间。Arraylist实现了RandomAcces接口，支持高效的随即元素访问，所以查询的速度比较快，但是删除的效率比较低，是线程不安全的。</p>
+<p>[Vector]</p>
+<p>底层也是数组，但是大部分方法都被synchronized方法修饰，所以线程安全，它扩容的默认大小时原来的2倍。</p>
+<p>[Linkedlist]</p>
+<p>Linkedlist使用的是带有头节点和尾节点的双向链表结构，提供两种插入的方式，一种是头插Linkedfirst，还有个尾插linkedlast。在1.6之前是双向循环链表，在1.7时取消了循环。默认的插入和删除元素不受元素位置的影响，近似于O(1)，当指定位置进行插入和删除时，近似为O(n)，因为要移动到这个位置再进行操作。</p>
+<p>它的空间浪费体现在每个元素存放需要更多的空间（存放前驱和后继），非常适合于做添加删除的场景，但是在查询的时候比较慢。</p>
+<p>双向链表：包含两个指针，一个Prev指向前一个节点，一个next指向后一个节点。</p>
+<p>双向循环链表：最后一个节点的next指向head，head的prev指向最后一个节点，构成一个环。</p>
+<h4 id="hashmaphashtableconcurrenthashmaphashset的区别">【HashMap,HashTable,ConCurrentHashMap，hashset的区别】<a href="#hashmaphashtableconcurrenthashmaphashset的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>[HashTable]</p>
+<p>HashTable的底层是数组+链表的结构，无论是key还是value都不能为null,是线程安全的，实现的方式是在修改数据时锁住整个hashtable，创建时如果不指定初始容量，则默认的容量是11，每次扩容为原来的2n+1倍</p>
+<p>[HashMap]</p>
+<p>HashMap的底层在JDK1.7和1.8有些不一样，JDK1.8之前的结构是数组+单链表的结构，修改数据时，hashmap通过hash方法得到Hash值，再通过数组长度-1和hash做一个与运算来计算存放的位置，如果存在，则判断是否相同，若相同，则覆盖，若不相同，则通过拉链法解决冲突。拉链法是一个数组链表，每一格数组是一个链表，如果遇到哈希冲突则把冲突值加到链表中即可。在JDK1.8后，当链表长度大于阈值8，且他的hash桶大于等于64时，将链表转换为红黑树，来减少搜索的时间，当红黑树的节点数量小于6时，会重新转换成一个单链表。</p>
+<p>为了让hashmap存取高效，需要尽可能地把数据分配平均，所以要先进行取模运算，余数作为数组下标，取余的操作中如果除数是2的幂次则等价于除数-1的与操作，进行二进制计算提高运行效率，hash桶的初始大小是16，负载因子是0.75，相乘就是12，当hash桶占用的容量大于12时，会触发扩容，会变为原来hash桶容量的两倍，然后把原来的元素的hash值重新进行计算，然后它是非线程安全的，因为他在插入操作的时候会有数据覆盖的可能，另外一个时1.7之前在Put时会有一个resize的过程，用的头插法会形成一个环形链表导致死循环，1.8之后改成尾插了。</p>
+<p>如何保证安全？hashtable或者是concurrentmap或者是collection.synchronized来做</p>
+<p>[ConCurrentHashMap]</p>
+<p>在JDK1.8前使用的是数组+单链表的结构，对整个map分成了多段segment，实现了ReetrantLock，是一种可重入锁，它使用的是锁分离机制，允许多个修改并发进行，如果有些方法需要跨段的话，例如size()，那么会锁定整个表，按顺序锁定所有段，操作完后，顺序释放所有的锁，扩容机制是段内扩容，首先检测需不需要扩容，当段内元素超过整个数组的0.75倍时触发扩容机制，避免无效扩容。</p>
+<p>在JDK1.8时底层的数据结构发生了改变，变成了Node数组+链表/红黑树的结构来实现，为了兼容也有segment的概念，它的并发控制使用的是CAS+Synchronized来进行操作，synchronized只锁定当前链表或红黑树的首节点。</p>
+<p>[hashset]</p>
+<p>hashset的底层就是基于Hashmap实现的，只有clone(),writeObject(),readObject()是自己实现的，其他都是调用的hashmap方法。hashmap存储键值对，使用Put添加元素，使用Key来计算hashcode值，hashset仅存储对象。使用add添加元素，使用成员对象计算hashcode值，两个对象的hashcode可能相同，所以使用equals方法来判断对象的相等性。</p>
+<h4 id="comparable和comparator的区别">【Comparable和Comparator的区别】<a href="#comparable和comparator的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>Comparable是java.lang包，有compareTo(object obj)来排序</p>
+<p>Comparator是java.util包，有compare(Object obj1,Object obj2)来排序</p>
+<h2 id="多线程">多线程<a href="#多线程" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h2>
+<h4 id="synchronized">【synchronized】<a href="#synchronized" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>synchronized解决的是多个线程访问资源的同步性，保证了被修饰的方法在任意时刻只有一个线程执行。</p>
+<p>他的三种使用方式是加到static静态方法和代码块上都是给class类上锁，加到实例方法是给对象实例上锁。synchronized同步语句块使用的是monitorenter和monitorexit指令(获取锁，计数器记为1，释放0)，synchronized修饰方法是使用的ACC_synchronized标识。</p>
+<p>synchronized在JDK1.6进行了比较大的优化，偏向锁顾名思义是偏向第一个获得它的线程，在无竞争情况下会把整个同步都清除掉，偏向锁失败后，会先升级为轻量级锁，加锁和解锁都用到了CAS操作，还有一个优化就是引入了自适应的自旋锁（让线程等待，给线程执行的一个忙循环），自选的时间由所得拥有者进行决定。</p>
+<h4 id="synchronized和reentrantlock的区别">【synchronized和reentrantlock的区别】<a href="#synchronized和reentrantlock的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>两者都是可重入锁</p>
+<p>synchronized是依赖于JVM实现的，reentrantlock是JDK层面的，需要try/finally来完成。</p>
+<p>Reentrantlock比Synchronized增加了一些新功能，提供了让线程中断等待的机制，可以实现公平锁。Reetrantlock可以指定是公平锁还是非公平锁（但默认是非公平锁，可以通过reetrantlock(boolean fair)来选择），而synchronized只能是非公平锁。Reentrantlock结合condition实例可以有选择性的进行线程通知，比synchronized和wait()/notify()的通知和等待更加灵活。</p>
+<h4 id="volatile关键字">【volatile关键字】<a href="#volatile关键字" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>把变量声明为volatile，使得每次使用变量都从主存中读取，保证变量的可见性和防止指令重排序</p>
+<h4 id="synchronized与volatile的区别">【synchronized与volatile的区别】<a href="#synchronized与volatile的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>volatile只能用于变量，synchronized可以用在代码块和方法上</p>
+<p>volatile可以保证可见性，但不能保证数据的原子性，synchronized则两者都可以保证</p>
+<p>volatile主要解决的是变量在多线程间的可见性，synchronized解决了多个线程之间访问资源的同步性。</p>
+<h4 id="threadlocal">【ThreadLocal】<a href="#threadlocal" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>主要是让每个线程有自己的专属本地变量，可以用set/get方法来获取或更改副本中的值，保证了线程的安全，内部维护的是一个类似map的threadlocalmap, key为thread对象,是弱引用，值为object对象，是强引用，所以存在GC回收中存在key被回收，而value存在的情况，这可能会造成内存泄露，所以调用完threadlocal方法后最好手动调用remove()方法。</p>
+<h4 id="线程池和创建的方式">【线程池和创建的方式】<a href="#线程池和创建的方式" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>减少每次访问资源的消耗，提高对资源的利用率。</p>
+<p>好处：降低资源消耗，提高响应速度</p>
+<p>创建的两种方式：</p>
+<p>1.通过构造方法实现，ThreadPoolExecutor</p>
+<p>2.通过工具类executors来实现，可以创建三种类型的ThreadPoolExecutor：</p>
+<p>​		FixedThreadPool:返回一个固定线程数量的线程池</p>
+<p>​		SingleThreadPool:返回一个只有一个线程的线程池</p>
+<p>​		CachedThreadPool:返回一个可以根据情况调整线程数量的线程池</p>
+<p>ThreadPoolExecutor重要参数分析：</p>
+<p>​		3个最重要的参数：</p>
+<p>​				corePoolSize:定义了核心线程数</p>
+<p>​				maxinumPoolSize:当队列中存放的任务到达队列容量时，当前可以同时运行的线程数变为最大线程数</p>
+<p>​				workQueue:任务队列</p>
+<p>​		其他参数：</p>
+<p>​				KeepAliveTime:当线程中的数量大于corePoolSize时，多余的不会立刻销毁，而是会等待，直到超过时间</p>
+<p>​				handler饱和策略:</p>
+<p>​				ThreadPoolExcutor.abortPolicy:拒绝新任务处理</p>
+<p>​				ThreadPoolExcutor.callerRunsPolicy:增加队列容量，不会抛弃任何一个任务的请求</p>
+<p>​				ThreadPoolExcutor.discardPolicy:不处理任务，直接丢弃</p>
+<p>​				ThreadPoolExcutor.discardOldestPolicy:丢弃最早的未处理的任务请求</p>
+<h4 id="runnable和callable的区别">【Runnable和callable的区别】<a href="#runnable和callable的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>runnable不会返回结果或抛出检查异常，callable可以，工具类Executors可以实现Runnable和Callable 之间的相互转换。</p>
+<p>（<code>Executors.callable（Runnable task</code>）或 <code>Executors.callable（Runnable task，Object resule）</code>）</p>
+<h4 id="execute和submit的区别">【execute和submit的区别】<a href="#execute和submit的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>execute()用于提交不需要返回值的任务，无法判断任务是否被线程执行成功</p>
+<p>submit()用于提交需要返回值的任务，返回一个future类型的对象，判断是否执行成功</p>
+<h4 id="atomic原子类">【Atomic原子类】<a href="#atomic原子类" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>操作不可中断的类。原子类即有原子特征的类</p>
+<p>基本类型</p>
+<ul>
+<li>AtomicInteger：整形原子类，主要利用CAS+Volatile方法保证原子操作（CAS的原理是拿期望值和原本的值作比较，相同则更新成新的值）</li>
+<li>AtomicLong：长整型原子类</li>
+<li>AtomicBoolean：布尔型原子类</li>
+</ul>
+<p>数组类型</p>
+<ul>
+<li>AtomicIntegerArray：整形数组原子类</li>
+<li>AtomicLongArray：长整形数组原子类</li>
+<li>AtomicReferenceArray：引用类型数组原子类</li>
+</ul>
+<p>引用类型</p>
+<ul>
+<li>AtomicReference：引用类型原子类</li>
+<li>AtomicStampedReference：原子更新带有版本号的引用类型。该类将整数值与引用关联起来，可用于解决原子的更新数据和数据的版本号，可以解决使用 CAS 进行原子更新时可能出现的 ABA 问题。</li>
+<li>AtomicMarkableReference ：原子更新带有标记位的引用类型</li>
+</ul>
+<p>对象的属性修改类型</p>
+<ul>
+<li>AtomicIntegerFieldUpdater：原子更新整形字段的更新器</li>
+<li>AtomicLongFieldUpdater：原子更新长整形字段的更新器</li>
+</ul>
+<h4 id="aqs">【AQS】<a href="#aqs" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>全名为AbstractQueueSynchronizer</p>
+<p>核心思想是如果被请求的共享资源空闲，则将该共享资源分配给当前请求的线程，并将共享资源设置为锁定状态，如果资源被占用，则需要一套线程阻塞等待及唤醒机制，AQS是使用CLH队列锁实现的，将暂时获不到锁的线程放到队列中。CLH是一个虚拟的双向队列，将需要申请资源的线程封装成队列的一个节点实现锁分配</p>
+<p>AQS对资源的共享方式分为独占和共享（exclusive和share），独占是只有一个线程可执行，共享是多个线程同时执行。</p>
+<p>AQS主要有三个组件，Semaphore信号量可以同时允许多个线程同时访问某个资源，CountDownLatch 倒计时器，通过+1-1控制线程等待，CyclicBarrier与倒计时器功能类似，可以实现线程间的技术等待，它可以让一组线程到达一个屏障时被阻塞，当最后一个线程到达后，所有被拦截的线程才会继续执行。</p>
+<h1 id="jvm">JVM<a href="#jvm" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<h4 id="运行时的内存区域">【运行时的内存区域】<a href="#运行时的内存区域" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>​		JVM运行时的内存区域主要分为两大类：一个是线程私有区，一个是线程的共享区。</p>
+<p>[线程私有区]</p>
+<p>​		对于线程私有，程序计数器，占用内存较小，但是唯一一个不会OOM的，作用是：1对代码流程进行控制，2记录执行的位置</p>
+<p>​		另外线程私有的是本地方法栈和虚拟机栈，虚拟机栈主要使用的是栈帧，一个方法的调用就是入栈到出栈的过程</p>
+<p>​		本地方法栈与虚拟机栈作用类似，区别是虚拟机栈运行的是java方法（字节码）服务，本地方法栈使用的是native服务（调用的本地的C/C++库），本地方法会抛出stackOverFlow和OOM异常。</p>
+<p>​		这个stackoverflow是由于java内存不能动态扩展，当请求的栈的深度超过虚拟机栈的最大深度时，会抛出异常</p>
+<p>​		OOM是当线程用完内存后无法扩展，会抛出异常</p>
+<p>[线程共享区]</p>
+<p>​		线程共享区在jdk1.7之前由方法区和堆构成，方法区存的是常量，静态变量等资源，也被称为永久代，在jdk1.8后方法区替换成了元空间在直接内存中，字符串常量放在了堆空间中。</p>
+<h4 id="对象的创建过程">【对象的创建过程】<a href="#对象的创建过程" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>堆是垃圾回收的重点区域，里面存放的是对象实例和数组，在堆中分配内存空间</p>
+<p>[类加载检查]</p>
+<p>​		这里也和对象的创建过程相关，首先是进行类加载检查，检查这个类是否被加载过，没有则执行类加载过程，这里类加载器一共有四类</p>
+<p>​		启动类加载器、扩展类加载器、应用程序类加载器、用户自定义类加载器</p>
+<p>[双亲委派模型]</p>
+<p>​		在加载时，会把请求委派到父类进行处理，当父类加载器处理不了时，才由自己进行处理。</p>
+<p>​		好处是避免了类的重复加载</p>
+<p>[分配内存]</p>
+<p>​		然后堆新的对象进行内存分配，分配的方式有两种，选择的方式由堆是否规整来决定，堆是否规整又由GC收集算法决定，“标记清除”还是“标记整理”</p>
+<p>​		第一种分配的方式是指针碰撞，适合堆内存规整的情况，原理是把用过的内存整合到一边，中间有个分界值指针，分配时只要将指针移动到没用过的内存区域即可，常用的GC收集器是serial, parnew</p>
+<p>​		第二种是空闲列表，适合堆内存不规整的情况，原理是虚拟机会维护一个列表，记录可用的内存块，根据对象的大小找一个满足该大小的内存块进行分配，然后更新列表记录，典型的GC收集器是CMS</p>
+<p>​		在内存分配时需要保证线程安全，一般有两种解决方案，一个是采用CAS机制配合失败重试的方式，一种是Hotspot虚拟机中采用的TLAB分配，每个线程在java堆中预先分配一小块内存，分配内存时现在这里进行分配，用完后再分配新的私有内存。（在分配时是线程独占，其他是线程共享）</p>
+<p>[初始化零值]</p>
+<p>​		内存分配好后，需要将一些字段初始化为零值</p>
+<p>[设置对象头]</p>
+<p>​		初始化零值后，需要对对象进行设置，如元信息，哈希码，GC年龄都要放在对象头中</p>
+<p>[执行Init方法]</p>
+<p>​		执行New后会接着执行init方法</p>
+<h4 id="其他">【其他】<a href="#其他" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>[对象的访问方式]</p>
+<p>​		1.使用句柄，堆中会划分一块内存给句柄池，句柄中包含了对象实例数据的具体地址信息，然后reference存放的是句柄地址</p>
+<p>​		2.直接指针，reference存放的就是对象的地址</p>
+<p>[堆内存常见的分配策略]</p>
+<p>​		1.对象优先在eden区域分配</p>
+<p>​		2.大对象直接进入老年代</p>
+<p>​		3.长期存活的对象将进入老年代</p>
+<p>[判断对象是否死亡/可达]</p>
+<p>​		1.引用计数法，每被引用一次，计数器+1，引用失效时-1，当变成0时不可再用，但是存在循环引用的问题</p>
+<p>​		2.以GC root作为起点，向下搜索，当该对象没有与引用链相连时，则不可用</p>
+<p>[强，软，弱，虚引用]</p>
+<p>​		强引用：不会被GC</p>
+<p>​		软引用：内存不够时会被回收，可以加速回收速度，防止OOM</p>
+<p>​		弱引用：发现即回收</p>
+<p>​		虚引用：用来跟踪对象被垃圾回收的活动</p>
+<p>[OOM排查思路]</p>
+<p>​		不是很懂，应该是首先dump堆的内存镜像，然后对dump出的文件进行分析，有一个jdk自带的jhat工具可以显示</p>
+<h4 id="垃圾回收">【垃圾回收】<a href="#垃圾回收" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>垃圾回收算法一共有四个</p>
+<p>​		1.标记-清除：标记所有需要回收的对象，标记完成后统一回收，会造成比较多的空间碎片</p>
+<p>​		2.复制：将内存分为两块，每次使用其中的一块，使用完后，将存活的对象放入另一半中，然后清楚之前的空间</p>
+<p>​		3.标记整理：先标记需要回收的对象，标记完成后进行清理，将剩下的对象向一端移动</p>
+<p>​		4.分代回收：根据对象的存活周期将内存分为几块，在新生代中会产生大量对象，所以可以选择复制算法，老年代中对象存活率较高，会选择标记-清除或者标记-整理进行垃圾收集。</p>
+<p>垃圾收集器我只知道常见的6个</p>
+<p>​		1.Serial 是一个单线程的收集器，在垃圾回收时必须STW，它的特点时简单高效</p>
+<p>​		2.ParNew：时Serial的多线程版本，新生代采用的是复制算法，老年代采用标记-整理算法</p>
+<p>​		3.Parallel Scavenge：与Parnew类似，可以高效率的利用CPU</p>
+<p>​		4.Serial Old是serial的老年代版本</p>
+<p>​        5.Parallel Old是Parallel的老年代版本</p>
+<p>​		在注重cpu利用率及吞吐量的时候，可以考虑这两个收集器</p>
+<p>​		6.CMS：实现了GC线程与用户线程的并发操作；是一种标记-清除算法；有四个过程：初始化标记，并发标记，重新标记和并发清除。其中初始化和重新标记需要暂停一下其他进程，但是用的时间很少。并发标记和并发清除是可以和其他线程同时运行的。</p>
+<p>​			优点是：可以并发收集，运行时低停顿，</p>
+<p>​			缺点是：对CPU资源敏感（会降低运行速度），无法处理浮动的垃圾（并发清除时其他线程会产生其他标记的垃圾，但是只能下一次处理），有大量的空间碎片</p>
+<p>​		7.G1：面向服务器的垃圾收集器；有四个过程:初始标记，并发标记，最终标记，筛选回收。在筛选回收阶段对各个region的回收价值和成本排序，G1在后台维护了一个列表，优先回收价值最大的。特点是可以并行与并发，分代进行收集，使用region的概念，整体是基于标记整理算法，局部上是基于复制算法进行实现。可以在指定的时间长度内，消耗在垃圾收集上的时间。</p>
+<h1 id="计算机网络">计算机网络<a href="#计算机网络" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<h4 id="osi和tcpip协议">【OSI和TCP/IP协议】<a href="#osi和tcpip协议" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>OSI分为七层：应用层，表示层，对话层，运输层，网络层，数据链路层，物理层</p>
+<p>TCP/IP分为五层：应用层(FTP,SMTP)，运输层(TCP/UDP)，网际层，网络接口层</p>
+<p>运输层：提供数据传输的服务</p>
+<p>网络层：选择合适的网络节点进行传输</p>
+<p>链路层：将数据报组装成帧，在链路上进行传输</p>
+<p>物理层：实现计算机节点之间流的传送</p>
+<h4 id="三次握手四次挥手">【三次握手四次挥手】<a href="#三次握手四次挥手" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>三次握手：</p>
+<p>（SYN是告诉对方传递的信息正确，ACK是确认接收的数据无误）</p>
+<p>客户端发送带有SYN的数据给服务端，此时服务端接收到信息后，确认自己接收和客户端传递信息正常；</p>
+<p>服务端发送带有SYN和ACK的数据返回给客户端，客户端确认自己收发正常，服务端发送正常；</p>
+<p>客户端发送带有ACK标志的数据给服务端，双方确认对方收发数据正常</p>
+<p>四次挥手：</p>
+<p>客户端发送FIN的数据给服务端，用来关闭客户端到服务端的数据传送；</p>
+<p>服务端返回ACK给客户端，确认关闭，然后返回一个FIN，关闭服务器到客户端的数据传送</p>
+<p>客户端发送ACK确认双方关闭数据传送</p>
+<h4 id="tcp与udp区别">【TCP与UDP区别】<a href="#tcp与udp区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>TCP：提供面向连接的，可靠的数据传输服务。在数据传输前需要建立连接，</p>
+<p>首先将数据分割成数据块，然后将数据包进行编号，进行校验和，看传输过程是否变化，丢弃重复的数据，如果来不及处理数据，则降低发送速度，防止丢包，使用滑动窗口进行流量控制（接收方和发送方都有一个缓冲区，窗口在缓冲区进行移动），还使用了拥塞控制（使用拥塞窗口进行控制），ARQ协议（自动重传机制），通过确认和重传两个机制，来实现可靠传输，还有一个超时重传，发出数据后，启动一个定时器，如果不能及时收到确认，则重发。</p>
+<p>场景：文件传输，邮件接收</p>
+<p>UDP：提供无连接的，尽最大努力传输数据，但不保证可靠性的服务。场景：QQ电话</p>
+<p>【TCP与Http的区别】</p>
+<p>TCP协议对应于传输层，而HTTP协议对应于应用层</p>
+<p>http协议是在Tcp协议之上建立的，http在发起请求时通过tcp协议建立起连接服务器的通道</p>
+<p>Http是无状态的短连接，而TCP是有状态的长连接</p>
+<h4 id="打开网页之后的过程">【打开网页之后的过程】<a href="#打开网页之后的过程" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>首先会查找域名的IP地址，进行DNS解析（使用DNS协议，获取域名对应IP），建立TCP连接，然后浏览器向服务器发送Http请求，服务器进行处理后，返回响应报文，然后浏览器解析并显示html，连接结束（这里是使用tcp/ip,http等协议）</p>
+<h4 id="http如何保存用户状态">【http如何保存用户状态】<a href="#http如何保存用户状态" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>http不保存用户协议，使用session保存用户状态，如果cookie被禁用，则使用url重写，把session附加到url路径后面</p>
+<h4 id="http10与11的区别">【http1.0与1.1的区别】<a href="#http10与11的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>1.0中默认使用的是短连接，每次请求都需要重新建立连接，资源开销大，1.1默认使用长连接，可以发送多个请求。</p>
+<h4 id="http与https的区别">【http与https的区别】<a href="#http与https的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>端口号不同，http默认端口号为80，https默认端口为443</p>
+<p>安全性和资源消耗：http运行在tcp上，传输内容都是明文，https一般使用的堆成加密算法，如des等，http安全性没有https高但是https需要更多的服务器资源</p>
+<h4 id="session与cookie">【session与cookie】<a href="#session与cookie" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>cookie一般用来保存用户信息，比如用户在登陆时存放了一个token在cookie中，下次登陆只要根据token来查询用户，一般为了安全，都需要重写token，数据存在浏览器中。</p>
+<p>session主要通过服务端记录用户状态，服务端给特定的用户创建特定的session即可跟踪用户，如在购物车场景下。数据存在服务器安全性更高</p>
+<h4 id="uri和url">【URI和URL】<a href="#uri和url" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>URI：统一资源标识符，可以唯一标识一个资源（Identifier）</p>
+<p>URL：统一资源定位符，可以提供该资源的路径，是一种具体的URI（location）</p>
+<p>URI的作用像身份证号，URL的作用像家庭地址</p>
+<h1 id="数据结构">数据结构<a href="#数据结构" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<h4 id="常见的数据结构有哪些特点">【常见的数据结构有哪些，特点？】<a href="#常见的数据结构有哪些特点" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>数组：随机查询快，到那时插入删除的效率低，常见的有Arraylist</p>
+<p>链表：是由节点组成的链，每个节点由指针进行连接，查询速度慢，但是它的插入和删除效率高，常见的有LinkedList</p>
+<p>队列：先进先出</p>
+<p>栈：先进后出</p>
+<p>树:如平衡二叉树中的红谁树</p>
+<p>图：DFS,BFS</p>
+<p>散列表：hash</p>
+<p>堆：堆是具有以下性质的完全二叉树：每个结点的值都大于或等于其左右孩子结点的值，称为大顶堆；或者每个结点的值都小于或等于其左右孩子结点的值，称为小顶堆。</p>
+<h4 id="队列集合列表">【队列，集合，列表】<a href="#队列集合列表" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>队列：继承于collection接口，支持先入先出</p>
+<p>Set集合：继承于collection接口，不允许出现重复的元素，是一个无序集合，主要有Hashset和Treeset两大实现类，hashset是哈希表结构，底层是基于hashmap实现的&hellip;（见集合）</p>
+<p>treeset是红黑树结构，每个元素都是树中的一个节点，插入的元素都会进行排序</p>
+<p>List允许重复元素且是有序集合，常见的实现类有：ArrayList，LinkedList，Vector，Stack</p>
+<h4 id="树">【树】<a href="#树" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>二叉树：每个结点最多只能有两棵子树，有左右之分</p>
+<p>满二叉树：如果二叉树的层数为k，且节点总数是(2^k)-1，则为满二叉树</p>
+<p>完全二叉树：是满二叉树的普通形态，如果节点编号与满二叉树的编号位置相同，则为完全二叉树</p>
+<p>平衡树：是一棵空树或它的左右两个子树的高度差的绝对值不超过1，且左右两个子树是平衡二叉树</p>
+<p>堆：是有如下性质的完全二叉树：每个结点的值都大于或等于其左右孩子结点的值，称为大顶堆；或者每个结点的值都小于或等于其左右孩子结点的值，称为小顶堆。</p>
+<p>红黑树：根节点总是黑的，每个节点只有红色和黑色两种颜色，每个叶子节点都是黑色的空节点Nil（nil与null的区别：nil是无值，但null是有保留值但是为空），如果节点是红色的，那么子节点必须是黑色的；从根节点到叶节点或空子节点的每条路径，必须包含相同数目的黑色节点。当插入或删除节点的时候，红黑树的规则可能会被打破，这时就需要变色和旋转进行自平衡调整，其中旋转又分为左旋转和右旋转（左旋是被自己的右孩子取代，自己成为自己的左孩子）。</p>
+<p>（为了解决二叉查找树在插入多个值的情况下会退化成一个线性结构的缺陷|二叉树在查找时需要的最大次数等于二叉查找树的高度）</p>
+<h4 id="bbb-">【B,B+,B-】<a href="#bbb-" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>b+树内节点不存储数据，所有数据存储在叶节点，且叶节点两两相连，可以使用范围查询，更适合外部存储，查询时间复杂度固定为logn，查询的效率比较稳定。由于内部节点没有指向数据的指针，内存消耗不会很大，IO的读写次数就会降低。</p>
+<p>b树查询与key在树中的位置相关，他的每个节点都是Key和data放在一起，</p>
+<p>（Hbase）LSM树：解决了b+树会产生大量随机IO的问题，原理是把一棵大树拆分成N棵小树，查询的时候，需要遍历小树进行查找。</p>
+<h4 id="图">【图】<a href="#图" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>图和树的最大区别在于图的下一个节点可能指向已访问过的节点。</p>
+<p>在使用BFS及DFS遍历时，应维护一个Set，Set中存放已被访问过的节点，在遍历时先判断节点未被访问过再遍历即可。</p>
+<h1 id="数据库">数据库<a href="#数据库" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<h4 id="mysql">【MySQL】<a href="#mysql" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>【MyISAM和InnoDB】</p>
+<p>是一种关系型数据库，默认端口号为3306</p>
+<p>在5.5版本之前默认的引擎是MyISAM,但是MyISAM不支持事务和行级锁，而且崩溃后无法安全恢复。所以在5.5后引入了InnoDB(事务性数据库引擎)作为默认的引擎</p>
+<p>MyISAM：只有表级锁，比较强调性能，每次查询具有原子性，速度较快，但是不提供事务支持。使用的是“非聚簇索引”，首先按照B+tree搜索算法搜索索引，如果指定的Key存在，则取出其data的地址值，然后根据地址读取对应的数据记录。</p>
+<p>InnoDB：支持行级锁和表级锁，默认为行级锁，提供事务支持和外键，并且支持多版本并发控制，可以使用乐观锁和悲观锁来实现。使用的是“聚簇索引”，数据文件本身就是按照B+tree组织的一个索引结构，树的叶节点data保存了完整的数据信息，这个索引的Key就是数据表的主键，辅助索引的data域存储数据的值而不是地址。在设计表的时候，尽量使用较短的字段为主键，例如整形的自增主键，减少主索引分裂。</p>
+<h4 id="mysql索引">【MySQL索引】<a href="#mysql索引" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>MySQL索引使用的数据结构主要有B树索引和哈希索引，哈希索引的底层是哈希表，所以在单条记录查询时，可以使用哈希索引，查询的性能最快，其他情况可以使用B+树索引。</p>
+<ul>
+<li><strong>MyISAM:</strong> B+Tree叶节点的data域存放的是数据记录的地址。在索引检索的时候，首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其 data 域的值，然后以 data 域的值为地址读取相应的数据记录。这被称为“非聚簇索引”。</li>
+<li><strong>InnoDB:</strong> 其数据文件本身就是索引文件。相比MyISAM，索引文件和数据文件是分离的，其表数据文件本身就是按B+Tree组织的一个索引结构，树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。这被称为“聚簇索引（或聚集索引）”。而其余的索引都作为辅助索引，辅助索引的data域存储相应记录主键的值而不是地址，这也是和MyISAM不同的地方。在根据主索引搜索时，直接找到key所在的节点即可取出数据；在根据辅助索引查找时，则需要先取出主键的值，再走一遍主索引。因此，在设计表的时候，不建议使用过长的字段作为主键，也不建议使用非单调的字段作为主键，这样会造成主索引频繁分裂。 PS：整理自《Java工程师修炼之道》</li>
+</ul>
+<h4 id="事务及四大特性">【事务及四大特性】<a href="#事务及四大特性" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>事务：是逻辑上的一组操作，要么都执行，要么都不执行。</p>
+<p>四大特性：原子性：事务最小的执行单位，不允许分割；一致性：执行事务前后，数据保持一致，多个事务对同一个数据的读取结果是相同的；隔离性：并发访问数据库时，一个事务不会被其他的事务干扰，相互独立；持久性：事务被提交后，对数据的改变时持久的。</p>
+<h4 id="并发事务的问题">【并发事务的问题】<a href="#并发事务的问题" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>数据脏读：一个事务访问数据后，还没有提交修改另一个事务也访问了该数据，就会产生后面的事务没有读取到修改后的数据</p>
+<p>丢失修改：第一个事务修改时，第二个事务也访问了数据进行了修改，这样第一个事务的修改结果就丢失了。</p>
+<p>不可重复读：第一个事务多次读取同一数据的中间有第二个事务对数据进行了修改，导致两次读取的数据可能不同</p>
+<p>幻读：第一个事务读取了几行数据，接着另一个并发事务添加或者删除的几条数据，当第一个事务再次查询时，会发现一些原来没有的记录。</p>
+<h4 id="事务隔离级别和mysql的默认隔离级别">【事务隔离级别和MySQL的默认隔离级别】<a href="#事务隔离级别和mysql的默认隔离级别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>InnoDB默认隔离级别是可重读，在分布式事务情况下一般会用到可串行化隔离级别</p>
+<p>read-uncommitted读取未提交：可能导致脏读，不可重读，幻读</p>
+<p>read-committed读取已提交：可能导致不可重读，幻读</p>
+<p>repeatable-read可重复读：可能导致幻读</p>
+<p>serializable可串行化：完全服从ACID隔离级别，事物之间不会产生干扰</p>
+<h4 id="锁">【锁】<a href="#锁" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>表级锁是粒度最大的一种锁，消耗资源少，加锁快，但是并发度低，行级锁是粒度最小的一种锁，只对当前操作的行进行加锁，并发度高，但是资源消耗较大，会出现死锁。（避免死锁的方式：通过表级锁来减少死锁产生的概率；多个事务按照相同的顺序访问表，事务处理时尽可能地一次性加锁需要的资源）</p>
+<p>InnoDB的锁算法有三种:Record lock：单个行记录上的锁，Gap lock：间隙锁，锁定一个范围，不包括记录本身，Next-key lock:锁定一个范围，包含记录本身</p>
+<h4 id="大表优化">【大表优化】<a href="#大表优化" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>读/写分离，主库负责写，从库负责读</p>
+<p>垂直拆分：数据量变少，减少I/O此次数，易于维护，缺点是主键会出现冗余</p>
+<p>水平分区：只是解决单一表数据过大的问题，最好分库。</p>
+<h4 id="池化数据库连接池">【池化/数据库连接池】<a href="#池化数据库连接池" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>池化是为了抵消每次获取资源的消耗，例如创建线程的开销等</p>
+<p>数据库连接本质就是一个socket连接，存储的是维护数据库需要的资源，等下次连接时避免资源浪费，减少建立连接等待的时间。</p>
+<h4 id="sql语句执行过程">【SQL语句执行过程】<a href="#sql语句执行过程" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>查询过程：</p>
+<p>首先是权限检查，如果没有则返回错误信息，如果有则通过分析器进行词法分析，提取语句的关键元素，如果语法检查没有问题，则进行下一步优化器来执行方案，然后进行权限校验，执行器执行程序，返回引擎执行的结果</p>
+<p>更新过程：</p>
+<p>分析器，权限校验，执行器，引擎，redolog prepare，binlog，redolog commit</p>
+<p>比如说拿到查询语句，把age改为10，然后进行保存，同时需要记录redolog，此时redolog进入prepare状态，然后告诉执行器，执行完成，可以提交，执行器收到后记录Binlog，提交redolog为提交状态</p>
+<p>（innoDB中使用两个日志是因为：Binlog只能用来归档，redolog是InnoDB特有的，有crash-safe的能力，即数据库发生异常重启，之前提交的数据不会丢失。先进入prepare状态可以保证数据一致性，防止数据丢失和不一致）</p>
+<h4 id="redis">【redis】<a href="#redis" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>redis的数据是在内存中的，这样在读取时速度会很快（高性能），同时也能承受高并发的操作。</p>
+<p>[redis事务]</p>
+<p>事务总是具有原子性，一致性，隔离性，在持久化模式下事务也具有持久性</p>
+<p>[常用命令]</p>
+<p>启动：redis-cli</p>
+<p>订阅：Psubscribe ；PSUBSCRIBE pattern [pattern &hellip;]</p>
+<p>发布：PUBLISH channel message</p>
+<p>退订：UNSUBSCRIBE channel [channel &hellip;]  	退订给定的一个或多个频道的信息。</p>
+<p>Redis的发布订阅机制包括三个部分，发布者，订阅者和Channel</p>
+<p>Redis发布订阅与ActiveMQ的比较：</p>
+<p>（1）ActiveMQ支持JMS规范，但Redis没有提供对这些协议的支持；</p>
+<p>（2）ActiveMQ提供持久化功能，但Redis无法对消息持久化存储，一旦消息被发送，如果没有订阅者接收，那么消息就会丢失；</p>
+<p>（3）ActiveMQ提供了消息传输保障，当客户端连接超时或事务回滚等情况发生时，消息会被重新发送给客户端，Redis没有提供消息传输保障</p>
+<p>[常见数据结构]</p>
+<p>string:简单的key-value类型，value可以是string也可以是数字。	场景：微博数，粉丝数等</p>
+<p>Hash：适合于存储的对象，后面操作只要改对象中的某个字段的值。	场景：存储用户信息，商品信息</p>
+<p>LIst：链表。	场景：关注列表，消息列表，粉丝列表</p>
+<p>Set：与list类似是一个列表功能，特殊之处在于set可以自动排重。	场景：可以把所有关注的人，粉丝存在一个集合，实现共同关注，共同粉丝，喜好等功能</p>
+<p>Sorted set：在set上增加了一个权重参数score，使得集合中的元素可以按照score进行有序排列。	场景：直播的在线用户列表，礼物排行等</p>
+<p>[redis设置过期时间]</p>
+<p>对存储在redis中的值设置一个过期时间，（短信验证码，token登录信息），清除的策略：定期删除+惰性删除</p>
+<p>定期删除：默认每隔100ms随机抽取一些设置了时间的key，如果检测到过期就删除，如果删除的比例超过25%，在进行一遍</p>
+<p>惰性删除：除非系统查到这个key，才会被删除</p>
+<p>存在的问题：仍然会有大量过期的key在内存里，这时候需要使用内存淘汰机制</p>
+<p>[内存淘汰机制]</p>
+<p>volatile-lru：从已设置过期时间的数据集中挑选最近最少使用的数据淘汰[LRU]</p>
+<p>volatile-ttl：从已设置过期时间的数据集中挑选将要过期的数据淘汰</p>
+<p>volatile-random：从已设置过期时间的数据集中任意选择数据淘汰</p>
+<p>allkeys-lru：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的key（这个是最常用的）[LRU]</p>
+<p>allkeys-random：从数据集中任意选择数据淘汰</p>
+<p>no-eviction：对可能导致增大内存的命令返回错误（大多数读写命令，DEL除外）</p>
+<p>LRU算法：维护一个链表，顺序存储被访问的key，访问数据时，最新访问过的key被移动到表头，即最近访问的key在表头，最少访问的Key在表尾。</p>
+<p>近似LRU（redis）:给每个key维护一个时间戳，淘汰时随机采样5个Key,淘汰掉最旧的key，若超出内存限制，则继续随机淘汰。</p>
+<p>[持久化机制]（redis挂掉之后再重启数据可以进行恢复）</p>
+<p>RDB快照持久化：是默认的redis持久化方式，可以通过快照的形式将某个时间点的数据进行存储，并且能复制到其他服务器中，配置文件中使用save将一段时间内一定数量的key发生改动的话，就会自动触发命令创建快照</p>
+<p>AOF（append only file）持久化：有三种持久化方式：1.每次发生修改都会将修改写入aof文件；2.每秒钟同步一次；3.让操作系统决定何时进行同步。一般可以使用每秒同步的策略。append sync everysec</p>
+<p>[缓存雪崩]</p>
+<p>缓存雪崩：缓存同一时间大面积失效，后面的请求会落到数据库上，造成数据库短时间内承受大量请求而崩掉。</p>
+<p>解决办法：事前保证集群高可用，选择合适的内存淘汰机制；事中使用本地缓存+限流，避免mysql崩掉；事后利用redis持久化机制保存的数据尽快恢复缓存</p>
+<p>[缓存穿透]</p>
+<p>大量请求的key不在缓存中，使得请求直接落在了数据库上，没有经过缓存这一层。</p>
+<p>解决方法：做好参数校验，不合法的请求直接返回。1）缓存无效的key，将查不到的key写到redis中并设置过期时间；2）布隆过滤器，当请求过来的时候，会判断请求中的值是否在过滤器中，不存在的话返回，存在才能够请求redis缓存</p>
+<p>[解决redis并发竞争key的问题]</p>
+<p>zookeeper实现分布式锁，多个服务器对同一个方法操作进行加锁时，生成一个有序节点，根据节点大小来获取锁，释放锁时只要将顺势节点删掉</p>
+<h4 id="redis和mapguava的区别">【redis和map/guava的区别】<a href="#redis和mapguava的区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>java自带的map或guava缓存不具有一致性，而redis和memcached被称为分布式缓存，缓存具有一致性。</p>
+<h4 id="redis和memcached区别">【redis和memcached区别】<a href="#redis和memcached区别" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>redis支持的数据存储类型更多，string，List，set，hash,sort set，而memcache仅支持简单的数据类型string。</p>
+<p>redis支持数据的持久化，可以把内存中的数据保存在磁盘中，重启时再次加载，而memcached是把数据都存在内存中。</p>
+<p>redis有原生的集群cluster模式，到那时memcached没有。</p>
+<p>redis时单线程的多路IO模型，memcached时多线程非阻塞的IO模式</p>
+<p>redis支持 持久化支持RDB和AOF，memcached不支持</p>
+<h4 id="数据库规范">【数据库规范】<a href="#数据库规范" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>1.临时表必须以temp_为前缀，以日期为后缀，备份表bak为前缀，日期为后缀</p>
+<p>2.统一使用utf-8编码</p>
+<p>3.表和字段添加注释</p>
+<p>4.尽量做到冷热数据分离</p>
+<p>5.财务相关的金额类型数据必须使用精准浮点：decimal类型</p>
+<p>6.InnoDB表必须有个主键，建议使用自增ID</p>
+<h4 id="sql执行慢的原因">【SQL执行慢的原因】<a href="#sql执行慢的原因" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>偶尔慢：</p>
+<p>(1)、数据库在刷新脏页，例如 redo log 写满了需要同步到磁盘。</p>
+<p>(2)、执行的时候，遇到锁，如表锁、行锁。</p>
+<p>一直慢：</p>
+<p>(1)、没有用上索引：例如该字段没有索引；由于对字段进行运算、函数操作导致无法用索引。</p>
+<p>(2)、数据库选错了索引。</p>
+<h1 id="框架">框架<a href="#框架" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h1>
+<h4 id="spring常用注解">【Spring常用注解】<a href="#spring常用注解" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>它是一种轻量级开发框架，是很多模块的集合，有核心容器，web,aop,消息等模块</p>
+<p>Spring的一个核心功能是IOC，就是将Bean初始化加载到容器中，Bean是如何加载到容器的，可以使用Spring注解方式或者Spring XML配置方式。</p>
+<p>常用注解：@Controller @Repository  @Service @Component</p>
+<p>当一个组件代表数据访问层（DAO）的时候，我们使用@Repository进行注解</p>
+<p>当一个组件代表业务层时，我们使用@Service进行注解</p>
+<p>当一个组件作为前端交互的控制层，使用@Controller进行注解</p>
+<p>[重要模块]</p>
+<ul>
+<li>Spring Core： 基础,可以说 Spring 其他所有的功能都需要依赖于该类库。主要提供 IoC 依赖注入功能。</li>
+<li>Spring Aspects ： 该模块为与AspectJ的集成提供支持。</li>
+<li>Spring AOP ：提供了面向切面的编程实现。</li>
+<li>Spring JDBC : Java数据库连接。</li>
+<li>Spring JMS ：Java消息服务。</li>
+<li>Spring ORM : 用于支持Hibernate等ORM工具。</li>
+<li>Spring Web : 为创建Web应用程序提供支持。</li>
+<li>Spring Test : 提供了对 JUnit 和 TestNG 测试的支持。</li>
+</ul>
+<p>[springboot]</p>
+<p>是对Spring的优化，核心思想也是IOC和AOP，简化了应用的开发和部署</p>
+<p>[IoC和AOP]</p>
+<p>IoC：是一种设计思想，将原本需要手动创建对象的控制权交给spring框架来管理，用容器来作为IoC的载体，IoC容器实际上是个Map(Key,value)，当需要创建对象的时候，只要配置好文件和注解即可，提高了开发效率。</p>
+<p>AOP：面向切面编程，与业务无关，但被业务模块共同调用的逻辑（例如事务管理，日志管理，权限控制等）封装起来，减少重复代码，降低模块耦合度，利于扩展和可维护。</p>
+<p>[bean的作用域]</p>
+<ul>
+<li>
+<p>singleton : 唯一 bean 实例，Spring 中的 bean 默认都是单例的。</p>
+</li>
+<li>
+<p>prototype : 每次请求都会创建一个新的 bean 实例。</p>
+</li>
+<li>
+<p>request : 每一次HTTP请求都会产生一个新的bean，该bean仅在当前HTTP request内有效。</p>
+</li>
+<li>
+<p>session : 每一次HTTP请求都会产生一个新的 bean，该bean仅在当前 HTTP session 内有效。</p>
+</li>
+<li>
+<p>global-session： 全局session作用域，仅仅在基于portlet的web应用中才有意义，Spring5已经没有了。Portlet是能够生成语义代码(例如：HTML)片段的小型Java Web插件。它们基于portlet容器，可以像servlet一样处理HTTP请求。但是，与 servlet 不同，每个 portlet 都有不同的会话</p>
+</li>
+</ul>
+<p>[@Component和@Bean的区别]</p>
+<p>@Component是注解于类的，而@Bean注解作用于方法；@Bean的自定义性更强</p>
+<p>[bean的生命周期]</p>
+<p>（1）实例化（必须的）bean对象</p>
+<p>（2）装配（可选的）为属性赋值 （可选，如果实现了Aware系列的接口，则会调用回调函数）</p>
+<p>（3）回调（可选的）（可选，如果实现了BeanPost-Processor的预初始化方法）
+（4）初始化(init-method=&rdquo; &ldquo;)
+（5）就绪
+（6）销毁，执行 <code>destroy()</code> 方法（destroy-method=&rdquo; &ldquo;）</p>
+<p>[spring mvc的了解]</p>
+<p>MVC 是一种设计模式，是(Model)+ （View）+（Controller）的形式，现在后端项目一般可以分为 Service层（处理业务）、Dao层（数据库操作）、Entity层（实体类）、Controller层(控制层，返回数据给前台页面)。 可以进行更简洁的Web层的开发。</p>
+<p>原理是用户发送一个request请求给Controller调用请求，Controller接受请求并交给Model处理，通过Service、Dao、Entity层处理后返回处理结果并进行视图渲染。</p>
+<ol>
+<li>客户端（浏览器）发送请求，直接请求到 <code>DispatcherServlet</code>。</li>
+<li><code>DispatcherServlet</code> 根据请求信息调用 <code>HandlerMapping</code>，解析请求对应的 <code>Handler</code>。</li>
+<li>解析到对应的 <code>Handler</code>（也就是我们平常说的 <code>Controller</code> 控制器）后，开始由 <code>HandlerAdapter</code> 适配器处理。</li>
+<li><code>HandlerAdapter</code> 会根据 <code>Handler </code>来调用真正的处理器开处理请求，并处理相应的业务逻辑。</li>
+<li>处理器处理完业务后，会返回一个 <code>ModelAndView</code> 对象，<code>Model</code> 是返回的数据对象，<code>View</code> 是个逻辑上的 <code>View</code>。</li>
+<li><code>ViewResolver</code> 会根据逻辑 <code>View</code> 查找实际的 <code>View</code>。</li>
+<li><code>DispaterServlet</code> 把返回的 <code>Model</code> 传给 <code>View</code>（视图渲染）。</li>
+<li>把 <code>View</code> 返回给请求者（浏览器）</li>
+</ol>
+<h4 id="设计模式">【设计模式】<a href="#设计模式" class="anchor" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path><line x1="8" y1="12" x2="16" y2="12"></line></svg></a></h4>
+<p>设计模式的六大原则:</p>
+<p>总原则：开闭原则:对扩展开放，对修改关闭</p>
+<p>单一职责:每个类应该事先单一的职责</p>
+<p>依赖倒置原则：在使用到具体类时，与具体类的上层接口交互。</p>
+<p>接口隔离：最好是单接口</p>
+<p>[单例模式]</p>
+<p>自身创建一个静态私有实例，并向外提供一个调用该实力的方法或接口。有两种实现方式，懒汉模式和饿汉模式</p>
+<p>饿汉模式：实例在类加载时就构建</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>
+       <span class="c1">//在静态初始化器中创建单例实例，这段代码保证了线程安全
+</span><span class="c1"></span>        <span class="kd">private</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">uniqueInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="o">();</span>
+        <span class="c1">//Singleton类只有一个构造方法并且是被private修饰的，所以用户无法通过new方法创建该对象实例
+</span><span class="c1"></span>        <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+            <span class="k">return</span> <span class="n">uniqueInstance</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div><p>懒汉模式：单例实例在第一次被使用时构建</p>
+<p>非线程安全的版本：多线程同时访问getInstance（）时会出现问题，解决方法：在getInstance前加上synchronized关键字，但有可能会发生阻塞，所以有一个双重检查加锁可以解决这类问题。</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>
+
+    <span class="c1">//volatile保证，当uniqueInstance变量被初始化成Singleton实例时，多个线程可以正确处理uniqueInstance变量
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">volatile</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">uniqueInstance</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+       <span class="c1">//检查实例，如果不存在，就进入同步代码块
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">uniqueInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//只有第一次才彻底执行这里的代码
+</span><span class="c1"></span>            <span class="kd">synchronized</span><span class="o">(</span><span class="n">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+               <span class="c1">//进入同步代码块后，再检查一次，如果仍是null，才创建实例
+</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">uniqueInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">uniqueInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">uniqueInstance</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>[工厂模式]：定义一个接口，内部实现了多种方法，让外部调用自己决定需要实例化哪个内部的方法</p>
+<p>[适配器模式]：就是让两个接口不兼容的类相互连接，提高了类的复用</p>
+<p>[建造者模式]：将多个简单的对象构建成一个复杂的对象，使得同样的过程可以创建多种对象。这样的好处是易扩展，但是内部变化比较复杂。</p>
+<p>[原型模式]：实现了一个接口，可以复制当前对象，例如，一个对象需要在一个高代价的数据库操作之后被创建。我们可以缓存该对象，在下一个请求时返回它的克隆，在需要的时候更新数据库，以此来减少数据库调用。</p>
+<p>[迭代器模式]：提供顺序访问对象中各个元素的方法，例如java中的hasNext,next&gt;</p>
+<p>[装饰器模式]：给对象添加一些新的功能，但不改变结构 ，增加了对象的功能。</p>
+<p>[代理模式]：为其他对象提供一种代理来控制该对象的访问</p>
+<p>[spring中单例模式]：</p>
+<p>Spring 中的 Bean 默认都是singleton单例的。Spring 中 bean 还有下面几种作用域：</p>
+<ul>
+<li>prototype : 每次请求都会创建一个新的 bean 实例。</li>
+<li>request : 每一次HTTP请求都会产生一个新的bean，该bean仅在当前HTTP request内有效。</li>
+<li>session : 每一次HTTP请求都会产生一个新的 bean，该bean仅在当前 HTTP session 内有效。</li>
+<li>global-session： 全局session作用域</li>
+</ul>
+<p>Spring 实现单例的方式：在xml中配置scope=singleton；添加scope value=singleton注解</p>
+<ul>
+<li>
+<p>xml : <code>&lt;bean id=&quot;userService&quot; class=&quot;top.snailclimb.UserService&quot; scope=&quot;singleton&quot;/&gt;</code></p>
+</li>
+<li>
+<p>注解：<code>@Scope(value = &quot;singleton&quot;)</code></p>
+</li>
+</ul>
+<p>[spring中工厂模式]：Spring使用工厂模式通过 <code>BeanFactory</code>、<code>ApplicationContext</code> 创建 bean 对象。</p>
+<p>适配器模式，Spring 事件驱动模型就是观察者模式很经典的一个应用。</p>
+<p>[spring中代理模式]：Spring AOP是基于动态代理的，AOP将那些与业务无关，为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码**，**降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
+
+		</div>
+	</main>
+
+	<footer id="site-footer" class="section-inner thin animated fadeIn faster">
+		<p>&copy; 2020 <a href="https://HHUsimba.github.io/">simba</a> &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>
+		<p>
+			Made with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> &#183; Theme <a href="https://github.com/Track3/hermit" target="_blank" rel="noopener">Hermit</a> &#183; <a href="https://HHUsimba.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a>
+		</p>
+	</footer>
+
+
+
+	<script src="https://HHUsimba.github.io/js/bundle.min.4a9a0ac3d2217822c7865b4161e6c2a71de1d70492264337755427898dd718f6.js" integrity="sha256-SpoKw9IheCLHhltBYebCpx3h1wSSJkM3dVQniY3XGPY=" crossorigin="anonymous"></script>
+	
+
+</body>
+
+</html>
